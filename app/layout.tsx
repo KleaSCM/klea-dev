@@ -4,6 +4,7 @@ import "./globals.css";
 import Analytics from "./components/Analytics";
 import Accessibility from "./components/Accessibility";
 import GlobalTooltip from "./components/GlobalTooltip";
+import SylvanasMini from "./components/SylvanasMini";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -232,6 +233,7 @@ export default function RootLayout({
             {children}
           </Accessibility>
           <GlobalTooltip />
+          <SylvanasMini />
           <Analytics />
         </body>
     </html>
