@@ -75,7 +75,7 @@ const Navigation = () => {
     { name: "Home", href: pathname === "/" ? "home" : "/" },
     { name: "About", href: "about" },
     { name: "Projects", href: "projects" },
-    { name: "Live Demos", href: "live-demos" },
+    { name: "Demos", href: "/live-demos" },
     { name: "Research", href: "research" },
     { name: "Contact", href: "contact" },
   ];
@@ -192,7 +192,8 @@ const Navigation = () => {
                   key={item.name}
                   className={`nav-link font-medium ${
                     (item.href === "/" && pathname === "/") ||
-                    (item.href === "/projects" && pathname === "/projects")
+                    (item.href === "/projects" && pathname === "/projects") ||
+                    (item.href === "/live-demos" && pathname === "/live-demos")
                       ? "text-primary"
                       : ""
                   }`}

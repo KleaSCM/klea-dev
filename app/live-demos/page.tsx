@@ -19,14 +19,16 @@ import {
   Share2,
   Terminal,
   Sparkles,
-  Rocket
+  Rocket,
+  ArrowLeft
 } from "lucide-react";
 import { type Project } from "../data/projects";
+import Link from "next/link";
 
 /**
- * Live Demos Component
+ * Live Demos Page
  * 
- * Interactive code demonstrations section for the main page
+ * A dedicated page for showcasing interactive project demonstrations
  * Features:
  * - Live code editors for each project
  * - Real-time preview and execution
@@ -35,7 +37,7 @@ import { type Project } from "../data/projects";
  * - Code sharing and export capabilities
  * 
  * @component
- * @returns {JSX.Element} Live demos section
+ * @returns {JSX.Element} Live demos page
  */
 
 // Category icons mapping
@@ -334,7 +336,7 @@ Running demonstration...
   };
 };
 
-const LiveDemos = () => {
+const LiveDemosPage = () => {
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [output, setOutput] = useState<string>('');
@@ -366,46 +368,58 @@ const LiveDemos = () => {
   };
 
   return (
-    <section id="live-demos" className="py-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-      <div className="container-custom">
-        {/* Header */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+      {/* Header */}
+      <motion.div
+        className="container-custom py-12"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        {/* Back to Home */}
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          className="mb-8"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
         >
+          <Link 
+            href="/" 
+            className="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Home
+          </Link>
+        </motion.div>
+
+        <div className="text-center mb-12">
           <motion.div
             className="flex items-center justify-center gap-3 mb-6"
             initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
           >
             <Terminal className="w-8 h-8 text-primary" />
-            <h2 className="text-4xl font-bold gradient-text">Live Code Demos</h2>
+            <h1 className="text-5xl font-bold gradient-text">Live Code Demos</h1>
             <Sparkles className="w-8 h-8 text-primary" />
           </motion.div>
           <motion.p 
             className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
           >
-            Experience my projects in action with interactive code demonstrations and real-time execution.
-            Watch the code come to life!
+            Interactive demonstrations of my projects with real-time code execution and live previews.
+            Experience the code in action!
           </motion.p>
-        </motion.div>
+        </div>
 
         {/* Project Selection */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
         >
           {projects.map((project, index) => {
             const CategoryIcon = categoryIcons[project.category as keyof typeof categoryIcons];
@@ -421,9 +435,8 @@ const LiveDemos = () => {
                 }`}
                 onClick={() => setSelectedProject(project.id)}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.8 + index * 0.1 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9 + index * 0.1 }}
                 whileHover={{ y: -5, scale: 1.02 }}
               >
                 <div className="flex items-center gap-3 mb-4">
@@ -508,7 +521,7 @@ const LiveDemos = () => {
                     <button className="p-2 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
                       <Download className="w-4 h-4" />
                     </button>
-                    <button className="p-2 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
+                    <button className="p-2 text-600 dark:text-slate-400 hover:text-primary transition-colors">
                       <Share2 className="w-4 h-4" />
                     </button>
                   </div>
@@ -532,20 +545,19 @@ const LiveDemos = () => {
         <motion.div 
           className="text-center mt-16"
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
         >
           <p className="text-slate-600 dark:text-slate-400 mb-6">
             Want to see more interactive demos or contribute to these projects?
           </p>
           <div className="flex justify-center gap-4">
-            <a 
+            <Link 
               href="/projects" 
               className="btn-primary"
             >
               View All Projects
-            </a>
+            </Link>
             <a 
               href="https://github.com/klea-dev" 
               target="_blank"
@@ -557,9 +569,9 @@ const LiveDemos = () => {
             </a>
           </div>
         </motion.div>
-      </div>
-    </section>
+      </motion.div>
+    </div>
   );
 };
 
-export default LiveDemos; 
+export default LiveDemosPage; 
