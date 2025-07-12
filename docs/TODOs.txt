@@ -1,10 +1,8 @@
 # 🎨 Klea-Dev Portfolio TODO List
 
-[ ] Newsletter Signup - Email list for updates and engagement
-
 ### 🔍 SEO & Discovery
 
-[ ] Privacy Policy - GDPR compliance and legal requirements
+
 
 ## ⚡ PERFORMANCE & OPTIMIZATION
 
@@ -99,11 +97,7 @@
 [ ] Data Encryption - Secure form submissions
 [ ] Cookie Consent - Privacy-aware cookie management
 
-### 🛡️ Privacy
-[ ] Privacy Policy - GDPR compliance
-[ ] Data Protection - Secure handling of user data
-[ ] Consent Management - User privacy controls
-[ ] Data Minimization - Only collect necessary data
+
 
 ## 🚀 ADVANCED FEATURES
 
@@ -123,8 +117,6 @@
 
 ### 📢 Marketing Features
 [ ] SEO Blog - Technical articles for search ranking
-[ ] Email Marketing - Automated follow-up sequences
-[ ] Lead Magnet - Free resources to capture emails
 
 ## 🌍 INTERNATIONALIZATION
 
