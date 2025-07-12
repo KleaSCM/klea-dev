@@ -74,8 +74,9 @@ const Navigation = () => {
   const navItems = [
     { name: "Home", href: pathname === "/" ? "home" : "/" },
     { name: "About", href: "about" },
-    { name: "Projects", href: "/projects" },
-    { name: "Research", href: "/research" },
+    { name: "Projects", href: "projects" },
+    { name: "Live Demos", href: "live-demos" },
+    { name: "Research", href: "research" },
     { name: "Contact", href: "contact" },
   ];
 

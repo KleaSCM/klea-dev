@@ -25,6 +25,7 @@ import InteractiveResume from "./components/InteractiveResume";
 import ContactForm from "./components/ContactForm";
 import ResearchCard from "./components/ResearchCard";
 import LoadingOverlay from "./components/LoadingOverlay";
+import LiveDemos from "./components/LiveDemos";
 import { getNotebooks, getReports, getFeaturedResearch } from "./data/research";
 
 // Animation variants for smooth, professional animations
@@ -430,8 +431,9 @@ export default function Home() {
       <AboutSection />
       <InteractiveResume />
       <ProjectsSection />
-      <ResearchPreviewSection />
-      <ContactSection />
+              <ResearchPreviewSection />
+        <LiveDemos />
+        <ContactSection />
       <Footer />
     </main>
     </>
