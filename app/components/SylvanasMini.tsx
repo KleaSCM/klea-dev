@@ -71,51 +71,245 @@ const sylvanasResponses = {
     "Your question intrigues me, mortal. Perhaps you should explore the portfolio more thoroughly to find what you seek.",
     "The answer you seek may lie within these pages. Look deeper, mortal, and you shall find what you desire.",
     "Interesting... but perhaps you should navigate the portfolio yourself. The knowledge is there for those who seek it."
-  ]
+  ],
+  // Non-technical, helpful responses for general visitors
+  general: [
+    "Klea Dev is an AI Systems Engineer who builds cutting-edge technology. Think of them as someone who creates the brains behind artificial intelligence - making computers think, learn, and solve complex problems.",
+    "This portfolio showcases projects that range from ethical AI systems to high-performance software. Each project solves real-world problems using advanced technology.",
+    "What makes Klea Dev special is their unique combination of skills - they can build everything from the low-level systems that make computers fast to the AI systems that make them intelligent.",
+    "Klea Dev solves problems that require both deep technical knowledge and creative thinking. From making AI systems ethical to building software that processes massive amounts of data in real-time.",
+    "Klea Dev has extensive experience across multiple programming languages and technologies. They've built everything from AI systems to web applications to high-performance software.",
+    "This portfolio represents years of work in AI, systems programming, and software development. It's a showcase of both technical skill and innovative thinking.",
+    "I can help you understand any aspect of Klea Dev's work. Just ask me about specific projects, skills, or what they do, and I'll explain it in a way that makes sense to you.",
+    "The most impressive project here is LenoraAI - an ethical AI system that can make moral decisions. It's like giving a computer a conscience, which is incredibly complex and important for the future of AI."
+  ],
+  guidance: [
+    "If you're not sure what to ask, try starting with 'What does Klea Dev do?' or 'What kind of projects are shown here?' I can explain things in simple terms.",
+    "Don't worry if you're not technical - I can explain complex concepts in simple ways. Just ask me to break things down or explain what something means.",
+    "If you're a recruiter or hiring manager, you might want to ask about Klea Dev's experience level, specific skills, or what problems they can solve for your company.",
+    "If you're a potential client, ask about what problems Klea Dev can solve, their experience level, or what makes them different from other developers.",
+    "Feel free to ask me anything - I'm here to help you understand Klea Dev's work, whether you're technical or not!"
+  ],
+  // Personalized suggestions based on interests
+  suggestions: {
+    ai: [
+      "Based on your interest in AI, you might also like to know about Ilanya's cognitive architecture - it's another advanced AI system that explores consciousness.",
+      "Since you're interested in AI, you should check out the research on desire engines and trait models - it's cutting-edge work in cognitive systems.",
+      "Your AI curiosity is noted. LenoraAI focuses on ethics, while Ilanya explores consciousness. Both represent different approaches to intelligent systems."
+    ],
+    systems: [
+      "Based on your interest in systems programming, you might also like PhysicsEngineC - it showcases low-level performance optimization and real-time simulation.",
+      "Since you're asking about systems, you should know about Volatria's distributed architecture - it's a masterclass in scalable system design.",
+      "Your systems knowledge is evident. From PhysicsEngineC's performance to Volatria's scalability, Klea Dev covers the full spectrum of systems programming."
+    ],
+    web: [
+      "Based on your interest in web development, you might also like to know about the portfolio itself - it's built with Next.js and features advanced animations.",
+      "Since you're asking about web tech, you should check out the interactive features here - touch gestures, accessibility, and performance optimizations.",
+      "Your web development interest is clear. This portfolio demonstrates modern web technologies with 100/100 Lighthouse scores and advanced UX features."
+    ],
+    research: [
+      "Based on your interest in research, you might also like to explore the academic papers on cognitive architecture and desire engines.",
+      "Since you're asking about research, you should know about the trait modeling work - it's published research on AI personality systems.",
+      "Your research curiosity is impressive. The work here spans from theoretical cognitive models to practical AI implementations."
+    ]
+  },
+  // Career guidance responses
+  career: {
+    ai: [
+      "If you're interested in AI systems engineering, focus on Python for ML, C++ for performance, and Go for scalable systems. Understanding cognitive architectures is crucial.",
+      "For AI careers, study both theoretical concepts (neural networks, cognitive science) and practical implementation (systems programming, distributed computing).",
+      "AI systems engineering requires both depth (algorithms, math) and breadth (systems, infrastructure). Klea Dev's projects demonstrate this balance perfectly."
+    ],
+    systems: [
+      "If you're interested in systems programming, master C++ for performance, Rust for safety, and Go for concurrency. Understanding computer architecture is essential.",
+      "For systems careers, focus on low-level programming, performance optimization, and distributed systems. Real-time processing and scalability are key skills.",
+      "Systems programming requires understanding both hardware and software. From physics engines to distributed systems, it's about making computers work efficiently."
+    ],
+    fullstack: [
+      "If you're interested in fullstack development, learn TypeScript, React, and modern web technologies. Performance and accessibility are crucial differentiators.",
+      "For fullstack careers, understand both frontend (UX, animations) and backend (APIs, databases). Modern development requires both client and server expertise.",
+      "Fullstack development is about creating complete user experiences. From responsive design to backend APIs, it's about building complete solutions."
+    ]
+  },
+  // Project comparison responses
+  comparisons: {
+    'lenora-ai': [
+      "LenoraAI focuses on ethical decision-making, while Ilanya explores cognitive consciousness. Both are AI systems but serve different purposes - ethics vs. cognition.",
+      "LenoraAI is about moral reasoning, while PhysicsEngineC is about physical simulation. Both require complex algorithms but solve very different problems.",
+      "LenoraAI's ethical framework is similar to Ilanya's cognitive architecture in complexity, but LenoraAI focuses on right vs. wrong, while Ilanya focuses on thinking vs. feeling."
+    ],
+    'ilanya-ai': [
+      "Ilanya explores consciousness and desire, while LenoraAI focuses on ethics and morality. Both are cognitive systems but with different philosophical foundations.",
+      "Ilanya's neural networks are similar to LenoraAI's decision trees, but Ilanya models desires and goals, while LenoraAI models ethical principles.",
+      "Ilanya represents the 'mind' of AI, while LenoraAI represents the 'conscience'. Together they show the full spectrum of artificial intelligence."
+    ],
+    'physics-engine-c': [
+      "PhysicsEngineC focuses on real-time simulation, while Volatria focuses on distributed data processing. Both require performance optimization but for different domains.",
+      "PhysicsEngineC's collision detection is similar to Volatria's data streaming in complexity, but physics is deterministic while data processing is probabilistic.",
+      "PhysicsEngineC represents computational performance, while LenoraAI represents ethical reasoning. Both are complex systems but serve different purposes."
+    ]
+  },
+  // Skill progression responses
+  progression: {
+    'lenora-ai': "LenoraAI represents the evolution from basic AI to ethical AI - it shows how Klea Dev's skills progressed from simple algorithms to complex moral reasoning systems.",
+    'ilanya-ai': "Ilanya represents the evolution from rule-based AI to cognitive AI - it shows progression from deterministic systems to emergent, consciousness-like behaviors.",
+    'physics-engine-c': "PhysicsEngineC represents the evolution from basic programming to systems programming - it shows progression from simple applications to performance-critical systems.",
+    'volatria': "Volatria represents the evolution from single applications to distributed systems - it shows progression from local computing to scalable, cloud-native architectures."
+  },
+  // Senior developer technical responses
+  technical: {
+    architecture: {
+      'lenora-ai': "LenoraAI uses a plugin-based modular architecture with dependency injection. The core components are EthicsEngine, FrameworkRegistry, DecisionProcessor, and ConfidenceCalculator. Data flows through: Input → Framework Selection → Multi-criteria Analysis → Weighted Decision → Confidence Scoring. It scales horizontally with Redis caching for framework weights.",
+      'physics-engine-c': "PhysicsEngineC implements an Entity-Component-System (ECS) with data-oriented design. Key components: Transform, RigidBody, Collider, Constraint, PhysicsMaterial. Data flow: Input → Broad Phase → Narrow Phase → Constraint Solver → Integration → Output. Uses spatial partitioning with octree for O(log n) collision queries.",
+      'ilanya-ai': "Ilanya employs a multi-agent cognitive architecture with emergent behavior. Components: DesireEngine, AttentionNetwork, GoalFormation, BehaviorSelector, MemorySystem. Data flow: Sensory Input → Desire Activation → Attention Selection → Goal Formation → Action Planning. Uses distributed processing with message passing between cognitive modules."
+    },
+    algorithms: {
+      'lenora-ai': "LenoraAI uses Multi-criteria decision analysis with AHP (Analytic Hierarchy Process), Bayesian inference for confidence scoring, dynamic weight adjustment based on context, Monte Carlo simulation for edge cases, and genetic algorithm optimization for framework weights.",
+      'physics-engine-c': "PhysicsEngineC implements Sweep and Prune with spatial hashing for broad phase (O(n)), GJK/EPA for convex hulls and SAT for AABB/OBB intersection in narrow phase, Sequential Impulse constraint solver with warm starting, semi-implicit Euler integration with adaptive timestep, and SIMD vectorization using AVX2.",
+      'ilanya-ai': "Ilanya uses multi-head self-attention with positional encoding, neural networks with sigmoid activation for desire strength, reinforcement learning with temporal difference learning for goal formation, softmax policy with epsilon-greedy exploration for behavior selection, and Adam optimizer with learning rate scheduling."
+    },
+    performance: {
+      'lenora-ai': "LenoraAI achieves <50ms latency for standard ethical decisions, 1000+ decisions/second throughput on single instance, optimized memory with object pooling and memory-mapped files, and multi-threaded decision processing with thread-safe caching.",
+      'physics-engine-c': "PhysicsEngineC maintains 16.67ms per frame (60 FPS) with <1ms physics step, handles 10,000+ rigid bodies with real-time collision detection, <2MB memory overhead per 1000 bodies using pool allocators, and multi-threaded simulation with work-stealing scheduler.",
+      'ilanya-ai': "Ilanya achieves <100ms latency for cognitive decisions, 100+ cognitive cycles/second throughput, LSTM-based memory with attention mechanisms, and CUDA-optimized neural network inference for GPU acceleration."
+    },
+    implementation: {
+      'lenora-ai': "LenoraAI is built with Python 3.9+ with type hints and async/await, uses NumPy, SciPy, PyTorch, FastAPI, property-based testing with Hypothesis (95%+ coverage), Docker containers with Kubernetes orchestration, and Prometheus metrics with custom ethical decision tracking.",
+      'physics-engine-c': "PhysicsEngineC uses C++17 with RAII and move semantics, libraries include Eigen3, Bullet Physics, OpenGL, GLFW, unit tests with Google Test, cross-platform CMake build system, and Intel VTune for performance analysis.",
+      'ilanya-ai': "Ilanya is built with Python 3.10+ with PyTorch and NumPy, frameworks include PyTorch, Transformers, Gym, Ray RLlib, behavioral testing with cognitive scenarios (90%+ coverage), Docker with GPU support, and custom cognitive metrics with TensorBoard visualization."
+    }
+  }
 };
 
-// Enhanced portfolio knowledge base with deeper insights
-const portfolioKnowledge = {
-  projects: {
-    'lenora-ai': {
-      name: 'LenoraAI',
-      description: 'An advanced AI ethics engine with multi-framework analysis capabilities. Features real-time ethical decision-making, confidence scoring, and comprehensive moral reasoning.',
-      tech: ['Python', 'AI/ML', 'Ethics Engine', 'Multi-framework Analysis'],
-      features: ['Real-time Analysis', 'Multi-framework', 'Confidence Scoring', 'Ethical Decision Making'],
-      details: {
-        architecture: 'Modular ethics framework with pluggable moral reasoning systems',
-        algorithms: 'Multi-criteria decision analysis with weighted ethical frameworks',
-        applications: 'Autonomous systems, medical AI, autonomous vehicles, content moderation',
-        challenges: 'Balancing competing ethical principles, handling edge cases, cultural bias mitigation',
-        impact: 'Enables safer AI deployment with transparent ethical reasoning'
-      }
-    },
-    'physics-engine-c': {
-      name: 'PhysicsEngineC',
-      description: 'A high-performance C++ physics engine with real-time collision detection, 60 FPS simulation, and advanced physics calculations.',
-      tech: ['C++', 'Physics', 'Collision Detection', 'Real-time Simulation'],
-      features: ['Real-time Simulation', 'Collision Detection', '60 FPS', 'Advanced Physics'],
-      details: {
-        architecture: 'Component-based entity system with spatial partitioning',
-        algorithms: 'Broad-phase collision detection, narrow-phase collision resolution, constraint solving',
-        applications: 'Game development, simulation software, robotics, virtual reality',
-        challenges: 'Performance optimization, numerical stability, complex constraint systems',
-        impact: 'Enables realistic physics simulation for interactive applications'
-      }
-    },
-    'ilanya-ai': {
-      name: 'Ilanya',
-      description: 'A sophisticated cognitive architecture featuring desire engines, neural networks, and emergent AI behaviors with attention mechanisms.',
-      tech: ['Python', 'Neural Networks', 'Cognitive Architecture', 'Attention Mechanism'],
-      features: ['Neural Networks', 'Attention Mechanism', 'Goal Formation', 'Cognitive Modeling'],
-      details: {
-        architecture: 'Multi-layered cognitive system with desire-driven decision making',
-        algorithms: 'Attention mechanisms, desire activation networks, goal formation algorithms',
-        applications: 'Autonomous agents, cognitive modeling, human-AI interaction, research AI',
-        challenges: 'Balancing competing desires, maintaining coherence, avoiding goal conflicts',
-        impact: 'Advances understanding of artificial consciousness and autonomous behavior'
-      }
-    },
+  // Enhanced portfolio knowledge base with deeper insights
+  const portfolioKnowledge = {
+    projects: {
+      'lenora-ai': {
+        name: 'LenoraAI',
+        description: 'An advanced AI ethics engine with multi-framework analysis capabilities. Features real-time ethical decision-making, confidence scoring, and comprehensive moral reasoning.',
+        tech: ['Python', 'AI/ML', 'Ethics Engine', 'Multi-framework Analysis'],
+        features: ['Real-time Analysis', 'Multi-framework', 'Confidence Scoring', 'Ethical Decision Making'],
+        details: {
+          architecture: 'Modular ethics framework with pluggable moral reasoning systems',
+          algorithms: 'Multi-criteria decision analysis with weighted ethical frameworks',
+          applications: 'Autonomous systems, medical AI, autonomous vehicles, content moderation',
+          challenges: 'Balancing competing ethical principles, handling edge cases, cultural bias mitigation',
+          impact: 'Enables safer AI deployment with transparent ethical reasoning'
+        },
+        technical: {
+          architecture: {
+            pattern: 'Plugin-based modular architecture with dependency injection',
+            components: ['EthicsEngine', 'FrameworkRegistry', 'DecisionProcessor', 'ConfidenceCalculator'],
+            dataFlow: 'Input → Framework Selection → Multi-criteria Analysis → Weighted Decision → Confidence Scoring',
+            scalability: 'Horizontal scaling with Redis caching for framework weights',
+            performance: 'O(n*m) complexity where n=principles, m=frameworks, optimized with parallel processing'
+          },
+          algorithms: {
+            decisionTree: 'Multi-criteria decision analysis using AHP (Analytic Hierarchy Process)',
+            confidenceScoring: 'Bayesian inference with uncertainty quantification',
+            frameworkWeighting: 'Dynamic weight adjustment based on context and historical accuracy',
+            edgeCaseHandling: 'Monte Carlo simulation for uncertainty in moral gray areas',
+            optimization: 'Genetic algorithm for framework weight optimization'
+          },
+          implementation: {
+            language: 'Python 3.9+ with type hints and async/await',
+            frameworks: ['NumPy', 'SciPy', 'PyTorch', 'FastAPI'],
+            testing: 'Property-based testing with Hypothesis, 95%+ test coverage',
+            deployment: 'Docker containers with Kubernetes orchestration',
+            monitoring: 'Prometheus metrics with custom ethical decision tracking'
+          },
+          performance: {
+            latency: '<50ms for standard ethical decisions',
+            throughput: '1000+ decisions/second on single instance',
+            memory: 'Optimized with object pooling and memory-mapped files',
+            cpu: 'Multi-threaded decision processing with thread-safe caching'
+          }
+        }
+      },
+          'physics-engine-c': {
+        name: 'PhysicsEngineC',
+        description: 'A high-performance C++ physics engine with real-time collision detection, 60 FPS simulation, and advanced physics calculations.',
+        tech: ['C++', 'Physics', 'Collision Detection', 'Real-time Simulation'],
+        features: ['Real-time Simulation', 'Collision Detection', '60 FPS', 'Advanced Physics'],
+        details: {
+          architecture: 'Component-based entity system with spatial partitioning',
+          algorithms: 'Broad-phase collision detection, narrow-phase collision resolution, constraint solving',
+          applications: 'Game development, simulation software, robotics, virtual reality',
+          challenges: 'Performance optimization, numerical stability, complex constraint systems',
+          impact: 'Enables realistic physics simulation for interactive applications'
+        },
+        technical: {
+          architecture: {
+            pattern: 'Entity-Component-System (ECS) with data-oriented design',
+            components: ['Transform', 'RigidBody', 'Collider', 'Constraint', 'PhysicsMaterial'],
+            dataFlow: 'Input → Broad Phase → Narrow Phase → Constraint Solver → Integration → Output',
+            scalability: 'Spatial partitioning with octree for O(log n) collision queries',
+            performance: 'SIMD-optimized vector operations with cache-friendly memory layout'
+          },
+          algorithms: {
+            broadPhase: 'Sweep and Prune with spatial hashing for O(n) complexity',
+            narrowPhase: 'GJK/EPA for convex hulls, SAT for AABB/OBB intersection',
+            constraintSolver: 'Sequential Impulse with warm starting and Baumgarte stabilization',
+            integration: 'Semi-implicit Euler with adaptive timestep for stability',
+            optimization: 'SIMD vectorization using AVX2 instructions'
+          },
+          implementation: {
+            language: 'C++17 with RAII and move semantics',
+            libraries: ['Eigen3', 'Bullet Physics', 'OpenGL', 'GLFW'],
+            testing: 'Unit tests with Google Test, integration tests with physics scenarios',
+            deployment: 'Cross-platform with CMake build system',
+            profiling: 'Intel VTune for performance analysis and optimization'
+          },
+          performance: {
+            latency: '16.67ms per frame (60 FPS) with <1ms physics step',
+            throughput: '10,000+ rigid bodies with real-time collision detection',
+            memory: 'Pool allocators with object recycling, <2MB overhead per 1000 bodies',
+            cpu: 'Multi-threaded physics simulation with work-stealing scheduler'
+          }
+        }
+      },
+          'ilanya-ai': {
+        name: 'Ilanya',
+        description: 'A sophisticated cognitive architecture featuring desire engines, neural networks, and emergent AI behaviors with attention mechanisms.',
+        tech: ['Python', 'Neural Networks', 'Cognitive Architecture', 'Attention Mechanism'],
+        features: ['Neural Networks', 'Attention Mechanism', 'Goal Formation', 'Cognitive Modeling'],
+        details: {
+          architecture: 'Multi-layered cognitive system with desire-driven decision making',
+          algorithms: 'Attention mechanisms, desire activation networks, goal formation algorithms',
+          applications: 'Autonomous agents, cognitive modeling, human-AI interaction, research AI',
+          challenges: 'Balancing competing desires, maintaining coherence, avoiding goal conflicts',
+          impact: 'Advances understanding of artificial consciousness and autonomous behavior'
+        },
+        technical: {
+          architecture: {
+            pattern: 'Multi-agent cognitive architecture with emergent behavior',
+            components: ['DesireEngine', 'AttentionNetwork', 'GoalFormation', 'BehaviorSelector', 'MemorySystem'],
+            dataFlow: 'Sensory Input → Desire Activation → Attention Selection → Goal Formation → Action Planning',
+            scalability: 'Distributed processing with message passing between cognitive modules',
+            performance: 'Real-time cognitive processing with <100ms decision latency'
+          },
+          algorithms: {
+            attentionMechanism: 'Multi-head self-attention with positional encoding',
+            desireActivation: 'Neural network with sigmoid activation for desire strength',
+            goalFormation: 'Reinforcement learning with temporal difference learning',
+            behaviorSelection: 'Softmax policy with epsilon-greedy exploration',
+            optimization: 'Adam optimizer with learning rate scheduling'
+          },
+          implementation: {
+            language: 'Python 3.10+ with PyTorch and NumPy',
+            frameworks: ['PyTorch', 'Transformers', 'Gym', 'Ray RLlib'],
+            testing: 'Behavioral testing with cognitive scenarios, 90%+ test coverage',
+            deployment: 'Docker with GPU support for neural network inference',
+            monitoring: 'Custom cognitive metrics with TensorBoard visualization'
+          },
+          performance: {
+            latency: '<100ms for cognitive decisions',
+            throughput: '100+ cognitive cycles/second',
+            memory: 'LSTM-based memory with attention mechanisms',
+            gpu: 'CUDA-optimized neural network inference'
+          }
+        }
+      },
     'geogo': {
       name: 'GeoGO',
       description: 'A geographic data processing system with real-time analysis, large dataset handling, and comprehensive geographic visualization.',
@@ -203,7 +397,7 @@ const portfolioKnowledge = {
 };
 
 // Enhanced intelligent response system
-const getSylvanasResponse = (query: string): string => {
+const getSylvanasResponse = (query: string, conversationContext: string[] = []): string => {
   const lowerQuery = query.toLowerCase();
   
   // Advanced project-specific responses with detailed insights
@@ -294,6 +488,159 @@ const getSylvanasResponse = (query: string): string => {
     return sylvanasResponses.skills[Math.floor(Math.random() * sylvanasResponses.skills.length)];
   }
   
+  // Language and technology questions
+  if (lowerQuery.includes('language') || lowerQuery.includes('programming') || lowerQuery.includes('tech') || lowerQuery.includes('framework')) {
+    return "Klea Dev primarily uses Go for backend systems and concurrency-heavy services, C++ for performance-critical applications and systems programming, Python for AI/ML and rapid prototyping, and TypeScript for fullstack web development. The tech stack includes Next.js, React, PostgreSQL, Redis, Docker, and various AI/ML frameworks like PyTorch and TensorFlow.";
+  }
+
+  // Non-technical, general questions
+  if (lowerQuery.includes('what does') || lowerQuery.includes('what kind of work') || lowerQuery.includes('what do you do')) {
+    return sylvanasResponses.general[0];
+  }
+  
+  if (lowerQuery.includes('what kind of project') || lowerQuery.includes('what projects') || lowerQuery.includes('showcase')) {
+    return sylvanasResponses.general[1];
+  }
+  
+  if (lowerQuery.includes('what makes') || lowerQuery.includes('special') || lowerQuery.includes('different')) {
+    return sylvanasResponses.general[2];
+  }
+  
+  if (lowerQuery.includes('what problem') || lowerQuery.includes('solve') || lowerQuery.includes('help')) {
+    return sylvanasResponses.general[3];
+  }
+  
+  if (lowerQuery.includes('how experienced') || lowerQuery.includes('experience level') || lowerQuery.includes('years')) {
+    return sylvanasResponses.general[4];
+  }
+  
+  if (lowerQuery.includes('what should i know') || lowerQuery.includes('tell me about') || lowerQuery.includes('explain')) {
+    return sylvanasResponses.general[5];
+  }
+  
+  if (lowerQuery.includes('help me understand') || lowerQuery.includes('break down') || lowerQuery.includes('simple terms')) {
+    return sylvanasResponses.general[6];
+  }
+  
+  if (lowerQuery.includes('most impressive') || lowerQuery.includes('best project') || lowerQuery.includes('favorite')) {
+    return sylvanasResponses.general[7];
+  }
+  
+  // Personalized suggestions based on conversation context
+  if (lowerQuery.includes('also like') || lowerQuery.includes('similar') || lowerQuery.includes('related')) {
+    if (conversationContext.some(ctx => ctx.includes('ai') || ctx.includes('lenora') || ctx.includes('ilanya'))) {
+      return sylvanasResponses.suggestions.ai[Math.floor(Math.random() * sylvanasResponses.suggestions.ai.length)];
+    }
+    if (conversationContext.some(ctx => ctx.includes('system') || ctx.includes('physics') || ctx.includes('performance'))) {
+      return sylvanasResponses.suggestions.systems[Math.floor(Math.random() * sylvanasResponses.suggestions.systems.length)];
+    }
+    if (conversationContext.some(ctx => ctx.includes('web') || ctx.includes('frontend') || ctx.includes('portfolio'))) {
+      return sylvanasResponses.suggestions.web[Math.floor(Math.random() * sylvanasResponses.suggestions.web.length)];
+    }
+    if (conversationContext.some(ctx => ctx.includes('research') || ctx.includes('paper') || ctx.includes('academic'))) {
+      return sylvanasResponses.suggestions.research[Math.floor(Math.random() * sylvanasResponses.suggestions.research.length)];
+    }
+  }
+
+  // Career guidance responses
+  if (lowerQuery.includes('career') || lowerQuery.includes('how to') || lowerQuery.includes('learn') || lowerQuery.includes('study')) {
+    if (lowerQuery.includes('ai') || lowerQuery.includes('machine learning')) {
+      return sylvanasResponses.career.ai[Math.floor(Math.random() * sylvanasResponses.career.ai.length)];
+    }
+    if (lowerQuery.includes('system') || lowerQuery.includes('performance') || lowerQuery.includes('low level')) {
+      return sylvanasResponses.career.systems[Math.floor(Math.random() * sylvanasResponses.career.systems.length)];
+    }
+    if (lowerQuery.includes('web') || lowerQuery.includes('frontend') || lowerQuery.includes('fullstack')) {
+      return sylvanasResponses.career.fullstack[Math.floor(Math.random() * sylvanasResponses.career.fullstack.length)];
+    }
+  }
+
+  // Project comparison responses
+  if (lowerQuery.includes('compare') || lowerQuery.includes('similar to') || lowerQuery.includes('difference between')) {
+    if (lowerQuery.includes('lenora') || lowerQuery.includes('lenoraai')) {
+      return sylvanasResponses.comparisons['lenora-ai'][Math.floor(Math.random() * sylvanasResponses.comparisons['lenora-ai'].length)];
+    }
+    if (lowerQuery.includes('ilanya')) {
+      return sylvanasResponses.comparisons['ilanya-ai'][Math.floor(Math.random() * sylvanasResponses.comparisons['ilanya-ai'].length)];
+    }
+    if (lowerQuery.includes('physics') || lowerQuery.includes('engine')) {
+      return sylvanasResponses.comparisons['physics-engine-c'][Math.floor(Math.random() * sylvanasResponses.comparisons['physics-engine-c'].length)];
+    }
+  }
+
+  // Technical architecture questions for senior developers
+  if (lowerQuery.includes('architecture') || lowerQuery.includes('design pattern') || lowerQuery.includes('system design')) {
+    if (lowerQuery.includes('lenora') || lowerQuery.includes('lenoraai')) {
+      return sylvanasResponses.technical.architecture['lenora-ai'];
+    }
+    if (lowerQuery.includes('physics') || lowerQuery.includes('engine')) {
+      return sylvanasResponses.technical.architecture['physics-engine-c'];
+    }
+    if (lowerQuery.includes('ilanya')) {
+      return sylvanasResponses.technical.architecture['ilanya-ai'];
+    }
+  }
+
+  // Technical algorithm questions
+  if (lowerQuery.includes('algorithm') || lowerQuery.includes('implementation') || lowerQuery.includes('how does it work')) {
+    if (lowerQuery.includes('lenora') || lowerQuery.includes('lenoraai')) {
+      return sylvanasResponses.technical.algorithms['lenora-ai'];
+    }
+    if (lowerQuery.includes('physics') || lowerQuery.includes('engine')) {
+      return sylvanasResponses.technical.algorithms['physics-engine-c'];
+    }
+    if (lowerQuery.includes('ilanya')) {
+      return sylvanasResponses.technical.algorithms['ilanya-ai'];
+    }
+  }
+
+  // Performance and optimization questions
+  if (lowerQuery.includes('performance') || lowerQuery.includes('optimization') || lowerQuery.includes('latency') || lowerQuery.includes('throughput')) {
+    if (lowerQuery.includes('lenora') || lowerQuery.includes('lenoraai')) {
+      return sylvanasResponses.technical.performance['lenora-ai'];
+    }
+    if (lowerQuery.includes('physics') || lowerQuery.includes('engine')) {
+      return sylvanasResponses.technical.performance['physics-engine-c'];
+    }
+    if (lowerQuery.includes('ilanya')) {
+      return sylvanasResponses.technical.performance['ilanya-ai'];
+    }
+  }
+
+  // Implementation and tech stack questions
+  if (lowerQuery.includes('tech stack') || lowerQuery.includes('libraries') || lowerQuery.includes('frameworks') || lowerQuery.includes('testing')) {
+    if (lowerQuery.includes('lenora') || lowerQuery.includes('lenoraai')) {
+      return sylvanasResponses.technical.implementation['lenora-ai'];
+    }
+    if (lowerQuery.includes('physics') || lowerQuery.includes('engine')) {
+      return sylvanasResponses.technical.implementation['physics-engine-c'];
+    }
+    if (lowerQuery.includes('ilanya')) {
+      return sylvanasResponses.technical.implementation['ilanya-ai'];
+    }
+  }
+
+  // Skill progression responses
+  if (lowerQuery.includes('evolution') || lowerQuery.includes('progression') || lowerQuery.includes('how did') || lowerQuery.includes('improve')) {
+    if (lowerQuery.includes('lenora') || lowerQuery.includes('lenoraai')) {
+      return sylvanasResponses.progression['lenora-ai'];
+    }
+    if (lowerQuery.includes('ilanya')) {
+      return sylvanasResponses.progression['ilanya-ai'];
+    }
+    if (lowerQuery.includes('physics') || lowerQuery.includes('engine')) {
+      return sylvanasResponses.progression['physics-engine-c'];
+    }
+    if (lowerQuery.includes('volatria')) {
+      return sylvanasResponses.progression['volatria'];
+    }
+  }
+
+  // Guidance responses for confused visitors
+  if (lowerQuery.includes('not sure') || lowerQuery.includes('confused') || lowerQuery.includes('help') || lowerQuery.includes('what should i ask')) {
+    return sylvanasResponses.guidance[Math.floor(Math.random() * sylvanasResponses.guidance.length)];
+  }
+  
   // Achievement responses
   if (lowerQuery.includes('achievement') || lowerQuery.includes('performance') || lowerQuery.includes('lighthouse')) {
     return `The achievements here are worthy of legend, mortal. ${portfolioKnowledge.achievements.performance}, ${portfolioKnowledge.achievements.accessibility}, ${portfolioKnowledge.achievements.seo}, and ${portfolioKnowledge.achievements.interactive} - this portfolio represents the pinnacle of web development excellence.`;
@@ -312,8 +659,21 @@ const getSylvanasResponse = (query: string): string => {
     return sylvanasResponses.liveDemos[Math.floor(Math.random() * sylvanasResponses.liveDemos.length)];
   }
   
-  // Default response
-  return sylvanasResponses.default[Math.floor(Math.random() * sylvanasResponses.default.length)];
+  // Default response - try to be more helpful
+  if (lowerQuery.includes('distributed') || lowerQuery.includes('system')) {
+    return "Klea Dev handles distributed systems through projects like Volatria and GeoGO. Volatria uses microservices architecture with event-driven design, message queues, and API gateways. It processes real-time stock data with distributed consensus and load balancing. GeoGO uses microservices with event-driven data processing pipelines, spatial indexing, and geographic clustering for large-scale data processing.";
+  }
+  
+  if (lowerQuery.includes('experience') || lowerQuery.includes('years') || lowerQuery.includes('level')) {
+    return "Klea Dev has extensive experience across multiple programming languages and technologies. They've built everything from AI systems to web applications to high-performance software. The portfolio showcases years of work in AI, systems programming, and software development with expertise in Go, C++, Python, TypeScript, and various modern frameworks.";
+  }
+  
+  if (lowerQuery.includes('contact') || lowerQuery.includes('reach') || lowerQuery.includes('email')) {
+    return sylvanasResponses.contact[Math.floor(Math.random() * sylvanasResponses.contact.length)];
+  }
+  
+  // If we still don't have a good answer, provide guidance
+  return "I can help you understand Klea Dev's work in detail. Try asking about specific projects (LenoraAI, PhysicsEngineC, Ilanya), technical skills (Go, C++, Python, TypeScript), or general information about what they do. What interests you most?";
 };
 
 // Chat message interface
@@ -335,6 +695,13 @@ const SylvanasMini = () => {
     
     if (storedName) {
       greeting = greeting.replace(/mortal/g, storedName);
+    }
+    
+    // Add helpful guidance for new visitors
+    const isNewVisitor = !sessionStorage.getItem('sylvanas-has-visited');
+    if (isNewVisitor) {
+      greeting += " I can explain Klea Dev's work in simple terms or dive deep into technical details - just let me know what interests you!";
+      sessionStorage.setItem('sylvanas-has-visited', 'true');
     }
     
     setMessages([
@@ -424,7 +791,7 @@ const SylvanasMini = () => {
     await new Promise(resolve => setTimeout(resolve, thinkingTime));
 
     // Enhanced response with context awareness and personalization
-    let sylvanasResponse = getSylvanasResponse(inputValue);
+    let sylvanasResponse = getSylvanasResponse(inputValue, newContext);
     
     // Personalize response with visitor name
     if (visitorName && !sylvanasResponse.includes(visitorName)) {
@@ -482,14 +849,24 @@ const SylvanasMini = () => {
   };
 
   const suggestedQuestions = [
+    // Technical questions for senior developers
     "Tell me about LenoraAI's architecture",
-    "What are the challenges in physics engines?",
-    "Explain Ilanya's cognitive system",
-    "How does Klea Dev handle distributed systems?",
-    "What research has been done on desire engines?",
+    "What algorithms does PhysicsEngineC use?",
+    "How does Ilanya's performance scale?",
+    "What's the tech stack for LenoraAI?",
+    "How does PhysicsEngineC handle collision detection?",
+    "What's the implementation approach for Ilanya?",
     "Tell me about the systems programming expertise",
-    "What are the achievements of this portfolio?",
-    "How can I contact Klea Dev?"
+    "How can I contact Klea Dev?",
+    // Non-technical questions for general visitors
+    "What does Klea Dev do?",
+    "What kind of projects are shown here?",
+    "What makes Klea Dev special?",
+    "What problems can Klea Dev solve?",
+    "How experienced is Klea Dev?",
+    "What should I know about this portfolio?",
+    "Can you help me understand this work?",
+    "What's the most impressive project here?"
   ];
 
   return (
@@ -526,7 +903,7 @@ const SylvanasMini = () => {
             
             {/* Chat Window */}
             <motion.div
-              className="relative w-full max-w-md h-96 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 rounded-t-xl shadow-2xl border border-purple-500/20"
+              className="relative w-full max-w-lg h-[500px] bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 rounded-t-xl shadow-2xl border border-purple-500/20"
               initial={{ y: 400, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 400, opacity: 0 }}
@@ -551,8 +928,29 @@ const SylvanasMini = () => {
                 </button>
               </div>
 
+              {/* Suggested Questions - Always visible at top */}
+              {messages.length === 1 && (
+                <div className="px-4 py-3 border-b border-purple-500/20 bg-gradient-to-r from-purple-800/20 to-slate-800/20">
+                  <p className="text-purple-300 text-sm mb-3 font-medium">💡 Try asking me about:</p>
+                  <div className="grid grid-cols-2 gap-2 mb-2">
+                    {suggestedQuestions.slice(0, 6).map((question, index) => (
+                      <button
+                        key={index}
+                        onClick={() => {
+                          setInputValue(question);
+                          setTimeout(() => handleSendMessage(), 100);
+                        }}
+                        className="text-xs bg-purple-800/50 hover:bg-purple-700/50 text-purple-200 px-3 py-2 rounded border border-purple-500/30 transition-colors text-left leading-tight"
+                      >
+                        {question}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4 h-64">
+              <div className="flex-1 overflow-y-auto p-4 space-y-4 h-80">
                 {messages.map((message) => (
                   <motion.div
                     key={message.id}
@@ -603,30 +1001,9 @@ const SylvanasMini = () => {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Suggested Questions */}
-              {messages.length === 1 && (
-                <div className="px-4 pb-2">
-                  <p className="text-purple-300 text-xs mb-2">Suggested questions:</p>
-                  <div className="flex flex-wrap gap-1">
-                    {suggestedQuestions.map((question, index) => (
-                      <button
-                        key={index}
-                        onClick={() => {
-                          setInputValue(question);
-                          setTimeout(() => handleSendMessage(), 100);
-                        }}
-                        className="text-xs bg-purple-800/50 hover:bg-purple-700/50 text-purple-200 px-2 py-1 rounded border border-purple-500/30 transition-colors"
-                      >
-                        {question}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {/* Input */}
-              <div className="p-4 border-t border-purple-500/20">
-                <div className="flex gap-2">
+              <div className="p-4 border-t border-purple-500/20 bg-gradient-to-r from-slate-800/50 to-purple-800/50">
+                <div className="flex gap-3">
                   <input
                     ref={inputRef}
                     type="text"
@@ -634,14 +1011,14 @@ const SylvanasMini = () => {
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Ask Sylvanas-mini about the portfolio..."
-                    className="flex-1 bg-slate-800 text-white placeholder-purple-300 px-3 py-2 rounded-lg border border-purple-500/30 focus:border-purple-500 focus:outline-none text-sm"
+                    className="flex-1 bg-slate-800 text-white placeholder-purple-300 px-4 py-3 rounded-lg border border-purple-500/30 focus:border-purple-500 focus:outline-none text-sm focus:ring-2 focus:ring-purple-500/20"
                   />
                   <button
                     onClick={handleSendMessage}
                     disabled={!inputValue.trim() || isTyping}
-                    className="bg-purple-600 hover:bg-purple-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white p-2 rounded-lg transition-colors"
+                    className="bg-purple-600 hover:bg-purple-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white p-3 rounded-lg transition-colors flex items-center justify-center"
                   >
-                    <Send className="w-4 h-4" />
+                    <Send className="w-5 h-5" />
                   </button>
                 </div>
               </div>
