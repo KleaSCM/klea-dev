@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Analytics from "./components/Analytics";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -144,59 +145,89 @@ export default function RootLayout({
           }}
         />
         
-        {/* Google Analytics - Replace GA_MEASUREMENT_ID with your actual ID */}
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'GA_MEASUREMENT_ID', {
-                page_title: document.title,
-                page_location: window.location.href,
-              });
-              
-              // Track form submissions
-              window.trackFormSubmission = () => {
-                gtag('event', 'form_submit', {
-                  event_category: 'engagement',
-                  event_label: 'contact_form'
-                });
-              };
-              
-              // Track project clicks
-              window.trackProjectClick = (projectName) => {
-                gtag('event', 'click', {
-                  event_category: 'engagement',
-                  event_label: 'project_view',
-                  value: projectName
-                });
-              };
-              
-              // Track scroll depth
-              let maxScroll = 0;
-              window.addEventListener('scroll', () => {
-                const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-                if (scrollPercent > maxScroll) {
-                  maxScroll = scrollPercent;
-                  if (maxScroll >= 25 && maxScroll % 25 === 0) {
-                    gtag('event', 'scroll', {
+        {/* Enhanced Google Analytics with environment variable support */}
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}', {
+                    page_title: document.title,
+                    page_location: window.location.href,
+                    anonymize_ip: true,
+                    cookie_flags: 'SameSite=None;Secure'
+                  });
+                  
+                  // Enhanced tracking functions
+                  window.trackFormSubmission = (formType) => {
+                    gtag('event', 'form_submit', {
                       event_category: 'engagement',
-                      event_label: \`scroll_depth_\${maxScroll}\`
+                      event_label: formType,
+                      value: 1
                     });
-                  }
-                }
-              });
-            `,
-          }}
-        />
+                  };
+                  
+                  window.trackProjectClick = (projectName, interactionType) => {
+                    gtag('event', 'project_interaction', {
+                      event_category: 'engagement',
+                      event_label: interactionType,
+                      value: projectName
+                    });
+                  };
+                  
+                  window.trackSkillInteraction = (skillName, interactionType) => {
+                    gtag('event', 'skill_interaction', {
+                      event_category: 'engagement',
+                      event_label: interactionType,
+                      value: skillName
+                    });
+                  };
+                  
+                  // Enhanced scroll depth tracking
+                  let maxScroll = 0;
+                  window.addEventListener('scroll', () => {
+                    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                    if (scrollPercent > maxScroll) {
+                      maxScroll = scrollPercent;
+                      if (maxScroll >= 25 && maxScroll % 25 === 0) {
+                        gtag('event', 'scroll_depth', {
+                          event_category: 'engagement',
+                          event_label: \`scroll_\${maxScroll}%\`,
+                          value: maxScroll
+                        });
+                      }
+                    }
+                  });
+                  
+                  // Performance tracking
+                  window.addEventListener('load', () => {
+                    if ('performance' in window) {
+                      const navigation = performance.getEntriesByType('navigation')[0];
+                      if (navigation) {
+                        gtag('event', 'timing_complete', {
+                          event_category: 'performance',
+                          name: 'load',
+                          value: Math.round(navigation.loadEventEnd - navigation.loadEventStart)
+                        });
+                      }
+                    }
+                  });
+                `,
+              }}
+            />
+          </>
+        )}
       </head>
       <body className={inter.className}>
         {children}
+        <Analytics />
       </body>
     </html>
   );

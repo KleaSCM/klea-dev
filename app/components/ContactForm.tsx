@@ -12,6 +12,14 @@ import {
   Phone
 } from "lucide-react";
 
+// TypeScript declarations for global tracking functions
+declare global {
+  interface Window {
+    trackFormSubmission?: (formType: string) => void;
+    trackContactForm: (action: 'submit' | 'error') => void;
+  }
+}
+
 // Form validation interface
 interface FormData {
   name: string;
@@ -129,6 +137,17 @@ const ContactForm = () => {
 
       if (response.ok && result.success) {
         setSubmitStatus('success');
+        
+        // Track successful form submission
+        if (typeof window !== 'undefined') {
+          if (window.trackFormSubmission) {
+            window.trackFormSubmission('contact_form_success');
+          }
+          if (window.trackContactForm) {
+            window.trackContactForm('submit');
+          }
+        }
+        
         // Reset form after successful submission
         setTimeout(() => {
           setFormData({
@@ -143,6 +162,16 @@ const ContactForm = () => {
       } else {
         setSubmitStatus('error');
         setErrorMessage(result.error || 'Something went wrong. Please try again.');
+        
+        // Track form error
+        if (typeof window !== 'undefined') {
+          if (window.trackFormSubmission) {
+            window.trackFormSubmission('contact_form_error');
+          }
+          if (window.trackContactForm) {
+            window.trackContactForm('error');
+          }
+        }
       }
 
     } catch (error) {
