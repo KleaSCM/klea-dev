@@ -230,9 +230,9 @@ const ContactForm = () => {
         )}
       </AnimatePresence>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="mobile-form">
         {/* Name and Email row */}
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
               <User className="w-4 h-4 inline mr-2" />
@@ -242,7 +242,7 @@ const ContactForm = () => {
               type="text"
               value={formData.name}
               onChange={(e) => handleInputChange('name', e.target.value)}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/50 dark:bg-slate-800/50 transition-colors ${
+              className={`mobile-input ${
                 errors.name 
                   ? 'border-red-300 dark:border-red-600' 
                   : 'border-slate-200 dark:border-slate-700'
@@ -265,7 +265,7 @@ const ContactForm = () => {
               type="email"
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/50 dark:bg-slate-800/50 transition-colors ${
+              className={`mobile-input ${
                 errors.email 
                   ? 'border-red-300 dark:border-red-600' 
                   : 'border-slate-200 dark:border-slate-700'
@@ -281,7 +281,7 @@ const ContactForm = () => {
         </div>
 
         {/* Phone and Subject row */}
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
               <Phone className="w-4 h-4 inline mr-2" />
@@ -291,7 +291,7 @@ const ContactForm = () => {
               type="tel"
               value={formData.phone}
               onChange={(e) => handleInputChange('phone', e.target.value)}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/50 dark:bg-slate-800/50 transition-colors ${
+              className={`mobile-input ${
                 errors.phone 
                   ? 'border-red-300 dark:border-red-600' 
                   : 'border-slate-200 dark:border-slate-700'
@@ -314,7 +314,7 @@ const ContactForm = () => {
               type="text"
               value={formData.subject}
               onChange={(e) => handleInputChange('subject', e.target.value)}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/50 dark:bg-slate-800/50 transition-colors ${
+              className={`mobile-input ${
                 errors.subject 
                   ? 'border-red-300 dark:border-red-600' 
                   : 'border-slate-200 dark:border-slate-700'
@@ -339,7 +339,7 @@ const ContactForm = () => {
             value={formData.message}
             onChange={(e) => handleInputChange('message', e.target.value)}
             rows={6}
-            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/50 dark:bg-slate-800/50 transition-colors resize-none ${
+            className={`mobile-input resize-none ${
               errors.message 
                 ? 'border-red-300 dark:border-red-600' 
                 : 'border-slate-200 dark:border-slate-700'
@@ -357,7 +357,7 @@ const ContactForm = () => {
         <motion.button
           type="submit"
           disabled={isSubmitting}
-          className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mobile-touch"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >

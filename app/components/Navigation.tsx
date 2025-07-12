@@ -70,6 +70,13 @@ const Navigation = () => {
     }
   };
 
+  // Add this helper for delayed close
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
+
+
   // Navigation items with their respective sections
   const navItems = [
     { name: "About", href: "about" },
@@ -270,30 +277,41 @@ const Navigation = () => {
       <AnimatePresence>
         {isOpen && (
           <TouchGestures
-            onSwipeDown={() => setIsOpen(false)}
-            onSwipeLeft={() => setIsOpen(false)}
-            onSwipeRight={() => setIsOpen(false)}
+            onSwipeDown={closeMenu}
+            onSwipeLeft={closeMenu}
+            onSwipeRight={closeMenu}
           >
             <motion.div
-              className="fixed inset-0 z-40 md:hidden"
+              className="mobile-menu md:hidden"
+              data-open={isOpen}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
+              style={{ 
+                // Ensure overlay blocks all pointer events when open
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 40
+              }}
             >
               {/* Backdrop with enhanced blur */}
               <motion.div
                 className="absolute inset-0 bg-black/60 backdrop-blur-md"
-                onClick={() => setIsOpen(false)}
+                onClick={closeMenu}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
+                style={{ pointerEvents: 'auto' }}
               />
 
               {/* Menu Content with smooth animations */}
               <motion.div
-                className="absolute top-16 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-2xl"
+                className="absolute top-16 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-2xl mobile-safe"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -301,6 +319,7 @@ const Navigation = () => {
                   duration: 0.3, 
                   ease: [0.4, 0, 0.2, 1]
                 }}
+                onClick={e => e.stopPropagation()} // Prevent backdrop click from closing menu when clicking inside
               >
               <div className="container-custom py-8">
                 {/* Navigation Items with enhanced styling */}
@@ -308,26 +327,31 @@ const Navigation = () => {
                   {navItems.map((item, index) => (
                     <motion.button
                       key={item.name}
-                      className="block w-full text-left py-4 px-6 text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl transition-all duration-200 group"
-                      onClick={() => handleNavigation(item.href)}
+                      className="mobile-nav-item group hover:text-indigo-500 focus:text-indigo-500 transition-colors duration-200"
+                      onClick={() => {
+                        handleNavigation(item.href);
+                        setTimeout(closeMenu, 200); // Delay close for exit animation
+                      }}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
                       transition={{ 
                         delay: index * 0.05,
                         duration: 0.2,
                         ease: [0.4, 0, 0.2, 1]
                       }}
-                      whileHover={{ 
-                        x: 5,
-                        scale: 1.01
-                      }}
+                      whileHover={{ x: 5, scale: 1.03 }}
+                      whileFocus={{ x: 5, scale: 1.03 }}
                       whileTap={{ scale: 0.99 }}
                     >
                       <span className="flex items-center">
                         <motion.span
-                          className="w-2 h-2 bg-primary rounded-full mr-4 opacity-0 group-hover:opacity-100"
-                          initial={{ scale: 0 }}
-                          whileHover={{ scale: 1 }}
+                          className="w-2 h-2 bg-primary rounded-full mr-4"
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0, opacity: 0 }}
+                          whileHover={{ scale: 1.2, opacity: 1 }}
+                          whileFocus={{ scale: 1.2, opacity: 1 }}
                           transition={{ duration: 0.2 }}
                         />
                         {item.name}

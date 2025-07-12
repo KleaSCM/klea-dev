@@ -89,14 +89,14 @@ const HeroSection = () => {
             variants={fadeInUp}
           >
             <button 
-              className="btn-primary flex items-center gap-2"
+              className="btn-primary flex items-center justify-center gap-2 mobile-touch"
               onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
             >
               View My Work
               <ArrowRight className="w-4 h-4" />
             </button>
             <button 
-              className="btn-secondary flex items-center gap-2"
+              className="btn-secondary flex items-center justify-center gap-2 mobile-touch"
               onClick={() => window.open('/resume.txt', '_blank')}
             >
               Download Resume
@@ -218,12 +218,13 @@ const ProjectsSection = () => {
             Featured Projects
           </motion.h2>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="mobile-grid">
             {featuredProjects.slice(0, 6).map((project, index) => (
               <motion.div
                 key={project.title}
                 variants={fadeInUp}
                 whileHover={{ y: -5 }}
+                className="mobile-touch"
               >
                 <InteractiveProjectCard project={project} />
               </motion.div>
@@ -270,7 +271,7 @@ const ResearchPreviewSection = () => {
             <h3 className="text-2xl font-semibold text-slate-800 dark:text-slate-200 mb-8 text-center">
               🌟 Featured Work
             </h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="mobile-grid">
               {featuredResearch.slice(0, 3).map((entry) => (
                 <ResearchCard key={entry.id} entry={entry} />
               ))}

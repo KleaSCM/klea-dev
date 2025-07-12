@@ -127,7 +127,7 @@ const TimelineItem = ({ experience, index }: { experience: Experience; index: nu
   return (
     <motion.div
       ref={ref}
-      className={`flex gap-8 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
+      className={`flex flex-col lg:flex-row gap-4 lg:gap-8 ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -144,33 +144,33 @@ const TimelineItem = ({ experience, index }: { experience: Experience; index: nu
         whileHover={{ y: -5, scale: 1.02 }}
       >
         {/* Header */}
-        <div className="flex items-start gap-4 mb-4">
-          <div className="p-3 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-lg">
-            <Icon className="w-6 h-6 text-white" />
+        <div className="flex items-start gap-3 sm:gap-4 mb-4">
+          <div className="p-2 sm:p-3 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-lg flex-shrink-0">
+            <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
-          <div className="flex-1">
-            <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-1">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg sm:text-xl font-semibold text-slate-800 dark:text-slate-200 mb-1 break-words">
               {experience.title}
             </h3>
-            <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mb-2">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-2">
               <div className="flex items-center gap-1">
-                <Building className="w-4 h-4" />
-                <span>{experience.company}</span>
+                <Building className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                <span className="break-words">{experience.company}</span>
               </div>
               <div className="flex items-center gap-1">
-                <MapPin className="w-4 h-4" />
-                <span>{experience.location}</span>
+                <MapPin className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                <span className="break-words">{experience.location}</span>
               </div>
               <div className="flex items-center gap-1">
-                <Calendar className="w-4 h-4" />
-                <span>{experience.period}</span>
+                <Calendar className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                <span className="break-words">{experience.period}</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-slate-600 dark:text-slate-400 mb-4">
+        <p className="text-slate-600 dark:text-slate-400 mb-4 text-sm sm:text-base break-words">
           {experience.description}
         </p>
 
@@ -179,9 +179,9 @@ const TimelineItem = ({ experience, index }: { experience: Experience; index: nu
           <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-2">
             Technologies Used
           </h4>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1 sm:gap-2">
             {experience.technologies.map((tech) => (
-              <span key={tech} className="skill-badge text-xs">
+              <span key={tech} className="skill-badge text-xs px-2 py-1 break-words">
                 {tech}
               </span>
             ))}
@@ -197,13 +197,13 @@ const TimelineItem = ({ experience, index }: { experience: Experience; index: nu
             {experience.achievements.map((achievement, idx) => (
               <motion.li
                 key={idx}
-                className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400"
+                className="flex items-start gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400"
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                 transition={{ delay: (index * 0.1) + (idx * 0.1) }}
               >
                 <Star className="w-3 h-3 text-yellow-500 mt-1 flex-shrink-0" />
-                <span>{achievement}</span>
+                <span className="break-words">{achievement}</span>
               </motion.li>
             ))}
           </ul>
@@ -240,7 +240,7 @@ const InteractiveResume = () => {
           <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-500 to-pink-500"></div>
           
           {/* Timeline items */}
-          <div className="space-y-12">
+          <div className="space-y-8 lg:space-y-12">
             {experiences.map((experience, index) => (
               <TimelineItem key={experience.id} experience={experience} index={index} />
             ))}
