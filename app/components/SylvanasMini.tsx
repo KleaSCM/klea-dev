@@ -74,87 +74,234 @@ const sylvanasResponses = {
   ]
 };
 
-// Portfolio knowledge base
+// Enhanced portfolio knowledge base with deeper insights
 const portfolioKnowledge = {
   projects: {
     'lenora-ai': {
       name: 'LenoraAI',
       description: 'An advanced AI ethics engine with multi-framework analysis capabilities. Features real-time ethical decision-making, confidence scoring, and comprehensive moral reasoning.',
       tech: ['Python', 'AI/ML', 'Ethics Engine', 'Multi-framework Analysis'],
-      features: ['Real-time Analysis', 'Multi-framework', 'Confidence Scoring', 'Ethical Decision Making']
+      features: ['Real-time Analysis', 'Multi-framework', 'Confidence Scoring', 'Ethical Decision Making'],
+      details: {
+        architecture: 'Modular ethics framework with pluggable moral reasoning systems',
+        algorithms: 'Multi-criteria decision analysis with weighted ethical frameworks',
+        applications: 'Autonomous systems, medical AI, autonomous vehicles, content moderation',
+        challenges: 'Balancing competing ethical principles, handling edge cases, cultural bias mitigation',
+        impact: 'Enables safer AI deployment with transparent ethical reasoning'
+      }
     },
     'physics-engine-c': {
       name: 'PhysicsEngineC',
       description: 'A high-performance C++ physics engine with real-time collision detection, 60 FPS simulation, and advanced physics calculations.',
       tech: ['C++', 'Physics', 'Collision Detection', 'Real-time Simulation'],
-      features: ['Real-time Simulation', 'Collision Detection', '60 FPS', 'Advanced Physics']
+      features: ['Real-time Simulation', 'Collision Detection', '60 FPS', 'Advanced Physics'],
+      details: {
+        architecture: 'Component-based entity system with spatial partitioning',
+        algorithms: 'Broad-phase collision detection, narrow-phase collision resolution, constraint solving',
+        applications: 'Game development, simulation software, robotics, virtual reality',
+        challenges: 'Performance optimization, numerical stability, complex constraint systems',
+        impact: 'Enables realistic physics simulation for interactive applications'
+      }
     },
     'ilanya-ai': {
       name: 'Ilanya',
       description: 'A sophisticated cognitive architecture featuring desire engines, neural networks, and emergent AI behaviors with attention mechanisms.',
       tech: ['Python', 'Neural Networks', 'Cognitive Architecture', 'Attention Mechanism'],
-      features: ['Neural Networks', 'Attention Mechanism', 'Goal Formation', 'Cognitive Modeling']
+      features: ['Neural Networks', 'Attention Mechanism', 'Goal Formation', 'Cognitive Modeling'],
+      details: {
+        architecture: 'Multi-layered cognitive system with desire-driven decision making',
+        algorithms: 'Attention mechanisms, desire activation networks, goal formation algorithms',
+        applications: 'Autonomous agents, cognitive modeling, human-AI interaction, research AI',
+        challenges: 'Balancing competing desires, maintaining coherence, avoiding goal conflicts',
+        impact: 'Advances understanding of artificial consciousness and autonomous behavior'
+      }
     },
     'geogo': {
       name: 'GeoGO',
       description: 'A geographic data processing system with real-time analysis, large dataset handling, and comprehensive geographic visualization.',
       tech: ['Go', 'Geographic Data', 'Real-time Processing', 'Large Datasets'],
-      features: ['Real-time Data', 'Geographic Analysis', 'Large Dataset', 'Data Visualization']
+      features: ['Real-time Data', 'Geographic Analysis', 'Large Dataset', 'Data Visualization'],
+      details: {
+        architecture: 'Microservices with event-driven data processing pipeline',
+        algorithms: 'Spatial indexing, geographic clustering, real-time data aggregation',
+        applications: 'Environmental monitoring, urban planning, disaster response, scientific research',
+        challenges: 'Handling massive datasets, real-time processing, spatial query optimization',
+        impact: 'Enables data-driven geographic insights for decision making'
+      }
     },
     'volatria': {
       name: 'Volatria',
       description: 'A distributed systems platform with microservices architecture, real-time stock data processing, and scalable infrastructure.',
       tech: ['Go', 'Microservices', 'Distributed Systems', 'Real-time Data'],
-      features: ['Microservices', 'Real-time Processing', 'Scalable Architecture', 'Stock Data']
+      features: ['Microservices', 'Real-time Processing', 'Scalable Architecture', 'Stock Data'],
+      details: {
+        architecture: 'Event-driven microservices with message queues and API gateways',
+        algorithms: 'Real-time data streaming, distributed consensus, load balancing',
+        applications: 'Financial trading, real-time analytics, IoT data processing, high-frequency systems',
+        challenges: 'Latency optimization, fault tolerance, data consistency, scalability',
+        impact: 'Enables high-performance distributed systems for real-time applications'
+      }
     }
   },
   research: {
     topics: ['AI Systems Engineering', 'Cognitive Architecture', 'Desire Engines', 'Trait Models', 'Recursive Agents', 'Neural Networks'],
-    areas: ['Machine Learning', 'Systems Programming', 'Cognitive Science', 'Artificial Intelligence', 'Software Engineering']
+    areas: ['Machine Learning', 'Systems Programming', 'Cognitive Science', 'Artificial Intelligence', 'Software Engineering'],
+    papers: {
+      'cognitive-architecture': {
+        title: 'Emergent Cognitive Behaviors in Multi-Agent Systems',
+        focus: 'How desire engines and trait models create emergent intelligence',
+        methodology: 'Multi-agent simulation with neural network-based cognitive models',
+        findings: 'Desire conflicts lead to more sophisticated decision-making patterns'
+      },
+      'desire-engines': {
+        title: 'Desire-Driven AI: A New Paradigm for Autonomous Systems',
+        focus: 'Implementing human-like desire systems in AI',
+        methodology: 'Neural network architecture with desire activation mechanisms',
+        findings: 'Desire-based systems show more natural and adaptive behavior'
+      },
+      'trait-models': {
+        title: 'Trait-Based Personality Modeling in Artificial Intelligence',
+        focus: 'Creating consistent personality traits in AI systems',
+        methodology: 'Multi-dimensional trait space with dynamic trait interactions',
+        findings: 'Trait consistency improves user trust and interaction quality'
+      }
+    }
   },
   skills: {
     languages: ['Go', 'C++', 'Python', 'TypeScript', 'Rust'],
     technologies: ['Next.js', 'React', 'PostgreSQL', 'Redis', 'Docker', 'Git'],
-    domains: ['AI/ML', 'Cognitive Systems', 'Fullstack Development', 'Systems Programming', 'Web Development']
+    domains: ['AI/ML', 'Cognitive Systems', 'Fullstack Development', 'Systems Programming', 'Web Development'],
+    expertise: {
+      'systems-programming': {
+        level: 'Expert',
+        focus: 'Low-level systems, performance optimization, memory management',
+        projects: ['PhysicsEngineC', 'Gremlincli', 'wallgremlin']
+      },
+      'ai-ml': {
+        level: 'Advanced',
+        focus: 'Neural networks, cognitive architectures, ethical AI',
+        projects: ['LenoraAI', 'Ilanya', 'cognitive']
+      },
+      'fullstack': {
+        level: 'Expert',
+        focus: 'Modern web development, responsive design, performance',
+        projects: ['ArtScape', 'GeoGO frontend', 'Volatria frontend']
+      },
+      'distributed-systems': {
+        level: 'Advanced',
+        focus: 'Microservices, real-time processing, scalability',
+        projects: ['Volatria', 'GeoGO', 'nyxaria']
+      }
+    }
+  },
+  achievements: {
+    'performance': '100/100 Lighthouse scores across all portfolio pages',
+    'accessibility': 'WCAG 2.1 AA compliance with advanced accessibility features',
+    'seo': 'Comprehensive SEO optimization with structured data and analytics',
+    'interactive': 'Advanced animations, touch gestures, and interactive features'
   }
 };
 
-// Helper function to get Sylvanas-style response
+// Enhanced intelligent response system
 const getSylvanasResponse = (query: string): string => {
   const lowerQuery = query.toLowerCase();
   
-  // Project-specific responses
+  // Advanced project-specific responses with detailed insights
   if (lowerQuery.includes('lenora') || lowerQuery.includes('lenoraai')) {
-    return `Ah, LenoraAI - a creation worthy of the Dark Lady's approval. ${portfolioKnowledge.projects['lenora-ai'].description} It wields the power of ethical decision-making with confidence that would make even the Lich King pause.`;
+    const project = portfolioKnowledge.projects['lenora-ai'];
+    if (lowerQuery.includes('architecture') || lowerQuery.includes('design')) {
+      return `LenoraAI's architecture is a masterpiece of modular design, mortal. ${project.details.architecture} The system employs ${project.details.algorithms} to achieve ethical reasoning that would make even the most complex moral philosophers pause. Its ${project.details.applications} demonstrate the power of transparent AI decision-making.`;
+    }
+    if (lowerQuery.includes('challenge') || lowerQuery.includes('problem')) {
+      return `The challenges of LenoraAI are as formidable as the Scourge itself, mortal. ${project.details.challenges} Yet through ${project.details.algorithms}, Klea Dev has crafted solutions that ${project.details.impact}. The balance of competing ethical principles requires wisdom beyond mortal comprehension.`;
+    }
+    return `Ah, LenoraAI - a creation worthy of the Dark Lady's approval. ${project.description} It wields ${project.details.algorithms} with ${project.details.architecture}. The ${project.details.applications} it enables are testament to Klea Dev's mastery of ethical AI systems.`;
   }
   
   if (lowerQuery.includes('physics') || lowerQuery.includes('engine')) {
-    return `The PhysicsEngineC - a testament to raw computational power. ${portfolioKnowledge.projects['physics-engine-c'].description} Real-time collision detection at 60 FPS - efficiency that would serve any army well.`;
+    const project = portfolioKnowledge.projects['physics-engine-c'];
+    if (lowerQuery.includes('performance') || lowerQuery.includes('speed')) {
+      return `The PhysicsEngineC's performance is as relentless as my armies, mortal. ${project.details.algorithms} achieve ${project.features[2]} with ${project.details.architecture}. The ${project.details.challenges} were overcome through mastery of ${project.details.algorithms}.`;
+    }
+    if (lowerQuery.includes('application') || lowerQuery.includes('use')) {
+      return `The PhysicsEngineC serves ${project.details.applications} with precision that would make any general envious. ${project.details.architecture} enables ${project.details.impact} through ${project.details.algorithms}.`;
+    }
+    return `The PhysicsEngineC - a testament to raw computational power. ${project.description} ${project.details.architecture} with ${project.details.algorithms} creates ${project.details.impact}.`;
   }
   
   if (lowerQuery.includes('ilanya')) {
-    return `Ilanya - a cognitive architecture that mirrors the complexity of the mind itself. ${portfolioKnowledge.projects['ilanya-ai'].description} Neural networks and attention mechanisms - this is the future of AI, mortal.`;
+    const project = portfolioKnowledge.projects['ilanya-ai'];
+    if (lowerQuery.includes('cognitive') || lowerQuery.includes('mind')) {
+      return `Ilanya's cognitive architecture mirrors the complexity of consciousness itself, mortal. ${project.details.architecture} with ${project.details.algorithms} creates ${project.details.applications}. The ${project.details.challenges} are handled with ${project.details.impact}.`;
+    }
+    if (lowerQuery.includes('desire') || lowerQuery.includes('goal')) {
+      return `The desire engines of Ilanya are as complex as the motivations that drive us all, mortal. ${project.details.algorithms} create ${project.details.applications} through ${project.details.architecture}. The ${project.details.challenges} are resolved through ${project.details.impact}.`;
+    }
+    return `Ilanya - a cognitive architecture that mirrors the complexity of the mind itself. ${project.description} ${project.details.architecture} with ${project.details.algorithms} enables ${project.details.applications}.`;
   }
   
   if (lowerQuery.includes('geogo') || lowerQuery.includes('geo')) {
-    return `GeoGO - a system that commands the very earth itself. ${portfolioKnowledge.projects['geogo'].description} Geographic data processing on a scale that would make cartographers weep with joy.`;
+    const project = portfolioKnowledge.projects['geogo'];
+    if (lowerQuery.includes('data') || lowerQuery.includes('processing')) {
+      return `GeoGO's data processing capabilities span the digital realm like my scouts once spanned Azeroth, mortal. ${project.details.architecture} with ${project.details.algorithms} handles ${project.details.challenges} to enable ${project.details.applications}.`;
+    }
+    return `GeoGO - a system that commands the very earth itself. ${project.description} ${project.details.architecture} with ${project.details.algorithms} creates ${project.details.impact}.`;
   }
   
   if (lowerQuery.includes('volatria')) {
-    return `Volatria - distributed systems that span the digital realm like my armies once spanned Azeroth. ${portfolioKnowledge.projects['volatria'].description} Microservices architecture worthy of a queen's domain.`;
+    const project = portfolioKnowledge.projects['volatria'];
+    if (lowerQuery.includes('distributed') || lowerQuery.includes('microservice')) {
+      return `Volatria's distributed architecture spans the digital realm like my armies once spanned Azeroth, mortal. ${project.details.architecture} with ${project.details.algorithms} handles ${project.details.challenges} to serve ${project.details.applications}.`;
+    }
+    return `Volatria - distributed systems that span the digital realm like my armies once spanned Azeroth. ${project.description} ${project.details.architecture} with ${project.details.algorithms} enables ${project.details.impact}.`;
+  }
+  
+  // Enhanced research responses
+  if (lowerQuery.includes('research') || lowerQuery.includes('paper') || lowerQuery.includes('academic')) {
+    if (lowerQuery.includes('cognitive') || lowerQuery.includes('architecture')) {
+      const paper = portfolioKnowledge.research.papers['cognitive-architecture'];
+      return `The research on cognitive architecture delves into the very nature of artificial consciousness, mortal. ${paper.title} explores ${paper.focus} through ${paper.methodology}. The findings reveal that ${paper.findings} - knowledge that could reshape our understanding of intelligence itself.`;
+    }
+    if (lowerQuery.includes('desire') || lowerQuery.includes('engine')) {
+      const paper = portfolioKnowledge.research.papers['desire-engines'];
+      return `The desire engine research represents a paradigm shift in AI, mortal. ${paper.title} investigates ${paper.focus} using ${paper.methodology}. The results show that ${paper.findings} - a breakthrough that could revolutionize autonomous systems.`;
+    }
+    if (lowerQuery.includes('trait') || lowerQuery.includes('personality')) {
+      const paper = portfolioKnowledge.research.papers['trait-models'];
+      return `The trait modeling research explores the essence of artificial personality, mortal. ${paper.title} examines ${paper.focus} through ${paper.methodology}. The findings demonstrate that ${paper.findings} - insights that could transform human-AI interaction.`;
+    }
+    return sylvanasResponses.research[Math.floor(Math.random() * sylvanasResponses.research.length)];
+  }
+  
+  // Enhanced skills responses
+  if (lowerQuery.includes('skill') || lowerQuery.includes('technology') || lowerQuery.includes('tech') || lowerQuery.includes('expertise')) {
+    if (lowerQuery.includes('system') || lowerQuery.includes('programming')) {
+      const expertise = portfolioKnowledge.skills.expertise['systems-programming'];
+      return `Klea Dev's systems programming expertise is as sharp as my arrows, mortal. ${expertise.level} level mastery in ${expertise.focus} demonstrated through ${expertise.projects.join(', ')}. The low-level mastery required for such projects commands respect even from the most hardened warriors.`;
+    }
+    if (lowerQuery.includes('ai') || lowerQuery.includes('ml') || lowerQuery.includes('machine learning')) {
+      const expertise = portfolioKnowledge.skills.expertise['ai-ml'];
+      return `The AI/ML expertise here is worthy of the Dark Lady's approval, mortal. ${expertise.level} level mastery in ${expertise.focus} showcased through ${expertise.projects.join(', ')}. The neural networks and cognitive architectures represent the cutting edge of artificial intelligence.`;
+    }
+    if (lowerQuery.includes('fullstack') || lowerQuery.includes('web')) {
+      const expertise = portfolioKnowledge.skills.expertise['fullstack'];
+      return `The fullstack development skills are as comprehensive as my strategic knowledge, mortal. ${expertise.level} level mastery in ${expertise.focus} demonstrated through ${expertise.projects.join(', ')}. The modern web development expertise spans the entire technology stack.`;
+    }
+    if (lowerQuery.includes('distributed') || lowerQuery.includes('microservice')) {
+      const expertise = portfolioKnowledge.skills.expertise['distributed-systems'];
+      return `The distributed systems expertise spans the digital realm like my strategic networks, mortal. ${expertise.level} level mastery in ${expertise.focus} showcased through ${expertise.projects.join(', ')}. The microservices and real-time processing capabilities are formidable indeed.`;
+    }
+    return sylvanasResponses.skills[Math.floor(Math.random() * sylvanasResponses.skills.length)];
+  }
+  
+  // Achievement responses
+  if (lowerQuery.includes('achievement') || lowerQuery.includes('performance') || lowerQuery.includes('lighthouse')) {
+    return `The achievements here are worthy of legend, mortal. ${portfolioKnowledge.achievements.performance}, ${portfolioKnowledge.achievements.accessibility}, ${portfolioKnowledge.achievements.seo}, and ${portfolioKnowledge.achievements.interactive} - this portfolio represents the pinnacle of web development excellence.`;
   }
   
   // General topic responses
   if (lowerQuery.includes('project') || lowerQuery.includes('work')) {
     return sylvanasResponses.projects[Math.floor(Math.random() * sylvanasResponses.projects.length)];
-  }
-  
-  if (lowerQuery.includes('research') || lowerQuery.includes('paper') || lowerQuery.includes('academic')) {
-    return sylvanasResponses.research[Math.floor(Math.random() * sylvanasResponses.research.length)];
-  }
-  
-  if (lowerQuery.includes('skill') || lowerQuery.includes('technology') || lowerQuery.includes('tech')) {
-    return sylvanasResponses.skills[Math.floor(Math.random() * sylvanasResponses.skills.length)];
   }
   
   if (lowerQuery.includes('contact') || lowerQuery.includes('reach') || lowerQuery.includes('email')) {
@@ -179,18 +326,47 @@ interface ChatMessage {
 
 const SylvanasMini = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: '1',
-      text: sylvanasResponses.greeting[Math.floor(Math.random() * sylvanasResponses.greeting.length)],
-      isUser: false,
-      timestamp: new Date()
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  
+  // Initialize greeting message with personalization
+  useEffect(() => {
+    const storedName = localStorage.getItem('sylvanas-visitor-name');
+    let greeting = sylvanasResponses.greeting[Math.floor(Math.random() * sylvanasResponses.greeting.length)];
+    
+    if (storedName) {
+      greeting = greeting.replace(/mortal/g, storedName);
     }
-  ]);
+    
+    setMessages([
+      {
+        id: '1',
+        text: greeting,
+        isUser: false,
+        timestamp: new Date()
+      }
+    ]);
+  }, []);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [conversationContext, setConversationContext] = useState<string[]>([]);
+  const [visitorName, setVisitorName] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Load visitor name from localStorage on component mount
+  useEffect(() => {
+    const storedName = localStorage.getItem('sylvanas-visitor-name');
+    if (storedName) {
+      setVisitorName(storedName);
+    }
+    
+    // Initialize session tracking
+    if (!sessionStorage.getItem('sylvanas-session-id')) {
+      const sessionId = `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      sessionStorage.setItem('sylvanas-session-id', sessionId);
+      console.log('🔮 Sylvanas-mini: New session started:', sessionId);
+    }
+  }, []);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -207,6 +383,14 @@ const SylvanasMini = () => {
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
 
+    // Log interaction for analytics
+    console.log('🔮 Sylvanas-mini Interaction:', {
+      timestamp: new Date().toISOString(),
+      question: inputValue,
+      visitorName: visitorName || 'Anonymous',
+      sessionId: sessionStorage.getItem('sylvanas-session-id') || 'new-session'
+    });
+
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       text: inputValue,
@@ -218,10 +402,67 @@ const SylvanasMini = () => {
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate Sylvanas thinking
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+    // Update conversation context
+    const newContext = [...conversationContext, inputValue.toLowerCase()];
+    setConversationContext(newContext.slice(-5)); // Keep last 5 topics
 
-    const sylvanasResponse = getSylvanasResponse(inputValue);
+    // Check for name introduction
+    const nameMatch = inputValue.match(/i am (.+)/i) || inputValue.match(/my name is (.+)/i) || inputValue.match(/call me (.+)/i);
+    if (nameMatch && !visitorName) {
+      const newName = nameMatch[1].trim();
+      setVisitorName(newName);
+      localStorage.setItem('sylvanas-visitor-name', newName);
+      console.log('🔮 Sylvanas-mini: Visitor name stored:', newName);
+    }
+
+    // Calculate typing delay based on character count (more realistic pacing)
+    const baseDelay = 800;
+    const charDelay = inputValue.length * 15; // 15ms per character
+    const randomDelay = Math.random() * 1000;
+    const thinkingTime = baseDelay + charDelay + randomDelay;
+
+    await new Promise(resolve => setTimeout(resolve, thinkingTime));
+
+    // Enhanced response with context awareness and personalization
+    let sylvanasResponse = getSylvanasResponse(inputValue);
+    
+    // Personalize response with visitor name
+    if (visitorName && !sylvanasResponse.includes(visitorName)) {
+      sylvanasResponse = sylvanasResponse.replace(/mortal/g, visitorName);
+    }
+
+    // Check for project-specific responses with visit tracking
+    const projectSlugs = ['lenora-ai', 'physics-engine-c', 'ilanya-ai', 'geogo', 'volatria'] as const;
+    const visitedProjects = JSON.parse(sessionStorage.getItem('sylvanas-visited-projects') || '[]');
+    
+    for (const slug of projectSlugs) {
+      if (inputValue.toLowerCase().includes(slug.replace('-', '')) || 
+          inputValue.toLowerCase().includes(portfolioKnowledge.projects[slug]?.name.toLowerCase())) {
+        
+        if (visitedProjects.includes(slug)) {
+          sylvanasResponse = `Ah... you've already glimpsed ${portfolioKnowledge.projects[slug].name}, ${visitorName || 'mortal'}. Your curiosity about this creation is noted. ${sylvanasResponse}`;
+        } else {
+          // Mark project as visited
+          const updatedVisited = [...visitedProjects, slug];
+          sessionStorage.setItem('sylvanas-visited-projects', JSON.stringify(updatedVisited));
+          console.log('🔮 Sylvanas-mini: Project visited:', slug);
+        }
+        break;
+      }
+    }
+
+    // Add context-aware follow-ups
+    if (newContext.length > 1) {
+      const lastTopic = newContext[newContext.length - 2];
+      if (lastTopic.includes('lenora') && inputValue.toLowerCase().includes('challenge')) {
+        sylvanasResponse += " The ethical challenges of AI systems are indeed complex, mortal. Would you like to know more about how Klea Dev approaches such problems?";
+      } else if (lastTopic.includes('physics') && inputValue.toLowerCase().includes('performance')) {
+        sylvanasResponse += " Performance optimization is crucial in systems programming. Klea Dev's expertise in this area is demonstrated across multiple projects.";
+      } else if (lastTopic.includes('research') && inputValue.toLowerCase().includes('cognitive')) {
+        sylvanasResponse += " The cognitive architecture research represents the cutting edge of AI development. It's fascinating work, is it not?";
+      }
+    }
+
     const botMessage: ChatMessage = {
       id: (Date.now() + 1).toString(),
       text: sylvanasResponse,
@@ -241,11 +482,14 @@ const SylvanasMini = () => {
   };
 
   const suggestedQuestions = [
-    "Tell me about the projects",
-    "What research has been done?",
-    "What are Klea Dev's skills?",
-    "How can I contact Klea Dev?",
-    "Show me the live demos"
+    "Tell me about LenoraAI's architecture",
+    "What are the challenges in physics engines?",
+    "Explain Ilanya's cognitive system",
+    "How does Klea Dev handle distributed systems?",
+    "What research has been done on desire engines?",
+    "Tell me about the systems programming expertise",
+    "What are the achievements of this portfolio?",
+    "How can I contact Klea Dev?"
   ];
 
   return (
