@@ -166,10 +166,7 @@ const InteractiveProjectCard = ({ project }: { project: Project }) => {
   const CategoryIcon = categoryIcons[project.category];
   const codeSnippet = getCodeSnippets(project);
 
-  // Handle mouse move for tooltip positioning
-  const handleMouseMove = (e: React.MouseEvent) => {
-    updateTooltipPosition(e.clientX, e.clientY);
-  };
+
 
   return (
     <motion.div
@@ -182,7 +179,6 @@ const InteractiveProjectCard = ({ project }: { project: Project }) => {
         setIsHovered(false);
         hideTooltip();
       }}
-      onMouseMove={handleMouseMove}
       whileHover={{ y: -8, scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >

@@ -325,12 +325,12 @@ const GlobalTooltip = () => {
 
   return (
     <AnimatePresence>
-      <motion.div
-        className="fixed z-[9999] pointer-events-none"
-        style={{
-          left: tooltipState.position.x + 20,
-          top: tooltipState.position.y - 20,
-        }}
+              <motion.div
+          className="fixed z-[9999] pointer-events-none"
+          style={{
+            right: '20px',
+            bottom: '20px',
+          }}
         initial={{ opacity: 0, scale: 0.8, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.8, y: 10 }}
