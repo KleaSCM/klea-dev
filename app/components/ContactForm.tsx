@@ -42,6 +42,7 @@ const ContactForm = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   // Validation functions
   const validateEmail = (email: string): boolean => {
@@ -105,7 +106,7 @@ const ContactForm = () => {
     }
   };
 
-  // Handle form submission
+  // Handle form submission with enhanced error handling
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -115,6 +116,7 @@ const ContactForm = () => {
 
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setErrorMessage('');
 
     try {
       const response = await fetch('/api/contact', {
@@ -127,24 +129,25 @@ const ContactForm = () => {
 
       if (response.ok && result.success) {
         setSubmitStatus('success');
+        // Reset form after successful submission
+        setTimeout(() => {
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            subject: '',
+            message: ''
+          });
+          setSubmitStatus('idle');
+        }, 3000);
       } else {
         setSubmitStatus('error');
+        setErrorMessage(result.error || 'Something went wrong. Please try again.');
       }
-      
-      // Reset form after successful submission
-      setTimeout(() => {
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          subject: '',
-          message: ''
-        });
-        setSubmitStatus('idle');
-      }, 3000);
 
     } catch (error) {
       setSubmitStatus('error');
+      setErrorMessage('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -192,7 +195,7 @@ const ContactForm = () => {
           >
             <AlertCircle className="w-5 h-5 text-red-500" />
             <span className="text-red-700 dark:text-red-300">
-              Something went wrong. Please try again or contact me directly.
+              {errorMessage || 'Something went wrong. Please try again or contact me directly.'}
             </span>
           </motion.div>
         )}

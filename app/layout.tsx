@@ -144,7 +144,7 @@ export default function RootLayout({
           }}
         />
         
-        {/* Google Analytics */}
+        {/* Google Analytics - Replace GA_MEASUREMENT_ID with your actual ID */}
         <script
           async
           src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
@@ -155,7 +155,42 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'GA_MEASUREMENT_ID');
+              gtag('config', 'GA_MEASUREMENT_ID', {
+                page_title: document.title,
+                page_location: window.location.href,
+              });
+              
+              // Track form submissions
+              window.trackFormSubmission = () => {
+                gtag('event', 'form_submit', {
+                  event_category: 'engagement',
+                  event_label: 'contact_form'
+                });
+              };
+              
+              // Track project clicks
+              window.trackProjectClick = (projectName) => {
+                gtag('event', 'click', {
+                  event_category: 'engagement',
+                  event_label: 'project_view',
+                  value: projectName
+                });
+              };
+              
+              // Track scroll depth
+              let maxScroll = 0;
+              window.addEventListener('scroll', () => {
+                const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                if (scrollPercent > maxScroll) {
+                  maxScroll = scrollPercent;
+                  if (maxScroll >= 25 && maxScroll % 25 === 0) {
+                    gtag('event', 'scroll', {
+                      event_category: 'engagement',
+                      event_label: \`scroll_depth_\${maxScroll}\`
+                    });
+                  }
+                }
+              });
             `,
           }}
         />
