@@ -1,0 +1,61 @@
+AI Systems Engineer & Fullstack Software Developer
+
+
+🧱 Backend & Systems
+    Go – 95
+    C++ – 90
+    Python – 92
+    Rust – 77
+    Node.js – 81
+
+🌐 Frontend & Web
+    TypeScript – 84
+    React – 82
+    Next.js – 89 
+    Tailwind CSS – 95
+    SCSS – 94
+    CSS – 94
+    HTML – 97
+
+🧠 AI/ML & Research
+    TensorFlow – 80
+    PyTorch – 85
+    OpenCV – 78
+    NLP – 83
+
+⚙️ DevOps & Tools
+    Docker – 78
+    Kubernetes – 70
+    AWS – 75
+    Git – 94
+
+🗄 Databases & Infrastructure
+    PostgreSQL – 88
+    Redis – 85
+    MySQL – 88
+    SQLite – 88
+    MongoDB – 70
+
+
+    I work primarily in Golang, C++, Python, and TypeScript, building:
+
+    Native AI engines and cognitive systems
+    Backend infrastructure and APIs
+    Fullstack web applications with Next.js & Tailwind
+    Simulation and prototyping pipelines (Python)
+    Trait/desire models, state engines, and recursive agents
+
+
+Go – My main language for backend, concurrency-heavy services, and native AI modules.
+
+C++ – Used for AI architecture, simulation, desktop GUI, and systems-level logic.
+
+Python – Rapid prototyping, scripting, and AI experimentation.
+
+TypeScript – Frontend and fullstack apps with Next.js, Vite, Tailwind.
+
+PostgreSQL, Redis, Docker, Git – Used across most of my projects.
+
+SCSS, HTML, Tailwind CSS – Interface building when needed, always clean.
+
+Rust – Sometimes use when C++ is too annoying.
