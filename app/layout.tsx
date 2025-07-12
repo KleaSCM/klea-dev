@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Analytics from "./components/Analytics";
+import Accessibility from "./components/Accessibility";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -226,7 +227,9 @@ export default function RootLayout({
         )}
       </head>
       <body className={inter.className}>
-        {children}
+        <Accessibility>
+          {children}
+        </Accessibility>
         <Analytics />
       </body>
     </html>

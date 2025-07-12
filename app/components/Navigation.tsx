@@ -6,6 +6,7 @@ import { Github, Linkedin, Mail } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { getPlatformMeta, PlatformType } from "../data/platforms";
 import ThemeToggle from "./ThemeToggle";
+import TouchGestures from "./TouchGestures";
 
 /**
  * Navigation Component
@@ -261,37 +262,42 @@ const Navigation = () => {
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            className="fixed inset-0 z-40 md:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+          <TouchGestures
+            onSwipeDown={() => setIsOpen(false)}
+            onSwipeLeft={() => setIsOpen(false)}
+            onSwipeRight={() => setIsOpen(false)}
           >
-            {/* Backdrop with enhanced blur */}
             <motion.div
-              className="absolute inset-0 bg-black/60 backdrop-blur-md"
-              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 z-40 md:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            />
-
-            {/* Menu Content with enhanced animations */}
-            <motion.div
-              className="absolute top-16 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-2xl"
-              initial={{ opacity: 0, y: -50, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -50, scale: 0.95 }}
-              transition={{ 
-                duration: 0.4, 
-                ease: "easeOut",
-                type: "spring",
-                stiffness: 300,
-                damping: 30
-              }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
             >
+              {/* Backdrop with enhanced blur */}
+              <motion.div
+                className="absolute inset-0 bg-black/60 backdrop-blur-md"
+                onClick={() => setIsOpen(false)}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              />
+
+              {/* Menu Content with enhanced animations */}
+              <motion.div
+                className="absolute top-16 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-2xl"
+                initial={{ opacity: 0, y: -50, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -50, scale: 0.95 }}
+                transition={{ 
+                  duration: 0.4, 
+                  ease: "easeOut",
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 30
+                }}
+              >
               <div className="container-custom py-8">
                 {/* Navigation Items with enhanced styling */}
                 <div className="space-y-2 mb-8">
@@ -408,6 +414,7 @@ const Navigation = () => {
               </div>
             </motion.div>
           </motion.div>
+        </TouchGestures>
         )}
       </AnimatePresence>
     </>
