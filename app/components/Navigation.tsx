@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { getPlatformMeta, PlatformType } from "../data/platforms";
 
@@ -12,7 +12,7 @@ import { getPlatformMeta, PlatformType } from "../data/platforms";
  * A modern, responsive navigation bar with smooth animations and glass morphism effects.
  * Features:
  * - Sticky header with background blur
- * - Mobile-responsive hamburger menu
+ * - Mobile-responsive hamburger menu with custom animated hamburger icon
  * - Smooth scroll navigation
  * - Social media links including research platforms using centralized configuration
  * - Animated logo and menu items
@@ -96,6 +96,51 @@ const Navigation = () => {
     return null; // For platforms without Lucide icons, we'll use the emoji from platform config
   };
 
+  // Custom animated hamburger menu component
+  const AnimatedHamburger = () => (
+    <motion.button
+      className="md:hidden relative w-8 h-8 flex flex-col justify-center items-center group"
+      onClick={() => setIsOpen(!isOpen)}
+      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: 1.05 }}
+    >
+      {/* Animated hamburger lines */}
+      <motion.span
+        className="absolute w-6 h-0.5 bg-slate-600 dark:bg-slate-400 rounded-full origin-center"
+        animate={{
+          rotate: isOpen ? 45 : 0,
+          y: isOpen ? 0 : -6,
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+      />
+      <motion.span
+        className="absolute w-6 h-0.5 bg-slate-600 dark:bg-slate-400 rounded-full"
+        animate={{
+          opacity: isOpen ? 0 : 1,
+          scale: isOpen ? 0 : 1,
+        }}
+        transition={{ duration: 0.2, ease: "easeInOut" }}
+      />
+      <motion.span
+        className="absolute w-6 h-0.5 bg-slate-600 dark:bg-slate-400 rounded-full origin-center"
+        animate={{
+          rotate: isOpen ? -45 : 0,
+          y: isOpen ? 0 : 6,
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+      />
+      
+      {/* Hover effect glow */}
+      <motion.div
+        className="absolute inset-0 rounded-full bg-primary/20 opacity-0 group-hover:opacity-100"
+        animate={{
+          scale: isOpen ? 1.2 : 1,
+        }}
+        transition={{ duration: 0.2 }}
+      />
+    </motion.button>
+  );
+
   return (
     <>
       {/* Main Navigation Bar */}
@@ -112,16 +157,24 @@ const Navigation = () => {
         <div className="container-custom">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-            <motion.div
-              className="flex items-center space-x-2"
+            <motion.button
+              className="flex items-center space-x-2 cursor-pointer"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
+              onClick={() => {
+                if (pathname === '/') {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                  router.push('/');
+                }
+                setIsOpen(false);
+              }}
             >
               <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">Y</span>
               </div>
               <span className="font-bold text-xl gradient-text">Klea Dev</span>
-            </motion.div>
+            </motion.button>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
@@ -190,13 +243,7 @@ const Navigation = () => {
             </div>
 
             {/* Mobile Menu Button */}
-            <motion.button
-              className="md:hidden p-2 text-slate-600 dark:text-slate-400"
-              onClick={() => setIsOpen(!isOpen)}
-              whileTap={{ scale: 0.95 }}
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </motion.button>
+            <AnimatedHamburger />
           </div>
         </div>
       </motion.nav>
@@ -209,41 +256,68 @@ const Navigation = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            {/* Backdrop */}
-            <div
-              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            {/* Backdrop with enhanced blur */}
+            <motion.div
+              className="absolute inset-0 bg-black/60 backdrop-blur-md"
               onClick={() => setIsOpen(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
             />
 
-            {/* Menu Content */}
+            {/* Menu Content with enhanced animations */}
             <motion.div
-              className="absolute top-16 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-700/50"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              className="absolute top-16 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-2xl"
+              initial={{ opacity: 0, y: -50, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -50, scale: 0.95 }}
+              transition={{ 
+                duration: 0.4, 
+                ease: "easeOut",
+                type: "spring",
+                stiffness: 300,
+                damping: 30
+              }}
             >
-              <div className="container-custom py-6">
-                {/* Navigation Items */}
-                <div className="space-y-4 mb-8">
+              <div className="container-custom py-8">
+                {/* Navigation Items with enhanced styling */}
+                <div className="space-y-2 mb-8">
                   {navItems.map((item, index) => (
                     <motion.button
                       key={item.name}
-                      className="block w-full text-left py-3 px-4 text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-primary transition-colors duration-200"
+                      className="block w-full text-left py-4 px-6 text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl transition-all duration-200 group"
                       onClick={() => handleNavigation(item.href)}
-                      initial={{ opacity: 0, x: -20 }}
+                      initial={{ opacity: 0, x: -30 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
+                      transition={{ 
+                        delay: index * 0.1,
+                        duration: 0.3,
+                        ease: "easeOut"
+                      }}
+                      whileHover={{ 
+                        x: 10,
+                        scale: 1.02
+                      }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      {item.name}
+                      <span className="flex items-center">
+                        <motion.span
+                          className="w-2 h-2 bg-primary rounded-full mr-4 opacity-0 group-hover:opacity-100"
+                          initial={{ scale: 0 }}
+                          whileHover={{ scale: 1 }}
+                          transition={{ duration: 0.2 }}
+                        />
+                        {item.name}
+                      </span>
                     </motion.button>
                   ))}
                 </div>
 
-                {/* Social Links */}
-                <div className="flex items-center justify-center space-x-6 mb-6">
+                {/* Social Links with enhanced styling */}
+                <div className="flex items-center justify-center space-x-8 mb-8">
                   {socialLinks.map((social, index) => {
                     const platformMeta = getPlatformMeta(social.platform);
                     const Icon = getSocialLinkIcon(social.platform);
@@ -254,11 +328,20 @@ const Navigation = () => {
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-3 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors duration-200"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: index * 0.1 }}
-                        whileHover={{ scale: 1.1 }}
+                        className="p-4 text-slate-600 dark:text-slate-400 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-full transition-all duration-200 group"
+                        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{ 
+                          delay: index * 0.1 + 0.3,
+                          duration: 0.3,
+                          ease: "easeOut"
+                        }}
+                        whileHover={{ 
+                          scale: 1.1,
+                          y: -5,
+                          rotate: 5
+                        }}
+                        whileTap={{ scale: 0.95 }}
                         title={social.label}
                       >
                         {Icon ? (
@@ -266,20 +349,37 @@ const Navigation = () => {
                         ) : (
                           <span className="text-xl">{platformMeta.icon}</span>
                         )}
+                        
+                        {/* Hover glow effect */}
+                        <motion.div
+                          className="absolute inset-0 bg-primary/20 rounded-full opacity-0 group-hover:opacity-100"
+                          initial={{ scale: 0 }}
+                          whileHover={{ scale: 1.5 }}
+                          transition={{ duration: 0.2 }}
+                        />
                       </motion.a>
                     );
                   })}
                 </div>
 
-                {/* Mobile CTA */}
+                {/* Mobile CTA with enhanced styling */}
                 <motion.button
-                  className="btn-primary w-full"
+                  className="btn-primary w-full py-4 text-lg font-semibold shadow-lg hover:shadow-xl"
                   onClick={() => handleNavigation("contact")}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
+                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ 
+                    delay: 0.6,
+                    duration: 0.4,
+                    ease: "easeOut"
+                  }}
+                  whileHover={{ 
+                    scale: 1.02,
+                    y: -2
+                  }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  Get In Touch
+                  Get In Touch ✨
                 </motion.button>
               </div>
             </motion.div>
