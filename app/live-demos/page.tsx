@@ -24,6 +24,8 @@ import {
 } from "lucide-react";
 import { type Project } from "../data/projects";
 import Link from "next/link";
+import Navigation from "../components/Navigation";
+import Footer from "../components/Footer";
 
 /**
  * Live Demos Page
@@ -368,29 +370,17 @@ const LiveDemosPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-      {/* Header */}
-      <motion.div
-        className="container-custom py-12"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        {/* Back to Home */}
+    <>
+      <Navigation />
+      <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+        {/* Header */}
         <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2 }}
+          className="container-custom py-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          <Link 
-            href="/" 
-            className="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
-        </motion.div>
+
 
         <div className="text-center mb-12">
           <motion.div
@@ -541,36 +531,11 @@ const LiveDemosPage = () => {
           )}
         </AnimatePresence>
 
-        {/* Call to Action */}
-        <motion.div 
-          className="text-center mt-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2 }}
-        >
-          <p className="text-slate-600 dark:text-slate-400 mb-6">
-            Want to see more interactive demos or contribute to these projects?
-          </p>
-          <div className="flex justify-center gap-4">
-            <Link 
-              href="/projects" 
-              className="btn-primary"
-            >
-              View All Projects
-            </Link>
-            <a 
-              href="https://github.com/klea-dev" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary"
-            >
-              <Github className="w-4 h-4" />
-              GitHub
-            </a>
-          </div>
-        </motion.div>
+
       </motion.div>
-    </div>
+      </main>
+      <Footer />
+    </>
   );
 };
 
