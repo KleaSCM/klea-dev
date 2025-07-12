@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import { getPlatformMeta, PlatformType } from "../data/platforms";
+import ThemeToggle from "./ThemeToggle";
 
 /**
  * Navigation Component
@@ -200,6 +201,15 @@ const Navigation = () => {
 
             {/* Social Links & CTA */}
             <div className="hidden md:flex items-center space-x-4">
+              {/* Theme Toggle */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3 }}
+              >
+                <ThemeToggle />
+              </motion.div>
+
               {/* Social Media Links */}
               <div className="flex items-center space-x-3">
                 {socialLinks.map((social, index) => {
@@ -315,6 +325,20 @@ const Navigation = () => {
                     </motion.button>
                   ))}
                 </div>
+
+                {/* Theme Toggle for Mobile */}
+                <motion.div
+                  className="flex justify-center mb-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    delay: 0.2,
+                    duration: 0.3,
+                    ease: "easeOut"
+                  }}
+                >
+                  <ThemeToggle />
+                </motion.div>
 
                 {/* Social Links with enhanced styling */}
                 <div className="flex items-center justify-center space-x-8 mb-8">
