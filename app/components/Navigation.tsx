@@ -72,7 +72,6 @@ const Navigation = () => {
 
   // Navigation items with their respective sections
   const navItems = [
-    { name: "Home", href: pathname === "/" ? "home" : "/" },
     { name: "About", href: "about" },
     { name: "Projects", href: "projects" },
     { name: "Demos", href: "/live-demos" },

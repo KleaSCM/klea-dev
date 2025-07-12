@@ -25,7 +25,9 @@ import InteractiveResume from "./components/InteractiveResume";
 import ContactForm from "./components/ContactForm";
 import ResearchCard from "./components/ResearchCard";
 import LoadingOverlay from "./components/LoadingOverlay";
+import InteractiveProjectCard from "./components/InteractiveProjectCard";
 import { getNotebooks, getReports, getFeaturedResearch } from "./data/research";
+import { getFeaturedProjects } from "./data/projects";
 
 // Animation variants for smooth, professional animations
 const fadeInUp = {
@@ -198,56 +200,7 @@ const AboutSection = () => {
 
 // Featured Projects Section
 const ProjectsSection = () => {
-  const featuredProjects = [
-    {
-      title: "LenoraAI - Advanced Ethics State Machine",
-      description: "Sophisticated AI system combining mathematical ethical reasoning with LLM integration to solve complex ethical dilemmas.",
-      tech: ["Python", "OpenAI API", "OpenHermes", "Mathematical Modeling", "Ethical Frameworks"],
-      image: "/project1.jpg",
-      github: "#",
-      live: "#"
-    },
-    {
-      title: "Shandris Cognitive Architecture - Mathematical Framework",
-      description: "Formal mathematical framework for advanced cognitive architecture with sophisticated trait evolution and emotional intelligence modeling.",
-      tech: ["Rust", "Mathematical Modeling", "Vector Space Theory", "Dynamical Systems", "Research"],
-      image: "/project2.jpg",
-      github: "#",
-      live: "#"
-    },
-    {
-      title: "PhysicsEngineC - High-Performance C++ Physics Engine",
-      description: "Modular physics engine built from the ground up with real-time simulation, collision detection, and rigid body dynamics.",
-      tech: ["C++17", "CMake", "OpenGL", "Mathematics", "Physics Simulation"],
-      image: "/project3.jpg",
-      github: "#",
-      live: "#"
-    },
-    {
-      title: "Cognitive Architecture Framework - Advanced Memory System",
-      description: "Research-grade cognitive architecture with sophisticated memory management, emotional processing, and trait evolution systems.",
-      tech: ["C++", "Python", "Cognitive Modeling", "Memory Systems", "Emotional Intelligence"],
-      image: "/project4.jpg",
-      github: "#",
-      live: "#"
-    },
-    {
-      title: "Ilanya - Advanced AI Cognitive Architecture",
-      description: "Complex AI system featuring desire engines, trait engines, and emergent behavior modeling with neural network integration.",
-      tech: ["Python", "Neural Networks", "Transformers", "Embeddings", "State Management"],
-      image: "/project5.jpg",
-      github: "#",
-      live: "#"
-    },
-    {
-      title: "GeoGO - Interactive Geographic Data Platform",
-      description: "Full-stack web application for exploring and analyzing geographic datasets with real-time data visualization and interactive mapping.",
-      tech: ["Go", "React", "TypeScript", "PostgreSQL", "Geographic Data", "Interactive Maps"],
-      image: "/project6.jpg",
-      github: "#",
-      live: "#"
-    }
-  ];
+  const featuredProjects = getFeaturedProjects();
 
   return (
     <section id="projects" className="section bg-slate-50/50 dark:bg-slate-900/50">
@@ -265,35 +218,14 @@ const ProjectsSection = () => {
             Featured Projects
           </motion.h2>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {featuredProjects.slice(0, 12).map((project, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredProjects.slice(0, 6).map((project, index) => (
               <motion.div
                 key={project.title}
-                className="project-card group p-6"
                 variants={fadeInUp}
                 whileHover={{ y: -5 }}
               >
-                <div className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg mb-4 flex items-center justify-center">
-                  <Code className="w-12 h-12 text-primary" />
-                </div>
-                
-                <h3 className="text-xl font-semibold mb-3 text-slate-800 dark:text-slate-200">
-                  {project.title}
-                </h3>
-                
-                <p className="text-slate-600 dark:text-slate-400 mb-4">
-                  {project.description}
-                </p>
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech) => (
-                    <span key={tech} className="skill-badge text-xs">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                
-
+                <InteractiveProjectCard project={project} />
               </motion.div>
             ))}
           </div>
