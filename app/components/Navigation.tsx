@@ -40,12 +40,16 @@ const Navigation = () => {
 
   // Handle navigation - either scroll to section or navigate to page
   const handleNavigation = (href: string) => {
+    console.log('Navigation clicked:', href); // Debug log
+    
     if (href.startsWith('/')) {
       // Navigate to page using Next.js router
+      console.log('Navigating to page:', href);
       router.push(href);
       setIsOpen(false);
     } else {
       // Smooth scroll to section
+      console.log('Scrolling to section:', href);
       const element = document.getElementById(href);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
@@ -75,14 +79,28 @@ const Navigation = () => {
     setIsOpen(false);
   };
 
+  // Manage body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('menu-open');
+    } else {
+      document.body.classList.remove('menu-open');
+    }
+    
+    return () => {
+      document.body.classList.remove('menu-open');
+    };
+  }, [isOpen]);
+
 
 
   // Navigation items with their respective sections
   const navItems = [
     { name: "About", href: "about" },
-    { name: "Projects", href: "projects" },
+    { name: "Projects", href: "/projects" },
     { name: "Demos", href: "/live-demos" },
-    { name: "Research", href: "research" },
+    { name: "Games", href: "/games" },
+    { name: "Research", href: "/research" },
     { name: "Contact", href: "contact" },
   ];
 
@@ -108,17 +126,18 @@ const Navigation = () => {
   // Custom animated hamburger menu component
   const AnimatedHamburger = () => (
     <motion.button
-      className="md:hidden relative w-8 h-8 flex flex-col justify-center items-center group"
+      className="md:hidden relative w-12 h-12 flex flex-col justify-center items-center group bg-white/10 dark:bg-slate-800/10 rounded-lg border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-sm"
       onClick={() => setIsOpen(!isOpen)}
       whileTap={{ scale: 0.95 }}
       whileHover={{ scale: 1.05 }}
+      style={{ minHeight: '48px', minWidth: '48px' }}
     >
       {/* Animated hamburger lines */}
       <motion.span
-        className="absolute w-6 h-0.5 bg-slate-600 dark:bg-slate-400 rounded-full origin-center"
+        className="absolute w-7 h-0.5 bg-slate-600 dark:bg-slate-400 rounded-full origin-center"
         animate={{
           rotate: isOpen ? 45 : 0,
-          y: isOpen ? 0 : -6,
+          y: isOpen ? 0 : -7,
         }}
         transition={{ 
           duration: 0.4, 
@@ -126,7 +145,7 @@ const Navigation = () => {
         }}
       />
       <motion.span
-        className="absolute w-6 h-0.5 bg-slate-600 dark:bg-slate-400 rounded-full"
+        className="absolute w-7 h-0.5 bg-slate-600 dark:bg-slate-400 rounded-full"
         animate={{
           opacity: isOpen ? 0 : 1,
           scale: isOpen ? 0 : 1,
@@ -137,10 +156,10 @@ const Navigation = () => {
         }}
       />
       <motion.span
-        className="absolute w-6 h-0.5 bg-slate-600 dark:bg-slate-400 rounded-full origin-center"
+        className="absolute w-7 h-0.5 bg-slate-600 dark:bg-slate-400 rounded-full origin-center"
         animate={{
           rotate: isOpen ? -45 : 0,
-          y: isOpen ? 0 : 6,
+          y: isOpen ? 0 : 7,
         }}
         transition={{ 
           duration: 0.4, 
@@ -148,9 +167,9 @@ const Navigation = () => {
         }}
       />
       
-      {/* Subtle hover effect */}
+      {/* Enhanced touch feedback */}
       <motion.div
-        className="absolute inset-0 rounded-full bg-primary/10 opacity-0 group-hover:opacity-100"
+        className="absolute inset-0 rounded-lg bg-primary/20 opacity-0 group-hover:opacity-100 group-active:opacity-100"
         transition={{ duration: 0.2 }}
       />
     </motion.button>
@@ -276,28 +295,24 @@ const Navigation = () => {
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
-          <TouchGestures
-            onSwipeDown={closeMenu}
-            onSwipeLeft={closeMenu}
-            onSwipeRight={closeMenu}
+          <motion.div
+            className="mobile-menu md:hidden"
+            data-open={isOpen}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            style={{ 
+              // Ensure overlay blocks all pointer events when open
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 9999,
+              pointerEvents: 'auto'
+            }}
           >
-            <motion.div
-              className="mobile-menu md:hidden"
-              data-open={isOpen}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              style={{ 
-                // Ensure overlay blocks all pointer events when open
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: 40
-              }}
-            >
               {/* Backdrop with enhanced blur */}
               <motion.div
                 className="absolute inset-0 bg-black/60 backdrop-blur-md"
@@ -306,7 +321,10 @@ const Navigation = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                style={{ pointerEvents: 'auto' }}
+                style={{ 
+                  pointerEvents: 'auto',
+                  zIndex: 1
+                }}
               />
 
               {/* Menu Content with smooth animations */}
@@ -320,17 +338,21 @@ const Navigation = () => {
                   ease: [0.4, 0, 0.2, 1]
                 }}
                 onClick={e => e.stopPropagation()} // Prevent backdrop click from closing menu when clicking inside
+                style={{ 
+                  zIndex: 2,
+                  pointerEvents: 'auto'
+                }}
               >
               <div className="container-custom py-8">
                 {/* Navigation Items with enhanced styling */}
-                <div className="space-y-2 mb-8">
+                <div className="space-y-3 mb-8">
                   {navItems.map((item, index) => (
                     <motion.button
                       key={item.name}
-                      className="mobile-nav-item group hover:text-indigo-500 focus:text-indigo-500 transition-colors duration-200"
+                      className="w-full text-left px-6 py-4 text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl transition-all duration-200 group"
                       onClick={() => {
                         handleNavigation(item.href);
-                        setTimeout(closeMenu, 200); // Delay close for exit animation
+                        setTimeout(closeMenu, 300); // Longer delay for better UX
                       }}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -340,13 +362,14 @@ const Navigation = () => {
                         duration: 0.2,
                         ease: [0.4, 0, 0.2, 1]
                       }}
-                      whileHover={{ x: 5, scale: 1.03 }}
-                      whileFocus={{ x: 5, scale: 1.03 }}
-                      whileTap={{ scale: 0.99 }}
+                      whileHover={{ x: 5, scale: 1.02 }}
+                      whileFocus={{ x: 5, scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      style={{ minHeight: '56px' }}
                     >
                       <span className="flex items-center">
                         <motion.span
-                          className="w-2 h-2 bg-primary rounded-full mr-4"
+                          className="w-3 h-3 bg-primary rounded-full mr-4 flex-shrink-0"
                           initial={{ scale: 0, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           exit={{ scale: 0, opacity: 0 }}
@@ -354,7 +377,7 @@ const Navigation = () => {
                           whileFocus={{ scale: 1.2, opacity: 1 }}
                           transition={{ duration: 0.2 }}
                         />
-                        {item.name}
+                        <span className="font-semibold">{item.name}</span>
                       </span>
                     </motion.button>
                   ))}
@@ -375,7 +398,7 @@ const Navigation = () => {
                 </motion.div>
 
                 {/* Social Links with enhanced styling */}
-                <div className="flex items-center justify-center space-x-8 mb-8">
+                <div className="flex items-center justify-center space-x-6 mb-8">
                   {socialLinks.map((social, index) => {
                     const platformMeta = getPlatformMeta(social.platform);
                     const Icon = getSocialLinkIcon(social.platform);
@@ -386,7 +409,7 @@ const Navigation = () => {
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-4 text-slate-600 dark:text-slate-400 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-full transition-all duration-200 group"
+                        className="p-5 text-slate-600 dark:text-slate-400 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-full transition-all duration-200 group relative"
                         initial={{ opacity: 0, scale: 0.8, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         transition={{ 
@@ -396,23 +419,23 @@ const Navigation = () => {
                         }}
                         whileHover={{ 
                           scale: 1.1,
-                          y: -5,
-                          rotate: 5
+                          y: -3
                         }}
                         whileTap={{ scale: 0.95 }}
                         title={social.label}
+                        style={{ minWidth: '56px', minHeight: '56px' }}
                       >
                         {Icon ? (
-                          <Icon className="w-6 h-6" />
+                          <Icon className="w-7 h-7" />
                         ) : (
-                          <span className="text-xl">{platformMeta.icon}</span>
+                          <span className="text-2xl">{platformMeta.icon}</span>
                         )}
                         
-                        {/* Hover glow effect */}
+                        {/* Enhanced touch feedback */}
                         <motion.div
-                          className="absolute inset-0 bg-primary/20 rounded-full opacity-0 group-hover:opacity-100"
+                          className="absolute inset-0 bg-primary/20 rounded-full opacity-0 group-hover:opacity-100 group-active:opacity-100"
                           initial={{ scale: 0 }}
-                          whileHover={{ scale: 1.5 }}
+                          whileHover={{ scale: 1.2 }}
                           transition={{ duration: 0.2 }}
                         />
                       </motion.a>
@@ -422,8 +445,11 @@ const Navigation = () => {
 
                 {/* Mobile CTA with enhanced styling */}
                 <motion.button
-                  className="btn-primary w-full py-4 text-lg font-semibold shadow-lg hover:shadow-xl"
-                  onClick={() => handleNavigation("contact")}
+                  className="btn-primary w-full py-5 text-lg font-semibold shadow-lg hover:shadow-xl"
+                  onClick={() => {
+                    handleNavigation("contact");
+                    setTimeout(closeMenu, 300);
+                  }}
                   initial={{ opacity: 0, y: 30, scale: 0.9 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ 
@@ -436,13 +462,13 @@ const Navigation = () => {
                     y: -2
                   }}
                   whileTap={{ scale: 0.98 }}
+                  style={{ minHeight: '60px' }}
                 >
                   Get In Touch ✨
                 </motion.button>
               </div>
             </motion.div>
           </motion.div>
-        </TouchGestures>
         )}
       </AnimatePresence>
     </>

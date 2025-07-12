@@ -34,8 +34,8 @@ const TouchGestures = ({
   enablePinchZoom = false,
   className = ""
 }: TouchGesturesProps) => {
-  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
-  const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number; time: number } | null>(null);
+  const [touchEnd, setTouchEnd] = useState<{ x: number; y: number; time: number } | null>(null);
   const [isPinching, setIsPinching] = useState(false);
   const [scale, setScale] = useState(1);
   
@@ -44,14 +44,15 @@ const TouchGestures = ({
   const motionY = useMotionValue(0);
   const motionScale = useMotionValue(1);
 
-  // Minimum swipe distance (in px)
-  const minSwipeDistance = 50;
+  // Minimum swipe distance (in px) - increased for better stability
+  const minSwipeDistance = 100;
 
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
     setTouchStart({
       x: e.targetTouches[0].clientX,
       y: e.targetTouches[0].clientY,
+      time: Date.now(),
     });
   };
 
@@ -61,6 +62,7 @@ const TouchGestures = ({
     setTouchEnd({
       x: e.targetTouches[0].clientX,
       y: e.targetTouches[0].clientY,
+      time: Date.now(),
     });
 
     // Handle pinch to zoom
@@ -78,6 +80,8 @@ const TouchGestures = ({
       setScale(newScale);
       motionScale.set(newScale);
     }
+    
+
   };
 
   const onTouchEnd = () => {
@@ -85,10 +89,19 @@ const TouchGestures = ({
 
     const distanceX = touchStart.x - touchEnd.x;
     const distanceY = touchStart.y - touchEnd.y;
+    const timeElapsed = touchEnd.time - touchStart.time;
+    const velocity = Math.sqrt(distanceX * distanceX + distanceY * distanceY) / timeElapsed;
+    
     const isHorizontalSwipe = Math.abs(distanceX) > Math.abs(distanceY);
     const isVerticalSwipe = Math.abs(distanceY) > Math.abs(distanceX);
+    
+    // Only trigger swipe if it's fast enough and long enough
+    const minVelocity = 0.5; // pixels per millisecond
+    const minSwipeTime = 100; // minimum time in milliseconds
+    const isFastEnough = velocity > minVelocity;
+    const isLongEnough = timeElapsed > minSwipeTime;
 
-    if (isHorizontalSwipe && Math.abs(distanceX) > minSwipeDistance) {
+    if (isHorizontalSwipe && Math.abs(distanceX) > minSwipeDistance && isFastEnough && isLongEnough) {
       if (distanceX > 0) {
         onSwipeLeft?.();
       } else {
@@ -96,7 +109,7 @@ const TouchGestures = ({
       }
     }
 
-    if (isVerticalSwipe && Math.abs(distanceY) > minSwipeDistance) {
+    if (isVerticalSwipe && Math.abs(distanceY) > minSwipeDistance && isFastEnough && isLongEnough) {
       if (distanceY > 0) {
         onSwipeUp?.();
       } else {

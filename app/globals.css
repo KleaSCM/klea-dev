@@ -342,10 +342,27 @@ p, h1, h2, h3, h4, h5, h6, span, div {
     padding-bottom: env(safe-area-inset-bottom);
     /* Ensure mobile menu doesn't interfere with other elements when closed */
     pointer-events: none;
+    /* Prevent scrolling when menu is open */
+    overflow: hidden;
   }
   
   .mobile-menu[data-open="true"] {
     pointer-events: auto;
+  }
+  
+  /* Prevent body scroll when mobile menu is open */
+  body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+  
+  /* Enhanced mobile touch targets */
+  .mobile-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
   
   /* Mobile-friendly forms */
