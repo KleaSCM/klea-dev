@@ -108,38 +108,15 @@ const Accessibility = ({
         '--reduced-motion': isReducedMotion ? '1' : '0',
       } as React.CSSProperties}
     >
-      {/* Skip to content link */}
+            {/* Skip to content link - positioned off-screen by default */}
       {skipToContent && (
-        <AnimatePresence>
-          {focusVisible && (
-            <motion.a
-              href="#main-content"
-              className="skip-to-content"
-              onClick={handleSkipToContent}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              style={{
-                position: 'absolute',
-                top: '10px',
-                left: '10px',
-                zIndex: 9999,
-                padding: '8px 16px',
-                backgroundColor: 'var(--primary)',
-                color: 'white',
-                textDecoration: 'none',
-                borderRadius: '4px',
-                fontSize: '14px',
-                fontWeight: '500',
-                opacity: focusVisible ? 1 : 0,
-                pointerEvents: focusVisible ? 'auto' : 'none',
-              }}
-            >
-              Skip to content
-            </motion.a>
-          )}
-        </AnimatePresence>
+        <a
+          href="#main-content"
+          className="skip-to-content"
+          onClick={handleSkipToContent}
+        >
+          Skip to content
+        </a>
       )}
 
       {/* Main content with accessibility attributes */}
@@ -194,7 +171,23 @@ const Accessibility = ({
           transition-duration: 0.01ms !important;
         }
 
+        .skip-to-content {
+          position: absolute;
+          top: -40px;
+          left: 6px;
+          background: var(--primary);
+          color: white;
+          padding: 8px 16px;
+          text-decoration: none;
+          border-radius: 4px;
+          font-size: 14px;
+          font-weight: 500;
+          z-index: 10000;
+          transition: top 0.3s ease;
+        }
+
         .skip-to-content:focus {
+          top: 6px;
           outline: var(--focus-ring);
           outline-offset: var(--focus-ring-offset);
         }

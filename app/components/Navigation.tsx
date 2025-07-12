@@ -113,7 +113,10 @@ const Navigation = () => {
           rotate: isOpen ? 45 : 0,
           y: isOpen ? 0 : -6,
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        transition={{ 
+          duration: 0.4, 
+          ease: [0.4, 0, 0.2, 1] // Custom easing for smoother animation
+        }}
       />
       <motion.span
         className="absolute w-6 h-0.5 bg-slate-600 dark:bg-slate-400 rounded-full"
@@ -121,7 +124,10 @@ const Navigation = () => {
           opacity: isOpen ? 0 : 1,
           scale: isOpen ? 0 : 1,
         }}
-        transition={{ duration: 0.2, ease: "easeInOut" }}
+        transition={{ 
+          duration: 0.3, 
+          ease: [0.4, 0, 0.2, 1]
+        }}
       />
       <motion.span
         className="absolute w-6 h-0.5 bg-slate-600 dark:bg-slate-400 rounded-full origin-center"
@@ -129,15 +135,15 @@ const Navigation = () => {
           rotate: isOpen ? -45 : 0,
           y: isOpen ? 0 : 6,
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        transition={{ 
+          duration: 0.4, 
+          ease: [0.4, 0, 0.2, 1]
+        }}
       />
       
-      {/* Hover effect glow */}
+      {/* Subtle hover effect */}
       <motion.div
-        className="absolute inset-0 rounded-full bg-primary/20 opacity-0 group-hover:opacity-100"
-        animate={{
-          scale: isOpen ? 1.2 : 1,
-        }}
+        className="absolute inset-0 rounded-full bg-primary/10 opacity-0 group-hover:opacity-100"
         transition={{ duration: 0.2 }}
       />
     </motion.button>
@@ -284,18 +290,15 @@ const Navigation = () => {
                 transition={{ duration: 0.3 }}
               />
 
-              {/* Menu Content with enhanced animations */}
+              {/* Menu Content with smooth animations */}
               <motion.div
                 className="absolute top-16 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-700/50 shadow-2xl"
-                initial={{ opacity: 0, y: -50, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -50, scale: 0.95 }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
                 transition={{ 
-                  duration: 0.4, 
-                  ease: "easeOut",
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 30
+                  duration: 0.3, 
+                  ease: [0.4, 0, 0.2, 1]
                 }}
               >
               <div className="container-custom py-8">
@@ -306,18 +309,18 @@ const Navigation = () => {
                       key={item.name}
                       className="block w-full text-left py-4 px-6 text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl transition-all duration-200 group"
                       onClick={() => handleNavigation(item.href)}
-                      initial={{ opacity: 0, x: -30 }}
+                      initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ 
-                        delay: index * 0.1,
-                        duration: 0.3,
-                        ease: "easeOut"
+                        delay: index * 0.05,
+                        duration: 0.2,
+                        ease: [0.4, 0, 0.2, 1]
                       }}
                       whileHover={{ 
-                        x: 10,
-                        scale: 1.02
+                        x: 5,
+                        scale: 1.01
                       }}
-                      whileTap={{ scale: 0.98 }}
+                      whileTap={{ scale: 0.99 }}
                     >
                       <span className="flex items-center">
                         <motion.span
