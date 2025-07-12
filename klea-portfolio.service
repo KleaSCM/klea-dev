@@ -1,0 +1,15 @@
+[Unit]
+Description=Klea Dev Portfolio Server
+After=network.target
+
+[Service]
+Type=forking
+User=klea
+WorkingDirectory=/home/klea/Documents/Dev/klea-dev
+ExecStart=/home/klea/Documents/Dev/klea-dev/start-server.sh
+ExecStop=/home/klea/Documents/Dev/klea-dev/stop-server.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target 
