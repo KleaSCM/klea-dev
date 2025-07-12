@@ -146,19 +146,19 @@ const ContactForm = () => {
           if (window.trackContactForm) {
             window.trackContactForm('submit');
           }
-        }
-        
-        // Reset form after successful submission
-        setTimeout(() => {
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            subject: '',
-            message: ''
-          });
-          setSubmitStatus('idle');
-        }, 3000);
+      }
+      
+      // Reset form after successful submission
+      setTimeout(() => {
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        });
+        setSubmitStatus('idle');
+      }, 3000);
       } else {
         setSubmitStatus('error');
         setErrorMessage(result.error || 'Something went wrong. Please try again.');

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Analytics from "./components/Analytics";
 import Accessibility from "./components/Accessibility";
+import GlobalTooltip from "./components/GlobalTooltip";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -149,16 +150,16 @@ export default function RootLayout({
         {/* Enhanced Google Analytics with environment variable support */}
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <>
-            <script
-              async
+        <script
+          async
               src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
                   gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}', {
                     page_title: document.title,
                     page_location: window.location.href,
@@ -218,20 +219,21 @@ export default function RootLayout({
                           value: Math.round(navigation.loadEventEnd - navigation.loadEventStart)
                         });
                       }
-                    }
-                  });
-                `,
-              }}
-            />
+                }
+              });
+            `,
+          }}
+        />
           </>
         )}
       </head>
-      <body className={inter.className}>
-        <Accessibility>
-          {children}
-        </Accessibility>
-        <Analytics />
-      </body>
+              <body className={inter.className}>
+          <Accessibility>
+            {children}
+          </Accessibility>
+          <GlobalTooltip />
+          <Analytics />
+        </body>
     </html>
   );
 }

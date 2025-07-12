@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { type Project } from "../data/projects";
 import TouchGestures from "./TouchGestures";
+import { showTooltip, hideTooltip, updateTooltipPosition } from "./GlobalTooltip";
 
 // Category icons mapping
 const categoryIcons = {
@@ -165,11 +166,23 @@ const InteractiveProjectCard = ({ project }: { project: Project }) => {
   const CategoryIcon = categoryIcons[project.category];
   const codeSnippet = getCodeSnippets(project);
 
+  // Handle mouse move for tooltip positioning
+  const handleMouseMove = (e: React.MouseEvent) => {
+    updateTooltipPosition(e.clientX, e.clientY);
+  };
+
   return (
     <motion.div
       className="project-card group relative overflow-hidden"
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+      onHoverStart={() => {
+        setIsHovered(true);
+        showTooltip(project, 0, 0);
+      }}
+      onHoverEnd={() => {
+        setIsHovered(false);
+        hideTooltip();
+      }}
+      onMouseMove={handleMouseMove}
       whileHover={{ y: -8, scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
@@ -385,6 +398,7 @@ const InteractiveProjectCard = ({ project }: { project: Project }) => {
           </motion.div>
         )}
       </AnimatePresence>
+
     </motion.div>
   );
 };

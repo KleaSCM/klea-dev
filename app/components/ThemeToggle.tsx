@@ -91,7 +91,7 @@ const ThemeToggle = () => {
       transition={{ duration: 0.3 }}
     >
       {themes.map(({ value, icon: Icon, label }) => (
-        <motion.button
+      <motion.button
           key={value}
           onClick={() => handleThemeChange(value)}
           className={`relative p-2 rounded-full transition-all duration-200 ${
@@ -100,9 +100,9 @@ const ThemeToggle = () => {
               : 'text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary'
           }`}
           whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
+        whileTap={{ scale: 0.95 }}
           title={`Switch to ${label} mode`}
-        >
+            >
           <Icon className="w-4 h-4" />
           
           {/* Active indicator */}
@@ -116,23 +116,23 @@ const ThemeToggle = () => {
           )}
           
           {/* Hover glow effect */}
-          <motion.div
+            <motion.div
             className="absolute inset-0 rounded-full bg-primary/10 opacity-0"
             whileHover={{ opacity: 1 }}
-            transition={{ duration: 0.2 }}
+              transition={{ duration: 0.2 }}
           />
-        </motion.button>
+      </motion.button>
       ))}
-      
+
       {/* Theme indicator tooltip */}
-      <motion.div
+        <motion.div
         className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs px-2 py-1 rounded opacity-0 pointer-events-none"
         initial={{ opacity: 0, y: 5 }}
         whileHover={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.2 }}
-      >
+        >
         {themes.find(t => t.value === theme)?.label} Mode
-      </motion.div>
+        </motion.div>
     </motion.div>
   );
 };
