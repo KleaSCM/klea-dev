@@ -79,10 +79,11 @@ const HeroSection = () => {
             className="text-responsive text-slate-600 dark:text-slate-400 mb-8 max-w-3xl mx-auto"
             variants={fadeInUp}
           >
-I build autonomous agents with internal memory, recursive state,
-and trait-driven desire systems. My AI work is grounded in mathematical structure, engineered in Go and C++,
-and integrated with Python and TypeScript. I also design fullstack systems,
-from data platforms to simulation engines — always with clarity, architecture, and control.
+I build autonomous agents with recursive state, trait-driven desire, and internal memory.
+My AI systems are engineered in Python and C++,
+grounded in mathematical structure and biological modeling. For fullstack platforms, 
+simulation engines, and systems programming, I work across Go, TypeScript, Python,
+and C++ always focused on architecture, clarity, and evolution.
 
           </motion.p>
 
