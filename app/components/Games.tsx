@@ -72,8 +72,7 @@ const games: Game[] = [
     difficulty: 'Hard',
     category: 'Hacking',
     icon: Lock,
-    isAvailable: false,
-    comingSoon: true
+    isAvailable: true
   },
   {
     id: 'algorithm-race',
@@ -207,6 +206,9 @@ const Games = () => {
       case 'code-debugger':
         window.location.href = '/games/code-debugger';
         break;
+      case 'password-cracker':
+        window.location.href = '/games/password-cracker';
+        break;
       default:
         alert(`Launching ${gameId}... Coming soon!`);
     }
@@ -238,7 +240,7 @@ const Games = () => {
               <div className="text-sm text-slate-600 dark:text-slate-400">Total Games</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-pink-500">4</div>
+              <div className="text-3xl font-bold text-pink-500">5</div>
               <div className="text-sm text-slate-600 dark:text-slate-400">Available Now</div>
             </div>
             <div className="text-center">
