@@ -79,8 +79,11 @@ const HeroSection = () => {
             className="text-responsive text-slate-600 dark:text-slate-400 mb-8 max-w-3xl mx-auto"
             variants={fadeInUp}
           >
-            Building native AI engines, cognitive systems, and cutting-edge applications with Go, C++, Python, and TypeScript. 
-            Specializing in trait/desire models, state engines, and recursive agents that push the boundaries of AI technology.
+I build autonomous agents with internal memory, recursive state,
+and trait-driven desire systems. My AI work is grounded in mathematical structure, engineered in Go and C++,
+and integrated with Python and TypeScript. I also design fullstack systems,
+from data platforms to simulation engines — always with clarity, architecture, and control.
+
           </motion.p>
 
           {/* CTA Buttons */}
