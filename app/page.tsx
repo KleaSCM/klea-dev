@@ -250,7 +250,10 @@ const ProjectsSection = () => {
 
 // Research Preview Section Component
 const ResearchPreviewSection = () => {
-  const featuredResearch = getFeaturedResearch();
+  // Get exactly 1 notebook and 5 reports
+  const notebooks = getNotebooks().slice(0, 1);
+  const reports = getReports().slice(0, 5);
+  const researchEntries = [...notebooks, ...reports];
 
   return (
     <section id="research" className="section bg-slate-50/50 dark:bg-slate-900/50">
@@ -282,7 +285,7 @@ const ResearchPreviewSection = () => {
               🌟 Featured Work
             </h3>
             <div className="mobile-grid">
-              {featuredResearch.slice(0, 3).map((entry) => (
+              {researchEntries.map((entry) => (
                 <ResearchCard key={entry.id} entry={entry} />
               ))}
             </div>

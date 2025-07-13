@@ -150,6 +150,8 @@
 - ✅ WoW-style tooltips with project code snippets
 - ✅ Advanced analytics and visitor tracking
 - ✅ Fixed input box layout for optimal UX
+- ✅ Project card button improvements - Replaced non-functional Code/Demo buttons with proper GitHub and Demo links
+- ✅ Project card hover buttons - GitHub, Code Snippet, and Demo buttons now only appear on hover as requested
 ### 📈 Analytics & Insights
 [✅] Portfolio Analytics Dashboard - Visitor insights and metrics
 [✅] Heatmap Analytics - Track user interaction patterns

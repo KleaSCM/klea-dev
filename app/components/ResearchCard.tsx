@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ExternalLink, FileText, Play, Download, Copy, Check } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ExternalLink, FileText, Play, Download, Copy, Check, Github } from "lucide-react";
 import { useState } from "react";
 import { ResearchEntry, Notebook, Report } from "../data/research";
 import { getPlatformMeta, PlatformType } from "../data/platforms";
@@ -16,6 +16,7 @@ import { getPlatformMeta, PlatformType } from "../data/platforms";
  * - Interactive tags and categories
  * - Download and copy functionality
  * - Smooth animations and hover effects
+ * - Hover buttons for GitHub and platform links
  * 
  * @component
  * @param {ResearchEntry} entry - The research entry to display
@@ -30,6 +31,7 @@ interface ResearchCardProps {
 const ResearchCard = ({ entry, className = "" }: ResearchCardProps) => {
   const [copied, setCopied] = useState(false);
   const [showBibtex, setShowBibtex] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   // Get platform metadata from centralized configuration
   const platformMeta = getPlatformMeta(entry.platform);
@@ -58,11 +60,13 @@ const ResearchCard = ({ entry, className = "" }: ResearchCardProps) => {
 
   return (
     <motion.div
-      className={`bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl border border-slate-200/50 dark:border-slate-700/50 p-6 hover:shadow-xl transition-all duration-300 ${className}`}
+      className={`bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl border border-slate-200/50 dark:border-slate-700/50 p-6 hover:shadow-xl transition-all duration-300 relative overflow-hidden ${className}`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       whileHover={{ y: -5 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
     >
       {/* Header with platform icon and type */}
       <div className="flex items-start justify-between mb-4">
@@ -86,18 +90,6 @@ const ResearchCard = ({ entry, className = "" }: ResearchCardProps) => {
             </div>
           </div>
         </div>
-        
-        {/* External link */}
-        <motion.a
-          href={entry.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="p-2 text-slate-400 hover:text-primary transition-colors duration-200"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <ExternalLink className="w-4 h-4" />
-        </motion.a>
       </div>
 
       {/* Research image */}
@@ -161,6 +153,54 @@ const ResearchCard = ({ entry, className = "" }: ResearchCardProps) => {
           </motion.span>
         ))}
       </div>
+
+      {/* Hover overlay with action buttons */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-6"
+          >
+            <div className="flex gap-2">
+              {/* GitHub button for all entries */}
+              <a
+                href="https://github.com/KleaSCM/research-notes"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-colors"
+                aria-label="View on GitHub"
+              >
+                <Github className="w-4 h-4" />
+              </a>
+              
+              {/* Platform-specific button - Kaggle for notebooks, OSF for reports */}
+              {isNotebook ? (
+                <a
+                  href={entry.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-colors"
+                  aria-label="View on Kaggle"
+                >
+                  <span className="text-lg">📊</span>
+                </a>
+              ) : (
+                <a
+                  href={entry.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-colors"
+                  aria-label="View on OSF"
+                >
+                  <span className="text-lg">🔬</span>
+                </a>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Action buttons */}
       <div className="flex items-center justify-between">

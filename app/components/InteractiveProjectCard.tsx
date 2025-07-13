@@ -2,13 +2,10 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import Link from "next/link";
 import { 
-  Code, 
   ExternalLink, 
   Github, 
-  Play, 
-  Eye, 
-  FileCode,
   Star,
   Zap,
   Brain,
@@ -160,17 +157,17 @@ export class ${project.title.replace(/[^a-zA-Z]/g, '')} {
 // Interactive Project Card Component
 const InteractiveProjectCard = ({ project }: { project: Project }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [showCode, setShowCode] = useState(false);
-  const [showDemo, setShowDemo] = useState(false);
   
   const CategoryIcon = categoryIcons[project.category];
-  const codeSnippet = getCodeSnippets(project);
 
 
+  const handleClick = () => {
+    window.location.href = `/projects/${project.id}`;
+  };
 
   return (
     <motion.div
-      className="project-card group relative overflow-hidden"
+      className="project-card group relative overflow-hidden cursor-pointer"
       onHoverStart={() => {
         setIsHovered(true);
         showTooltip(project, 0, 0);
@@ -181,6 +178,7 @@ const InteractiveProjectCard = ({ project }: { project: Project }) => {
       }}
       whileHover={{ y: -8, scale: 1.02 }}
       transition={{ duration: 0.3 }}
+      onClick={handleClick}
     >
       {/* Main card content */}
       <div className="p-6">
@@ -258,119 +256,12 @@ const InteractiveProjectCard = ({ project }: { project: Project }) => {
           )}
         </div>
 
-        {/* Action buttons */}
-        <div className="flex gap-2 mb-4">
-          <button
-            onClick={() => setShowCode(!showCode)}
-            className="flex items-center gap-2 px-3 py-2 text-sm bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
-            aria-label={`View code for ${project.title}`}
-            aria-expanded={showCode}
-            aria-controls={`code-${project.id}`}
-          >
-            <FileCode className="w-4 h-4" />
-            Code
-          </button>
-          
-          <button
-            onClick={() => setShowDemo(!showDemo)}
-            className="flex items-center gap-2 px-3 py-2 text-sm bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors"
-            aria-label={`View demo for ${project.title}`}
-            aria-expanded={showDemo}
-            aria-controls={`demo-${project.id}`}
-          >
-            <Play className="w-4 h-4" />
-            Demo
-          </button>
-        </div>
-
-        {/* External links */}
-        <div className="flex gap-2">
-          {project.github && (
-            <a 
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors"
-              aria-label={`View ${project.title} on GitHub`}
-            >
-              <Github className="w-4 h-4" />
-            </a>
-          )}
-          {project.live && (
-            <a 
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 text-slate-600 dark:text-slate-400 hover:text-indigo-500 transition-colors"
-              aria-label={`View live demo of ${project.title}`}
-            >
-              <ExternalLink className="w-4 h-4" />
-            </a>
-          )}
-        </div>
+        {/* Remove the permanent action buttons - they should only appear on hover */}
       </div>
-
-      {/* Code snippet overlay */}
-      <AnimatePresence>
-        {showCode && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="absolute inset-0 bg-slate-900/95 backdrop-blur-sm rounded-xl p-6 overflow-hidden"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h4 className="text-white font-semibold">Code Snippet</h4>
-              <button
-                onClick={() => setShowCode(false)}
-                className="text-slate-400 hover:text-white transition-colors"
-              >
-                ×
-              </button>
-            </div>
-            
-            <div className="bg-slate-800 rounded-lg p-4 overflow-x-auto">
-              <pre className="text-sm text-slate-300">
-                <code>{codeSnippet.code}</code>
-              </pre>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Demo overlay */}
-      <AnimatePresence>
-        {showDemo && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="absolute inset-0 bg-slate-900/95 backdrop-blur-sm rounded-xl p-6 overflow-hidden"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h4 className="text-white font-semibold">Live Demo</h4>
-              <button
-                onClick={() => setShowDemo(false)}
-                className="text-slate-400 hover:text-white transition-colors"
-              >
-                ×
-              </button>
-            </div>
-            
-            <div className="bg-slate-800 rounded-lg p-4 h-64 flex items-center justify-center">
-              <div className="text-center text-slate-400">
-                <Play className="w-12 h-12 mx-auto mb-4" />
-                <p>Interactive demo coming soon!</p>
-                <p className="text-sm mt-2">This will show a live preview of the project</p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Hover overlay with quick actions */}
       <AnimatePresence>
-        {isHovered && !showCode && !showDemo && (
+        {isHovered && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -378,23 +269,33 @@ const InteractiveProjectCard = ({ project }: { project: Project }) => {
             className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-6"
           >
             <div className="flex gap-2">
-              <button
-                onClick={() => setShowCode(true)}
-                className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-colors"
-              >
-                <Code className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setShowDemo(true)}
-                className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-colors"
-              >
-                <Eye className="w-4 h-4" />
-              </button>
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-colors"
+                  aria-label={`View ${project.title} on GitHub`}
+                >
+                  <Github className="w-4 h-4" />
+                </a>
+              )}
+              
+              {project.live && (
+                <a
+                  href={project.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white rounded-lg hover:bg-white/30 transition-colors"
+                  aria-label={`View live demo of ${project.title}`}
+                >
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              )}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-
     </motion.div>
   );
 };
