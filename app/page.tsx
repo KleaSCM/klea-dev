@@ -27,7 +27,8 @@ import ResearchCard from "./components/ResearchCard";
 import LoadingOverlay from "./components/LoadingOverlay";
 import InteractiveProjectCard from "./components/InteractiveProjectCard";
 import { getNotebooks, getReports, getFeaturedResearch } from "./data/research";
-import { getFeaturedProjects } from "./data/projects";
+import { useEffect, useState } from "react";
+import { type GitHubProject } from "./services/github";
 
 // Animation variants for smooth, professional animations
 const fadeInUp = {
@@ -210,7 +211,33 @@ const AboutSection = () => {
 
 // Featured Projects Section
 const ProjectsSection = () => {
-  const featuredProjects = getFeaturedProjects();
+  const [featuredProjects, setFeaturedProjects] = useState<GitHubProject[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFeaturedProjects = async () => {
+      try {
+        setLoading(true);
+        console.log('Homepage: Fetching featured projects from GitHub...');
+        
+        const response = await fetch('/api/featured');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch featured projects: ${response.status}`);
+        }
+        
+        const featured = await response.json();
+        console.log('Homepage: Featured projects fetched:', featured.length);
+        setFeaturedProjects(featured);
+      } catch (err) {
+        console.error('Homepage: Error fetching featured projects:', err);
+        setFeaturedProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedProjects();
+  }, []);
 
   return (
     <section id="projects" className="section bg-slate-50/50 dark:bg-slate-900/50">
@@ -228,10 +255,16 @@ const ProjectsSection = () => {
             Featured Projects
           </motion.h2>
 
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500 mx-auto mb-4"></div>
+              <p className="text-slate-600 dark:text-slate-400">Loading projects from GitHub...</p>
+            </div>
+          ) : (
           <div className="mobile-grid">
-            {featuredProjects.slice(0, 6).map((project, index) => (
+              {featuredProjects.map((project: GitHubProject, index: number) => (
               <motion.div
-                key={project.title}
+                  key={project.id}
                 variants={fadeInUp}
                 whileHover={{ y: -5 }}
                 className="mobile-touch"
@@ -240,8 +273,13 @@ const ProjectsSection = () => {
               </motion.div>
             ))}
           </div>
+          )}
 
-
+          {!loading && featuredProjects.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-slate-600 dark:text-slate-400">No featured projects found.</p>
+            </div>
+          )}
         </motion.div>
       </div>
     </section>

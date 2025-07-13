@@ -27,7 +27,7 @@ import {
   Wrench
 } from "lucide-react";
 import Link from "next/link";
-import { type Project } from "../../data/projects";
+import { type GitHubProject } from "../../services/github";
 
 // Animation variants
 const fadeInUp = {
@@ -45,7 +45,7 @@ const staggerContainer = {
 };
 
 // Category icons mapping
-const categoryIcons = {
+const categoryIcons: Record<string, any> = {
   'AI/ML': Brain,
   'Physics': Atom,
   'Systems': Network,
@@ -62,8 +62,8 @@ const complexityColors = {
 };
 
 // Hero Section Component
-const HeroSection = ({ project }: { project: Project }) => {
-  const CategoryIcon = categoryIcons[project.category];
+const HeroSection = ({ project }: { project: GitHubProject }) => {
+  const CategoryIcon = categoryIcons[project.category] || Globe; // Default to Globe if category not found
   
   return (
     <section className="min-h-[60vh] flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/5 pt-20">
@@ -176,192 +176,26 @@ const HeroSection = ({ project }: { project: Project }) => {
 };
 
 // Tech Summary Component
-const TechSummary = ({ project }: { project: Project }) => {
-  if (!project.technicalStack) return null;
-
-  return (
-    <section className="section">
-      <div className="container-custom">
-        <motion.div
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-        >
-          <motion.h2 
-            className="heading-responsive font-bold text-center mb-16 gradient-text"
-            variants={fadeInUp}
-          >
-            Technical Stack
-          </motion.h2>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {project.technicalStack.languages && (
-              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700">
-                <div className="flex items-center gap-3 mb-4">
-                  <Code className="w-6 h-6 text-primary" />
-                  <h3 className="text-lg font-semibold">Languages</h3>
-                </div>
-                <div className="space-y-2">
-                  {project.technicalStack.languages.map((lang) => (
-                    <span key={lang} className="block text-sm text-slate-600 dark:text-slate-400">
-                      {lang}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {project.technicalStack.frameworks && (
-              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700">
-                <div className="flex items-center gap-3 mb-4">
-                  <Layers className="w-6 h-6 text-primary" />
-                  <h3 className="text-lg font-semibold">Frameworks</h3>
-                </div>
-                <div className="space-y-2">
-                  {project.technicalStack.frameworks.map((framework) => (
-                    <span key={framework} className="block text-sm text-slate-600 dark:text-slate-400">
-                      {framework}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {project.technicalStack.tools && (
-              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700">
-                <div className="flex items-center gap-3 mb-4">
-                  <Wrench className="w-6 h-6 text-primary" />
-                  <h3 className="text-lg font-semibold">Tools</h3>
-                </div>
-                <div className="space-y-2">
-                  {project.technicalStack.tools.map((tool) => (
-                    <span key={tool} className="block text-sm text-slate-600 dark:text-slate-400">
-                      {tool}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {project.technicalStack.databases && (
-              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700">
-                <div className="flex items-center gap-3 mb-4">
-                  <Database className="w-6 h-6 text-primary" />
-                  <h3 className="text-lg font-semibold">Databases</h3>
-                </div>
-                <div className="space-y-2">
-                  {project.technicalStack.databases.map((db) => (
-                    <span key={db} className="block text-sm text-slate-600 dark:text-slate-400">
-                      {db}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
+const TechSummary = ({ project }: { project: GitHubProject }) => {
+  // For now, we'll skip technical stack since GitHub doesn't provide this detailed info
+  return null;
 };
 
 // Problem Statement Component
-const ProblemStatement = ({ project }: { project: Project }) => {
-  if (!project.problemStatement) return null;
-
-  return (
-    <section className="section bg-slate-50/50 dark:bg-slate-900/50">
-      <div className="container-custom">
-        <motion.div
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-        >
-          <motion.div className="flex items-center gap-3 mb-8" variants={fadeInUp}>
-            <Target className="w-8 h-8 text-primary" />
-            <h2 className="heading-responsive font-bold gradient-text">
-              Problem Statement
-            </h2>
-          </motion.div>
-
-          <motion.div 
-            className="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-lg p-8 border border-slate-200 dark:border-slate-700"
-            variants={fadeInUp}
-          >
-            <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-              {project.problemStatement}
-            </p>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-  );
+const ProblemStatement = ({ project }: { project: GitHubProject }) => {
+  // GitHub doesn't provide problem statements, so we'll skip this for now
+  return null;
 };
 
 // Architecture Component
-const ArchitectureGraph = ({ project }: { project: Project }) => {
-  if (!project.architecture) return null;
-
-  return (
-    <section className="section">
-      <div className="container-custom">
-        <motion.div
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-        >
-          <motion.div className="flex items-center gap-3 mb-8" variants={fadeInUp}>
-            <Layers className="w-8 h-8 text-primary" />
-            <h2 className="heading-responsive font-bold gradient-text">
-              Architecture Overview
-            </h2>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-2 gap-8 items-start">
-            <motion.div variants={fadeInUp}>
-              <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200">
-                System Design
-              </h3>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-                {project.architecture.overview}
-              </p>
-              
-              <h4 className="text-lg font-semibold mb-3 text-slate-800 dark:text-slate-200">
-                Key Components
-              </h4>
-              <ul className="space-y-2">
-                {project.architecture.components.map((component, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                    <span className="text-slate-600 dark:text-slate-400">{component}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {project.architecture.diagram && (
-              <motion.div variants={fadeInUp} className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700">
-                <img 
-                  src={project.architecture.diagram} 
-                  alt="Architecture Diagram"
-                  className="w-full h-auto"
-                />
-              </motion.div>
-            )}
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
+const ArchitectureGraph = ({ project }: { project: GitHubProject }) => {
+  // GitHub doesn't provide architecture info, so we'll skip this for now
+  return null;
 };
 
 // Performance Stats Component
-const PerformanceStats = ({ project }: { project: Project }) => {
-  if (!project.performanceStats) return null;
-
+const PerformanceStats = ({ project }: { project: GitHubProject }) => {
+  // Show GitHub stats instead
   return (
     <section className="section bg-slate-50/50 dark:bg-slate-900/50">
       <div className="container-custom">
@@ -374,55 +208,51 @@ const PerformanceStats = ({ project }: { project: Project }) => {
           <motion.div className="flex items-center gap-3 mb-8" variants={fadeInUp}>
             <TrendingUp className="w-8 h-8 text-primary" />
             <h2 className="heading-responsive font-bold gradient-text">
-              Performance Metrics
+              GitHub Stats
             </h2>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {project.performanceStats.metrics.map((metric, index) => (
-              <motion.div 
-                key={index}
-                variants={fadeInUp}
-                className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700 text-center"
-              >
-                <div className="text-2xl font-bold text-primary mb-2">{metric.value}</div>
-                <div className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1">
-                  {metric.label}
-                </div>
-                {metric.description && (
-                  <div className="text-xs text-slate-600 dark:text-slate-400">
-                    {metric.description}
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-
-          {project.performanceStats.benchmarks && (
-            <motion.div variants={fadeInUp}>
-              <h3 className="text-xl font-semibold mb-6 text-center text-slate-800 dark:text-slate-200">
-                Benchmark Results
-              </h3>
-              <div className="grid md:grid-cols-3 gap-6">
-                {project.performanceStats.benchmarks.map((benchmark, index) => (
-                  <div 
-                    key={index}
-                    className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700 text-center"
-                  >
-                    <div className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">
-                      {benchmark.test}
-                    </div>
-                    <div className="text-2xl font-bold text-primary">
-                      {benchmark.result}
-                    </div>
-                    <div className="text-sm text-slate-600 dark:text-slate-400">
-                      {benchmark.unit}
-                    </div>
-                  </div>
-                ))}
+            <motion.div 
+              variants={fadeInUp}
+              className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700 text-center"
+            >
+              <div className="text-2xl font-bold text-primary mb-2">{project.stars}</div>
+              <div className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                Stars
               </div>
             </motion.div>
-          )}
+            
+            <motion.div 
+              variants={fadeInUp}
+              className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700 text-center"
+            >
+              <div className="text-2xl font-bold text-primary mb-2">{project.forks}</div>
+              <div className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                Forks
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              variants={fadeInUp}
+              className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700 text-center"
+            >
+              <div className="text-2xl font-bold text-primary mb-2">{project.language}</div>
+              <div className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                Language
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              variants={fadeInUp}
+              className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700 text-center"
+            >
+              <div className="text-2xl font-bold text-primary mb-2">{project.topics.length}</div>
+              <div className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                Topics
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
@@ -430,161 +260,19 @@ const PerformanceStats = ({ project }: { project: Project }) => {
 };
 
 // Code Snippets Component
-const CodeSnippets = ({ project }: { project: Project }) => {
-  if (!project.codeSnippets) return null;
-
-  return (
-    <section className="section">
-      <div className="container-custom">
-        <motion.div
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-        >
-          <motion.div className="flex items-center gap-3 mb-8" variants={fadeInUp}>
-            <Code className="w-8 h-8 text-primary" />
-            <h2 className="heading-responsive font-bold gradient-text">
-              Core Code Snippets
-            </h2>
-          </motion.div>
-
-          <div className="space-y-8">
-            {project.codeSnippets.map((snippet, index) => (
-              <motion.div 
-                key={index}
-                variants={fadeInUp}
-                className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden"
-              >
-                <div className="p-6 border-b border-slate-200 dark:border-slate-700">
-                  <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">
-                    {snippet.title}
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-400">
-                    {snippet.description}
-                  </p>
-                </div>
-                
-                <div className="p-6">
-                  <div className="bg-slate-900 rounded-lg p-4 mb-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-slate-400 font-mono">
-                        {snippet.language}
-                      </span>
-                      <Code className="w-4 h-4 text-slate-400" />
-                    </div>
-                    <pre className="text-sm text-slate-200 font-mono leading-relaxed overflow-x-auto">
-                      <code>{snippet.code}</code>
-                    </pre>
-                  </div>
-                  
-                  <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
-                    <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-2">
-                      Explanation
-                    </h4>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">
-                      {snippet.explanation}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
+const CodeSnippets = ({ project }: { project: GitHubProject }) => {
+  // GitHub doesn't provide code snippets, so we'll skip this for now
+  return null;
 };
 
 // Commentary Component
-const Commentary = ({ project }: { project: Project }) => {
-  if (!project.commentary) return null;
-
-  return (
-    <section className="section bg-slate-50/50 dark:bg-slate-900/50">
-      <div className="container-custom">
-        <motion.div
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-        >
-          <motion.div className="flex items-center gap-3 mb-8" variants={fadeInUp}>
-            <Lightbulb className="w-8 h-8 text-primary" />
-            <h2 className="heading-responsive font-bold gradient-text">
-              Development Commentary
-            </h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <motion.div variants={fadeInUp}>
-              <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                <BookOpen className="w-5 h-5" />
-                Design Decisions
-              </h3>
-              <ul className="space-y-2">
-                {project.commentary.designDecisions.map((decision, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                    <span className="text-slate-600 dark:text-slate-400">{decision}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            <motion.div variants={fadeInUp}>
-              <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5" />
-                Challenges Faced
-              </h3>
-              <ul className="space-y-2">
-                {project.commentary.challenges.map((challenge, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span className="text-slate-600 dark:text-slate-400">{challenge}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            <motion.div variants={fadeInUp}>
-              <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                <Star className="w-5 h-5" />
-                Key Learnings
-              </h3>
-              <ul className="space-y-2">
-                {project.commentary.learnings.map((learning, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span className="text-slate-600 dark:text-slate-400">{learning}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            <motion.div variants={fadeInUp}>
-              <h3 className="text-xl font-semibold mb-4 text-slate-800 dark:text-slate-200 flex items-center gap-2">
-                <Rocket className="w-5 h-5" />
-                Future Improvements
-              </h3>
-              <ul className="space-y-2">
-                {project.commentary.futureImprovements.map((improvement, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span className="text-slate-600 dark:text-slate-400">{improvement}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
+const Commentary = ({ project }: { project: GitHubProject }) => {
+  // GitHub doesn't provide commentary, so we'll skip this for now
+  return null;
 };
 
 // Main Client Component
-export default function ProjectPageClient({ project }: { project: Project }) {
+export default function ProjectPageClient({ project }: { project: GitHubProject }) {
   return (
     <main className="min-h-screen">
       <HeroSection project={project} />

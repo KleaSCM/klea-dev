@@ -17,7 +17,8 @@ import {
   TestTube,
   Layers
 } from "lucide-react";
-import { projects, getFeaturedProjects, getProjectsByCategory, type Project } from "../data/projects";
+import { useEffect, useState } from "react";
+import { type GitHubProject } from "../services/github";
 import InteractiveProjectCard from "../components/InteractiveProjectCard";
 
 // Animation variants
@@ -53,24 +54,85 @@ const complexityColors = {
 };
 
 // Use the interactive project card component
-const ProjectCard = ({ project }: { project: Project }) => {
+const ProjectCard = ({ project }: { project: GitHubProject }) => {
   return <InteractiveProjectCard project={project} />;
 };
 
 // Projects Page Component
 export default function ProjectsPage() {
-  const aiProjects = getProjectsByCategory('AI/ML');
-  const physicsProjects = getProjectsByCategory('Physics');
-  const systemsProjects = getProjectsByCategory('Systems');
-  const researchProjects = getProjectsByCategory('Research');
-  const webProjects = getProjectsByCategory('Web');
+  const [projects, setProjects] = useState<GitHubProject[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Debug: Log the actual counts
-  console.log('AI/ML Projects:', aiProjects.length);
-  console.log('Physics Projects:', physicsProjects.length);
-  console.log('Systems Projects:', systemsProjects.length);
-  console.log('Research Projects:', researchProjects.length);
-  console.log('Web Projects:', webProjects.length);
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        console.log('Fetching projects from GitHub...');
+        
+        // Fetch all projects from GitHub
+        const response = await fetch('/api/projects');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch projects: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('GitHub projects fetched:', data);
+        setProjects(data);
+      } catch (err) {
+        console.error('Error fetching projects:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch projects');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  // Group projects by category
+  const aiProjects = projects.filter(p => p.category === 'AI/ML');
+  const physicsProjects = projects.filter(p => p.category === 'Physics');
+  const systemsProjects = projects.filter(p => p.category === 'Systems');
+  const researchProjects = projects.filter(p => p.category === 'Research');
+  const webProjects = projects.filter(p => p.category === 'Web');
+
+  // Group projects by category for display
+
+  if (loading) {
+    return (
+      <main className="min-h-screen pt-20">
+        <div className="container-custom">
+          <div className="text-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto mb-4"></div>
+            <p className="text-slate-600 dark:text-slate-400">Loading projects from GitHub...</p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="min-h-screen pt-20">
+        <div className="container-custom">
+          <div className="text-center py-20">
+            <div className="text-red-500 mb-4">
+              <Code className="w-12 h-12 mx-auto" />
+            </div>
+            <h2 className="text-xl font-bold mb-2">Error Loading Projects</h2>
+            <p className="text-slate-600 dark:text-slate-400 mb-4">{error}</p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen pt-20">
@@ -138,6 +200,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* AI/ML Projects */}
+      {aiProjects.length > 0 && (
       <section className="section bg-slate-50/50 dark:bg-slate-900/50">
         <div className="container-custom">
           <motion.div
@@ -161,8 +224,10 @@ export default function ProjectsPage() {
           </motion.div>
         </div>
       </section>
+      )}
 
       {/* Physics Projects */}
+      {physicsProjects.length > 0 && (
       <section className="section">
         <div className="container-custom">
           <motion.div
@@ -186,8 +251,10 @@ export default function ProjectsPage() {
           </motion.div>
         </div>
       </section>
+      )}
 
       {/* Systems Projects */}
+      {systemsProjects.length > 0 && (
       <section className="section bg-slate-50/50 dark:bg-slate-900/50">
         <div className="container-custom">
           <motion.div
@@ -211,8 +278,10 @@ export default function ProjectsPage() {
           </motion.div>
         </div>
       </section>
+      )}
 
       {/* Research Projects */}
+      {researchProjects.length > 0 && (
       <section className="section">
         <div className="container-custom">
           <motion.div
@@ -236,8 +305,10 @@ export default function ProjectsPage() {
           </motion.div>
         </div>
       </section>
+      )}
 
       {/* Web Projects */}
+      {webProjects.length > 0 && (
       <section className="section bg-slate-50/50 dark:bg-slate-900/50">
         <div className="container-custom">
           <motion.div
@@ -249,7 +320,7 @@ export default function ProjectsPage() {
             <motion.div className="flex items-center gap-3 mb-12" variants={fadeInUp}>
               <Globe className="w-8 h-8 text-green-500" />
               <h2 className="heading-responsive font-bold gradient-text">
-                Web Development
+                  Web & Frontend
               </h2>
             </motion.div>
 
@@ -261,44 +332,24 @@ export default function ProjectsPage() {
           </motion.div>
         </div>
       </section>
+      )}
 
-      {/* CTA Section */}
-      <section className="section bg-gradient-to-br from-indigo-50 via-pink-50 to-yellow-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      {/* No Projects Found */}
+      {projects.length === 0 && !loading && !error && (
+        <section className="section">
         <div className="container-custom">
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="text-center"
-          >
-            <motion.h2 
-              className="heading-responsive font-bold mb-6 gradient-text"
-              variants={fadeInUp}
-            >
-              Ready to Build Something Amazing?
-            </motion.h2>
-            
-            <motion.p 
-              className="text-responsive text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto"
-              variants={fadeInUp}
-            >
-              I'm always excited to work on challenging projects and collaborate with amazing teams. 
-              Whether you need AI systems, physics engines, or complex architectures, I'm here to help.
-            </motion.p>
-            
-            <motion.div variants={fadeInUp}>
-              <a 
-                href="/#contact" 
-                className="btn-primary inline-flex items-center gap-2"
-              >
-                Let's Collaborate
-                <ArrowRight className="w-4 h-4" />
-              </a>
-            </motion.div>
-          </motion.div>
+            <div className="text-center py-20">
+              <div className="text-slate-400 mb-4">
+                <Github className="w-12 h-12 mx-auto" />
+              </div>
+              <h2 className="text-xl font-bold mb-2">No Projects Found</h2>
+              <p className="text-slate-600 dark:text-slate-400">
+                No projects were found in your GitHub repositories.
+              </p>
+            </div>
         </div>
       </section>
+      )}
     </main>
   );
 } 

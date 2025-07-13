@@ -179,7 +179,7 @@ export const projects: Project[] = [
         'Parallel processing is essential for multi-framework ethical analysis',
         'LLM integration enhances natural language output without compromising core logic',
         'Human validation is crucial for ethical AI systems'
-      ],
+    ],
       futureImprovements: [
         'Add more ethical frameworks and cultural perspectives',
         'Implement dynamic weighting based on scenario context',
