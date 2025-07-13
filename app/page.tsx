@@ -167,26 +167,32 @@ const AboutSection = () => {
               </h3>
               <div className="space-y-4 text-responsive text-slate-600 dark:text-slate-400">
                 <p>
-                  I work primarily in <strong className="text-primary">Golang</strong>, <strong className="text-primary">C++</strong>, <strong className="text-primary">Python</strong>, and <strong className="text-primary">TypeScript</strong>, building cutting-edge systems that push the boundaries of AI and software engineering.
+                  I work primarily with <strong className="text-primary">Go</strong>, <strong className="text-primary">C++</strong>, <strong className="text-primary">Python</strong>, and <strong className="text-primary">TypeScript</strong> to build advanced systems from cognitive AI agents to fullstack infrastructure and simulation engines.
                 </p>
                 <p>
-                  My expertise spans from <strong className="text-primary">native AI engines and cognitive systems</strong> to <strong className="text-primary">backend infrastructure and APIs</strong>, with a passion for creating sophisticated <strong className="text-primary">trait/desire models, state engines, and recursive agents</strong>.
+                  My expertise spans <strong className="text-primary">native AI engines, goal and trait-desire models, neural networks, recursive state systems, and internal memory architectures</strong>. I also build <strong className="text-primary">production-grade backend systems, fullstack web apps, and real-time simulation pipelines</strong>.
                 </p>
                 <p>
-                  I specialize in <strong className="text-primary">fullstack web applications</strong> with Next.js & Tailwind, <strong className="text-primary">simulation and prototyping pipelines</strong> in Python, and <strong className="text-primary">systems-level logic</strong> in C++. When C++ gets too annoying, I turn to Rust for that extra performance boost! ✨
+                  I specialize in:
+                </p>
+                <p className="ml-4 space-y-2">
+                  <strong className="text-primary">Cognitive modeling and agent design</strong> (Python, C++)<br />
+                  <strong className="text-primary">Fullstack deployment</strong> (Next.js, Tailwind, TypeScript, Go)<br />
+                  <strong className="text-primary">Simulation and systems engineering</strong> (C++, Python, Go)
                 </p>
                 
                 {/* Tech Stack Highlights */}
                 <div className="mt-6 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg border border-primary/20">
-                  <h4 className="font-semibold text-slate-800 dark:text-slate-200 mb-3">My Tech Stack Philosophy</h4>
-                  <div className="space-y-2 text-sm">
-                    <div><strong>Go</strong> – My main language for backend, concurrency-heavy services, and native AI modules</div>
-                    <div><strong>C++</strong> – Used for AI architecture, simulation, desktop GUI, and systems-level logic</div>
-                    <div><strong>Python</strong> – Rapid prototyping, scripting, and AI experimentation</div>
-                    <div><strong>TypeScript</strong> – Frontend and fullstack apps with Next.js, Vite, Tailwind</div>
-                    <div><strong>PostgreSQL, Redis, Docker, Git</strong> – Used across most of my projects</div>
-                    <div><strong>SCSS, HTML, Tailwind CSS</strong> – Interface building when needed, always clean</div>
-                  </div>
+                <h4 className="font-semibold text-slate-800 dark:text-slate-200 mb-3">My Tech Stack Philosophy</h4>
+<div className="space-y-2 text-sm">
+  <div><strong>Go</strong> – My primary language for backend systems, APIs, CLI tools, and fullstack infrastructure</div>
+  <div><strong>C++</strong> – Used for AI architecture, simulation engines, desktop tooling, and systems-level performance</div>
+  <div><strong>Python</strong> – Core AI modeling, scripting, and rapid prototyping for neural and cognitive systems</div>
+  <div><strong>TypeScript</strong> – Frontend and fullstack apps using Next.js, Vite, and Tailwind</div>
+  <div><strong>PostgreSQL, Redis, Docker, Git</strong> – Used across most projects for state, storage, and deployment</div>
+  <div><strong>SCSS, HTML, Tailwind CSS</strong> – Interface styling where necessary — clean, responsive, semantic</div>
+</div>
+
                 </div>
               </div>
             </motion.div>
