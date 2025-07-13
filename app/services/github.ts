@@ -320,8 +320,8 @@ export function mapGitHubRepoToProject(repo: GitHubRepo): GitHubProject {
   // Determine category based on topics and language
   const category = determineCategory(repo.topics || [], repo.language || '');
   
-  // Determine complexity based on stars, forks, and topics
-  const complexity = determineComplexity(repo.stargazers_count, repo.forks_count, repo.topics || []);
+  // Determine complexity based on stars, forks, and topics, with manual override
+  const complexity = determineComplexity(repo.stargazers_count, repo.forks_count, repo.topics || [], repo.name);
   
   // Use full repository name as unique ID to prevent duplicates
   const id = repo.full_name.toLowerCase().replace(/[^a-z0-9]/g, '-');
@@ -375,7 +375,7 @@ export function mapGitHubRepoToProjectWithCategory(repo: GitHubRepo, category: s
     category,
     technologies: [repo.language, ...(repo.topics || [])].filter(Boolean),
     featured: true, // Pinned repos are featured
-    complexity: determineComplexity(repo.stargazers_count, repo.forks_count, repo.topics || []),
+    complexity: determineComplexity(repo.stargazers_count, repo.forks_count, repo.topics || [], repo.name),
     stars: repo.stargazers_count,
     forks: repo.forks_count,
     lastUpdated: repo.updated_at,
@@ -428,9 +428,43 @@ function determineCategory(topics: string[], language: string): string {
 }
 
 /**
+ * Manual complexity mapping for specific projects
+ * This overrides the automatic scoring for projects we know are more complex
+ */
+const MANUAL_COMPLEXITY_MAP: Record<string, 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert'> = {
+  'vulnSCAN': 'Expert',
+  'Gremlincli': 'Advanced',
+  'Kasmeer': 'Expert',
+  'Steria': 'Advanced',
+  'Ilanya': 'Expert',
+  'IlanyaDesireEngine': 'Expert',
+  'GeoGO': 'Advanced',
+  'Leara': 'Expert',
+  'Volatria': 'Advanced',
+  'QD': 'Expert',
+  'astarte': 'Advanced',
+  'velumlinaura': 'Expert',
+  'cognitive': 'Expert',
+  'RigidBody_Physics': 'Expert',
+  'PhysicsEngineConst': 'Expert',
+  'PhysicsEngiMathUtils': 'Expert',
+  'AAB_OBBBP': 'Expert',
+  'wallgremlin': 'Advanced',
+  'ColorCoded': 'Intermediate',
+  'smartcurl': 'Advanced',
+  'qft-sim': 'Expert'
+};
+
+/**
  * Determine project complexity based on metrics
  */
-function determineComplexity(stars: number, forks: number, topics: string[]): 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert' {
+function determineComplexity(stars: number, forks: number, topics: string[], repoName?: string): 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert' {
+  // Check manual complexity mapping first
+  if (repoName && MANUAL_COMPLEXITY_MAP[repoName]) {
+    return MANUAL_COMPLEXITY_MAP[repoName];
+  }
+  
+  // Fallback to automatic scoring
   const score = stars + (forks * 2) + (topics.length * 5);
   
   if (score >= 100) return 'Expert';
@@ -550,4 +584,35 @@ export async function getAllProjects(): Promise<GitHubProject[]> {
   projectsCache = allProjects; // Cache the result
   cacheTimestamp = Date.now(); // Update cache timestamp
   return allProjects;
+} 
+
+/**
+ * Fetch README content from GitHub repository
+ */
+export async function getRepositoryReadme(name: string): Promise<string | null> {
+  try {
+    const response = await fetch(`${GITHUB_API_BASE}/repos/${GITHUB_USERNAME}/${name}/readme`, {
+      headers: {
+        'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+      },
+    });
+    
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = await response.json();
+    
+    // Decode base64 content
+    if (data.content) {
+      const content = Buffer.from(data.content, 'base64').toString('utf-8');
+      return content;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error(`Error fetching README for ${name}:`, error);
+    return null;
+  }
 } 

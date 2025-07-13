@@ -618,7 +618,7 @@ private:
       'Detailed reporting',
       'Security-focused architecture'
     ],
-    complexity: 'Advanced',
+    complexity: 'Expert',
     impact: 'Shows expertise in cybersecurity and vulnerability assessment.'
   },
   {
