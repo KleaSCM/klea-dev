@@ -339,11 +339,11 @@ const ContactSection = () => {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-primary" />
-                  <span className="text-slate-600 dark:text-slate-400">klea@example.com</span>
+                  <span className="text-slate-600 dark:text-slate-400">kleascm@gmail.com</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Github className="w-5 h-5 text-primary" />
-                  <span className="text-slate-600 dark:text-slate-400">github.com/klea-dev</span>
+                  <span className="text-slate-600 dark:text-slate-400">github.com/KleaSCM</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Linkedin className="w-5 h-5 text-primary" />

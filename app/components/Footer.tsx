@@ -20,13 +20,12 @@ import { getPlatformMeta, PlatformType } from "../data/platforms";
 const Footer = () => {
   // Social media and research platform links using centralized configuration
   const socialLinks = [
-    { platform: 'GitHub' as PlatformType, href: "https://github.com/klea-dev", label: "GitHub" },
+    { platform: 'GitHub' as PlatformType, href: "https://github.com/KleaSCM", label: "GitHub" },
     { platform: 'LinkedIn' as PlatformType, href: "https://linkedin.com/in/klea-dev", label: "LinkedIn" },
-    { platform: 'Email' as PlatformType, href: "mailto:kleaSCM@gmail.com", label: "Email" },
-    { platform: 'Kaggle' as PlatformType, href: "https://kaggle.com/klea-dev", label: "Kaggle" },
-    { platform: 'Zenodo' as PlatformType, href: "https://zenodo.org/search?q=creator:%22Klea%20Dev%22", label: "Zenodo" },
-    { platform: 'OSF' as PlatformType, href: "https://osf.io/search/?q=klea-dev", label: "OSF" },
-    { platform: 'Jupyter' as PlatformType, href: "https://jupyter.org/", label: "Jupyter" },
+    { platform: 'Email' as PlatformType, href: "mailto:kleascm@gmail.com", label: "Email" },
+    { platform: 'Kaggle' as PlatformType, href: "https://www.kaggle.com/kleascm", label: "Kaggle" },
+    { platform: 'OSF' as PlatformType, href: "https://osf.io/8e2tb", label: "OSF" },
+    { platform: 'ORCID' as PlatformType, href: "https://orcid.org/0009-0009-8748-1946", label: "ORCID" },
   ];
 
   // Get platform metadata for social links

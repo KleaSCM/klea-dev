@@ -8,7 +8,7 @@
  * @module platforms
  */
 
-export type PlatformType = 'Kaggle' | 'GitHub' | 'nbviewer' | 'OSF' | 'Zenodo' | 'Jupyter' | 'LinkedIn' | 'Email';
+export type PlatformType = 'Kaggle' | 'GitHub' | 'nbviewer' | 'OSF' | 'Overleaf' | 'ORCID' | 'LinkedIn' | 'Email';
 
 export interface PlatformMeta {
   color: string;
@@ -54,19 +54,19 @@ export const PlatformMeta: Record<PlatformType, PlatformMeta> = {
     baseUrl: 'https://osf.io',
     description: 'Open Science Framework for research collaboration'
   },
-  Zenodo: {
-    color: 'from-blue-500 to-blue-600',
-    icon: '📄',
-    label: 'Zenodo',
-    baseUrl: 'https://zenodo.org',
-    description: 'Research repository and data sharing platform'
+  Overleaf: {
+    color: 'from-green-500 to-green-600',
+    icon: '📝',
+    label: 'Overleaf',
+    baseUrl: 'https://overleaf.com',
+    description: 'LaTeX document collaboration platform'
   },
-  Jupyter: {
-    color: 'from-orange-500 to-orange-600',
-    icon: '🐍',
-    label: 'Jupyter',
-    baseUrl: 'https://jupyter.org',
-    description: 'Interactive computing and data science platform'
+  ORCID: {
+    color: 'from-green-600 to-green-700',
+    icon: '🆔',
+    label: 'ORCID',
+    baseUrl: 'https://orcid.org',
+    description: 'Open Researcher and Contributor ID'
   },
   LinkedIn: {
     color: 'from-blue-600 to-blue-700',
