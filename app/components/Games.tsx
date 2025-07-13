@@ -192,8 +192,24 @@ const Games = () => {
 
   const handlePlayGame = (gameId: string) => {
     console.log('Playing game:', gameId);
-    // TODO: Implement game launching logic
-    alert(`Launching ${gameId}... Coming soon!`);
+    
+    // Launch the specific game
+    switch (gameId) {
+      case 'button-stopper':
+        window.location.href = '/games/button-stopper';
+        break;
+      case 'sql-injection':
+        window.location.href = '/games/sql-injection';
+        break;
+      case 'css-artist':
+        window.location.href = '/games/css-artist';
+        break;
+      case 'code-debugger':
+        window.location.href = '/games/code-debugger';
+        break;
+      default:
+        alert(`Launching ${gameId}... Coming soon!`);
+    }
   };
 
   return (
