@@ -213,7 +213,7 @@ const Games = () => {
   };
 
   return (
-    <section id="games" className="section bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <section id="games" className="section bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 pt-24">
       <div className="container-custom">
         {/* Hero Section */}
         <motion.div
