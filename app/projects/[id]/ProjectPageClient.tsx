@@ -142,15 +142,24 @@ const HeroSection = ({ project, projectDetails }: { project: GitHubProject; proj
           {/* Key Features */}
           {projectDetails?.keyFeatures && (
             <motion.div className="mb-8" variants={fadeInUp}>
-              <div className="flex flex-wrap justify-center gap-2">
-                {projectDetails.keyFeatures.map((feature, index) => (
-                  <span 
-                    key={index}
-                    className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium"
-                  >
-                    {feature}
-                  </span>
-                ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto">
+                {projectDetails.keyFeatures.map((feature, index) => {
+                  // Clean up markdown formatting
+                  const cleanFeature = feature
+                    .replace(/\*\*(.*?)\*\*:/, '$1:') // Remove bold formatting from title
+                    .replace(/\*\*(.*?)\*\*/g, '$1'); // Remove other bold formatting
+                  
+                  return (
+                    <div 
+                      key={index}
+                      className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-lg p-4 text-left"
+                    >
+                      <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+                        {cleanFeature}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </motion.div>
           )}
@@ -224,11 +233,14 @@ const TechSummary = ({ projectDetails }: { projectDetails: ProjectDetails | null
                 <h3 className="text-lg font-semibold">Languages</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {projectDetails.techStack?.languages?.map((lang, index) => (
-                  <span key={index} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
-                    {lang}
-                  </span>
-                ))}
+                {projectDetails.techStack?.languages?.map((lang, index) => {
+                  const cleanLang = lang.replace(/\*\*(.*?)\*\*/g, '$1');
+                  return (
+                    <span key={index} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
+                      {cleanLang}
+                    </span>
+                  );
+                })}
               </div>
             </motion.div>
 
@@ -239,11 +251,14 @@ const TechSummary = ({ projectDetails }: { projectDetails: ProjectDetails | null
                 <h3 className="text-lg font-semibold">Frameworks</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {projectDetails.techStack?.frameworks?.map((framework, index) => (
-                  <span key={index} className="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm">
-                    {framework}
-                  </span>
-                ))}
+                {projectDetails.techStack?.frameworks?.map((framework, index) => {
+                  const cleanFramework = framework.replace(/\*\*(.*?)\*\*/g, '$1');
+                  return (
+                    <span key={index} className="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm">
+                      {cleanFramework}
+                    </span>
+                  );
+                })}
               </div>
             </motion.div>
 
@@ -254,11 +269,14 @@ const TechSummary = ({ projectDetails }: { projectDetails: ProjectDetails | null
                 <h3 className="text-lg font-semibold">Databases</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {projectDetails.techStack?.databases?.map((db, index) => (
-                  <span key={index} className="px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-sm">
-                    {db}
-                  </span>
-                ))}
+                {projectDetails.techStack?.databases?.map((db, index) => {
+                  const cleanDb = db.replace(/\*\*(.*?)\*\*/g, '$1');
+                  return (
+                    <span key={index} className="px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-sm">
+                      {cleanDb}
+                    </span>
+                  );
+                })}
               </div>
             </motion.div>
 
@@ -269,11 +287,14 @@ const TechSummary = ({ projectDetails }: { projectDetails: ProjectDetails | null
                 <h3 className="text-lg font-semibold">Tools</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {projectDetails.techStack?.tools?.map((tool, index) => (
-                  <span key={index} className="px-3 py-1 bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 rounded-full text-sm">
-                    {tool}
-                  </span>
-                ))}
+                {projectDetails.techStack?.tools?.map((tool, index) => {
+                  const cleanTool = tool.replace(/\*\*(.*?)\*\*/g, '$1');
+                  return (
+                    <span key={index} className="px-3 py-1 bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 rounded-full text-sm">
+                      {cleanTool}
+                    </span>
+                  );
+                })}
               </div>
             </motion.div>
 
@@ -284,11 +305,14 @@ const TechSummary = ({ projectDetails }: { projectDetails: ProjectDetails | null
                 <h3 className="text-lg font-semibold">Platforms</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {projectDetails.techStack?.platforms?.map((platform, index) => (
-                  <span key={index} className="px-3 py-1 bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 rounded-full text-sm">
-                    {platform}
-                  </span>
-                ))}
+                {projectDetails.techStack?.platforms?.map((platform, index) => {
+                  const cleanPlatform = platform.replace(/\*\*(.*?)\*\*/g, '$1');
+                  return (
+                    <span key={index} className="px-3 py-1 bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 rounded-full text-sm">
+                      {cleanPlatform}
+                    </span>
+                  );
+                })}
               </div>
             </motion.div>
           </div>
@@ -336,12 +360,15 @@ const ProblemStatement = ({ projectDetails }: { projectDetails: ProjectDetails |
                   <h3 className="text-lg font-semibold">Challenges</h3>
                 </div>
                 <ul className="space-y-2">
-                  {projectDetails.problem.challenges?.map((challenge, index) => (
-                    <li key={index} className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
-                      <span className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></span>
-                      {challenge}
-                    </li>
-                  ))}
+                  {projectDetails.problem.challenges?.map((challenge, index) => {
+                    const cleanChallenge = challenge.replace(/\*\*(.*?)\*\*:/, '$1:').replace(/\*\*(.*?)\*\*/g, '$1');
+                    return (
+                      <li key={index} className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
+                        <span className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></span>
+                        {cleanChallenge}
+                      </li>
+                    );
+                  })}
                 </ul>
               </motion.div>
 
@@ -352,12 +379,15 @@ const ProblemStatement = ({ projectDetails }: { projectDetails: ProjectDetails |
                   <h3 className="text-lg font-semibold">Goals</h3>
                 </div>
                 <ul className="space-y-2">
-                  {projectDetails.problem.goals?.map((goal, index) => (
-                    <li key={index} className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
-                      <span className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
-                      {goal}
-                    </li>
-                  ))}
+                  {projectDetails.problem.goals?.map((goal, index) => {
+                    const cleanGoal = goal.replace(/\*\*(.*?)\*\*:/, '$1:').replace(/\*\*(.*?)\*\*/g, '$1');
+                    return (
+                      <li key={index} className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
+                        <span className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
+                        {cleanGoal}
+                      </li>
+                    );
+                  })}
                 </ul>
               </motion.div>
             </div>

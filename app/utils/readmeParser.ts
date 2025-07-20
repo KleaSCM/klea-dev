@@ -79,7 +79,15 @@ function extractSection(content: string, startHeader: string, endHeader?: string
   
   // Find the start of the content (after the header line)
   const headerLineEnd = content.indexOf('\n', startMatch.index!);
-  const startIndex = headerLineEnd !== -1 ? headerLineEnd + 1 : startMatch.index! + startMatch[0].length;
+  if (headerLineEnd === -1) {
+    return '';
+  }
+  
+  // Skip any empty lines after the header
+  let startIndex = headerLineEnd + 1;
+  while (startIndex < content.length && content[startIndex] === '\n') {
+    startIndex++;
+  }
   
   // Find the end of the section
   let endIndex = content.length;
@@ -92,10 +100,72 @@ function extractSection(content: string, startHeader: string, endHeader?: string
     }
   } else {
     // Find next header of same or higher level
-    const nextHeaderPattern = /^##\s+/gm;
-    const nextMatch = content.substring(startIndex).match(nextHeaderPattern);
-    if (nextMatch) {
-      endIndex = startIndex + nextMatch.index!;
+    const allHeaders = content.match(/^##\s+(.+)$/gm);
+    if (allHeaders) {
+      for (const header of allHeaders) {
+        const headerIndex = content.indexOf(header);
+        if (headerIndex > startIndex) {
+          endIndex = headerIndex;
+          break;
+        }
+      }
+    }
+  }
+  
+  return content.substring(startIndex, endIndex).trim();
+}
+
+/**
+ * Extract a subsection from markdown content (### headers)
+ * 
+ * @param content - Section content
+ * @param startHeader - Subsection header to start extraction from
+ * @param endHeader - Optional subsection header to end extraction at
+ * @returns Subsection content
+ */
+function extractSubsection(content: string, startHeader: string, endHeader?: string): string {
+  // Create regex pattern for the start header - escape special regex characters
+  const escapedHeader = startHeader.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const startPattern = new RegExp(`^###\\s*${escapedHeader}\\s*$`, 'mi');
+  const startMatch = content.match(startPattern);
+  
+  if (!startMatch) {
+    console.warn(`Subsection header not found: ${startHeader}`);
+    return '';
+  }
+  
+  // Find the start of the content (after the header line)
+  const headerLineEnd = content.indexOf('\n', startMatch.index!);
+  if (headerLineEnd === -1) {
+    return '';
+  }
+  
+  // Skip any empty lines after the header
+  let startIndex = headerLineEnd + 1;
+  while (startIndex < content.length && content[startIndex] === '\n') {
+    startIndex++;
+  }
+  
+  // Find the end of the subsection
+  let endIndex = content.length;
+  if (endHeader) {
+    const escapedEndHeader = endHeader.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const endPattern = new RegExp(`^###\\s*${escapedEndHeader}\\s*$`, 'mi');
+    const endMatch = content.substring(startIndex).match(endPattern);
+    if (endMatch) {
+      endIndex = startIndex + endMatch.index!;
+    }
+  } else {
+    // Find next header of same or higher level (### or ##)
+    const allHeaders = content.match(/^#{2,3}\s+(.+)$/gm);
+    if (allHeaders) {
+      for (const header of allHeaders) {
+        const headerIndex = content.indexOf(header);
+        if (headerIndex > startIndex) {
+          endIndex = headerIndex;
+          break;
+        }
+      }
     }
   }
   
@@ -186,19 +256,19 @@ function extractTechStack(content: string): ParsedReadme['techStack'] {
   };
   
   // Extract languages
-  const languagesSection = extractSection(content, 'Languages');
+  const languagesSection = extractSubsection(content, 'Languages');
   techStack.languages = extractListItems(languagesSection);
   
   // Extract frameworks
-  const frameworksSection = extractSection(content, 'Frameworks & Libraries');
+  const frameworksSection = extractSubsection(content, 'Frameworks & Libraries');
   techStack.frameworks = extractListItems(frameworksSection);
   
   // Extract databases
-  const databasesSection = extractSection(content, 'Databases & Storage');
+  const databasesSection = extractSubsection(content, 'Databases & Storage');
   techStack.databases = extractListItems(databasesSection);
   
   // Extract tools
-  const toolsSection = extractSection(content, 'Tools & Platforms');
+  const toolsSection = extractSubsection(content, 'Tools & Platforms');
   techStack.tools = extractListItems(toolsSection);
   techStack.platforms = extractListItems(toolsSection); // Platforms are in the same section
   
@@ -232,11 +302,11 @@ function extractProblem(content: string): ParsedReadme['problem'] {
   problem.statement = statementLines.join(' ');
   
   // Extract challenges
-  const challengesSection = extractSection(content, 'Challenges Faced');
+  const challengesSection = extractSubsection(content, 'Challenges Faced');
   problem.challenges = extractListItems(challengesSection);
   
   // Extract goals
-  const goalsSection = extractSection(content, 'Project Goals');
+  const goalsSection = extractSubsection(content, 'Project Goals');
   problem.goals = extractListItems(goalsSection);
   
   return problem;
@@ -256,15 +326,15 @@ function extractArchitecture(content: string): ParsedReadme['architecture'] {
   };
   
   // Extract overview
-  const overviewSection = extractSection(content, 'System Overview');
+  const overviewSection = extractSubsection(content, 'System Overview');
   architecture.overview = overviewSection.trim();
   
   // Extract components
-  const componentsSection = extractSection(content, 'Core Components');
+  const componentsSection = extractSubsection(content, 'Core Components');
   architecture.components = extractListItems(componentsSection);
   
   // Extract patterns
-  const patternsSection = extractSection(content, 'Design Patterns');
+  const patternsSection = extractSubsection(content, 'Design Patterns');
   architecture.patterns = extractListItems(patternsSection);
   
   return architecture;
@@ -283,11 +353,11 @@ function extractPerformance(content: string): ParsedReadme['performance'] {
   };
   
   // Extract key metrics
-  const metricsSection = extractSection(content, 'Key Metrics');
+  const metricsSection = extractSubsection(content, 'Key Metrics');
   performance.metrics = extractKeyValuePairs(metricsSection);
   
   // Extract benchmarks
-  const benchmarksSection = extractSection(content, 'Benchmarks');
+  const benchmarksSection = extractSubsection(content, 'Benchmarks');
   const benchmarkItems = extractListItems(benchmarksSection);
   
   performance.benchmarks = benchmarkItems.map(item => {
@@ -324,19 +394,19 @@ function extractCommentary(content: string): ParsedReadme['commentary'] {
   };
   
   // Extract motivation
-  const motivationSection = extractSection(content, 'Motivation');
+  const motivationSection = extractSubsection(content, 'Motivation');
   commentary.motivation = motivationSection.trim();
   
   // Extract design decisions
-  const decisionsSection = extractSection(content, 'Design Decisions');
+  const decisionsSection = extractSubsection(content, 'Design Decisions');
   commentary.designDecisions = extractListItems(decisionsSection);
   
   // Extract lessons learned
-  const lessonsSection = extractSection(content, 'Lessons Learned');
+  const lessonsSection = extractSubsection(content, 'Lessons Learned');
   commentary.lessonsLearned = extractListItems(lessonsSection);
   
   // Extract future plans
-  const plansSection = extractSection(content, 'Future Plans');
+  const plansSection = extractSubsection(content, 'Future Plans');
   commentary.futurePlans = extractListItems(plansSection);
   
   return commentary;
