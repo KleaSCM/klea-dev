@@ -12,7 +12,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import pdfParse from 'pdf-parse';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
 
 // Experience interface for resume data
 interface Experience {
@@ -36,17 +39,14 @@ interface Experience {
  */
 async function parseResumeExperience(pdfPath: string): Promise<Experience[]> {
   try {
-    // Read the PDF file
-    const pdfBuffer = fs.readFileSync(pdfPath);
+    // Use pdftotext command to extract text
+    const { stdout } = await execAsync(`pdftotext "${pdfPath}" -`);
+    const fullText = stdout;
     
-    // Extract text from PDF
-    const data = await pdfParse(pdfBuffer);
-    const text = data.text;
-    
-    console.log('PDF text extracted:', text.substring(0, 500) + '...');
+    console.log('PDF text extracted:', fullText.substring(0, 500) + '...');
     
     // Parse the Professional Experience section
-    const experiences = parseExperienceSection(text);
+    const experiences = parseExperienceSection(fullText);
     
     if (experiences.length > 0) {
       console.log('Successfully parsed', experiences.length, 'experiences from PDF');
@@ -73,7 +73,7 @@ function parseExperienceSection(text: string): Experience[] {
     console.log('Parsing PDF text:', text.substring(0, 500) + '...');
     
     // Look for Professional Experience section
-    const experienceRegex = /(?:Professional Experience|Work Experience|Employment History|Experience)(?:\s*\n|\s*:)([\s\S]*?)(?=\n\s*(?:Education|Skills|Projects|References|$))/i;
+    const experienceRegex = /Professional Experience\s*\n([\s\S]*?)(?=\n\s*(?:Education|Projects|$))/i;
     const match = text.match(experienceRegex);
     
     if (!match) {
@@ -84,8 +84,8 @@ function parseExperienceSection(text: string): Experience[] {
     const experienceSection = match[1];
     console.log('Found experience section:', experienceSection.substring(0, 300) + '...');
     
-    // Parse individual job entries
-    const jobEntries = parseJobEntries(experienceSection);
+    // Parse individual job entries based on Yuriko's actual resume format
+    const jobEntries = parseYurikoJobEntries(experienceSection);
     
     if (jobEntries.length > 0) {
       return jobEntries;
@@ -101,79 +101,150 @@ function parseExperienceSection(text: string): Experience[] {
 }
 
 /**
- * Parse individual job entries from experience section
+ * Parse individual job entries from Yuriko's actual resume format
  * 
  * @param experienceSection - Text containing job entries
  * @returns Array of parsed job experiences
  */
-function parseJobEntries(experienceSection: string): Experience[] {
+function parseYurikoJobEntries(experienceSection: string): Experience[] {
   const experiences: Experience[] = [];
   
-  // Split by potential job separators (dates, company names, etc.)
-  const lines = experienceSection.split('\n').filter(line => line.trim());
+  // Split the text into job sections based on Yuriko's format
+  const jobSections = experienceSection.split(/(?=SOFTWARE ENGINEER|BACKEND|SOFTWARE & AUTOMATION)/);
   
-  let currentJob: Partial<Experience> = {};
-  let currentDescription = '';
-  let currentTechnologies: string[] = [];
-  let currentAchievements: string[] = [];
-  
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
+  for (const section of jobSections) {
+    if (!section.trim()) continue;
     
-    // Look for job title patterns
-    if (line.match(/^(Senior|Lead|Full|Software|AI|ML|Systems|Engineer|Developer|Architect|Scientist)/i)) {
-      // Save previous job if exists
-      if (currentJob.title) {
-        experiences.push(createExperienceFromJob(currentJob, currentDescription, currentTechnologies, currentAchievements));
-      }
-      
-      // Start new job
-      currentJob = { title: line };
-      currentDescription = '';
-      currentTechnologies = [];
-      currentAchievements = [];
-      
-      // Look for company name in next few lines
-      for (let j = i + 1; j < Math.min(i + 5, lines.length); j++) {
-        const nextLine = lines[j].trim();
-        if (nextLine.match(/^(Remote|Freelance|Contract|Independent|Research)/i) || 
-            nextLine.includes('@') || 
-            nextLine.includes('Inc') || 
-            nextLine.includes('LLC') ||
-            nextLine.includes('Ltd')) {
-          currentJob.company = nextLine;
-          break;
-        }
-      }
-      
-      // Look for date range
-      for (let j = i + 1; j < Math.min(i + 5, lines.length); j++) {
-        const nextLine = lines[j].trim();
-        if (nextLine.match(/\d{4}\s*[-–]\s*(Present|\d{4})/)) {
-          currentJob.period = nextLine;
-          break;
-        }
-      }
-      
-    } else if (line.match(/^(Python|JavaScript|TypeScript|React|Node|Go|C\+\+|Rust|AWS|Docker|Kubernetes|PostgreSQL|MongoDB|Redis|Git|Linux|Docker|Kubernetes|TensorFlow|PyTorch|OpenCV|NLP|Machine Learning|AI|ML|Neural Networks|Computer Vision|Data Science|DevOps|CI\/CD|Agile|Scrum)/i)) {
-      // Technology keywords
-      currentTechnologies.push(line);
-    } else if (line.match(/^[•\-\*]\s*(.+)/)) {
-      // Achievement bullet points
-      const achievement = line.replace(/^[•\-\*]\s*/, '');
-      currentAchievements.push(achievement);
-    } else if (line.length > 20 && !line.match(/^\d/)) {
-      // Description text
-      currentDescription += line + ' ';
-    }
-  }
-  
-  // Add the last job
-  if (currentJob.title) {
-    experiences.push(createExperienceFromJob(currentJob, currentDescription, currentTechnologies, currentAchievements));
+    const lines = section.split('\n').filter(line => line.trim());
+    if (lines.length < 2) continue;
+    
+    // Extract job title and company from first line
+    const firstLine = lines[0];
+    const titleMatch = firstLine.match(/^([^(]+?)\s*\(([^)]+)\)/);
+    
+    if (!titleMatch) continue;
+    
+    const title = titleMatch[1].trim();
+    const period = titleMatch[2].trim();
+    
+    // Extract company from second line
+    const company = lines[1]?.trim() || 'Independent Development';
+    
+         // Extract achievements (bullet points)
+     const achievements: string[] = [];
+     const technologies: string[] = [];
+     let description = '';
+     
+     for (let i = 2; i < lines.length; i++) {
+       const line = lines[i].trim();
+       
+       if (line.startsWith('●') || line.startsWith('•')) {
+         const achievement = line.replace(/^[●•]\s*/, '').trim();
+         if (achievement) {
+           achievements.push(achievement);
+         }
+       } else if (line.length > 20 && !line.match(/^\d/) && !line.match(/^[A-Z\s&]+$/)) {
+         description += line + ' ';
+       }
+     }
+     
+     // If no achievements found, try to extract from description
+     if (achievements.length === 0 && description) {
+       const sentences = description.split(/[.!?]+/).filter(s => s.trim().length > 20);
+       achievements.push(...sentences.slice(0, 3).map(s => s.trim()));
+     }
+    
+    // Create experience object
+    const experience: Experience = {
+      id: title.toLowerCase().replace(/\s+/g, '-'),
+      title: title,
+      company: company,
+      location: 'Remote',
+      period: period,
+      description: description.trim() || `Professional experience as ${title} at ${company}`,
+      technologies: technologies.length > 0 ? technologies : extractTechnologiesFromTitle(title),
+      achievements: achievements.length > 0 ? achievements : extractAchievementsFromDescription(description, title),
+      type: 'work',
+      icon: getIconForJob(title)
+    };
+    
+    experiences.push(experience);
   }
   
   return experiences;
+}
+
+/**
+ * Extract technologies from job title
+ * 
+ * @param title - Job title
+ * @returns Array of technologies
+ */
+function extractTechnologiesFromTitle(title: string): string[] {
+  const lowerTitle = title.toLowerCase();
+  
+  if (lowerTitle.includes('software engineer') || lowerTitle.includes('compliance')) {
+    return ['Go', 'PostgreSQL', 'React', 'Next.js', 'AWS', 'Azure', 'AI'];
+  } else if (lowerTitle.includes('backend') || lowerTitle.includes('systems')) {
+    return ['Go', 'Rust', 'PostgreSQL', 'WebSockets', 'Python', 'Bash'];
+  } else if (lowerTitle.includes('automation') || lowerTitle.includes('freelance')) {
+    return ['Electron', 'Go', 'TypeScript', 'React', 'Database Design'];
+  } else {
+    return ['TypeScript', 'Go', 'React', 'Node.js', 'PostgreSQL'];
+  }
+}
+
+/**
+ * Extract achievements from description
+ * 
+ * @param description - Job description
+ * @param title - Job title
+ * @returns Array of achievements
+ */
+function extractAchievementsFromDescription(description: string, title: string): string[] {
+  if (!description) {
+    return [
+      'Developed high-performance applications with modern technologies',
+      'Implemented scalable architectures and best practices',
+      'Collaborated with cross-functional teams to deliver quality solutions'
+    ];
+  }
+  
+  const sentences = description.split(/[.!?]+/).filter(s => s.trim().length > 20);
+  const achievements = sentences.slice(0, 3).map(s => s.trim());
+  
+  if (achievements.length > 0) {
+    return achievements;
+  }
+  
+  // Fallback achievements based on job title
+  const lowerTitle = title.toLowerCase();
+  
+  if (lowerTitle.includes('software engineer') || lowerTitle.includes('compliance')) {
+    return [
+      'Developed automated compliance auditing systems using Go and PostgreSQL',
+      'Built internal dashboards with React, Next.js, and RESTful APIs',
+      'Implemented CI/CD pipelines in AWS and Azure for improved deployment'
+    ];
+  } else if (lowerTitle.includes('backend') || lowerTitle.includes('systems')) {
+    return [
+      'Built backend microservices in Go and Rust for large-scale data processing',
+      'Designed real-time analytics systems using WebSockets and PostgreSQL',
+      'Developed command-line automation tools in Python and Bash'
+    ];
+  } else if (lowerTitle.includes('automation') || lowerTitle.includes('freelance')) {
+    return [
+      'Created modern Electron-based applications with AI-powered capabilities',
+      'Developed Go-based background processes for desktop application management',
+      'Built lightweight database engines optimized for high-speed data retrieval'
+    ];
+  } else {
+    return [
+      'Developed high-performance applications with modern technologies',
+      'Implemented scalable architectures and best practices',
+      'Collaborated with cross-functional teams to deliver quality solutions'
+    ];
+  }
 }
 
 /**
