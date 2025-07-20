@@ -489,16 +489,77 @@ const renderSectionContent = (content: any, sectionName: string) => {
                     </div>
                   </div>
                   
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
-                      <span>Performance</span>
-                      <span>{percentage.toFixed(1)}%</span>
+                      <span className="font-medium">Performance</span>
+                      <span className="font-bold text-primary animate-pulse">{percentage.toFixed(1)}%</span>
                     </div>
-                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
+                    
+                    {/* Animated progress bar container */}
+                    <div className="relative w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden shadow-inner">
+                      {/* Main progress bar with gradient animation */}
                       <div 
-                        className={`h-full bg-gradient-to-r ${getColor(percentage, parsed.type)} transition-all duration-1000 ease-out`}
+                        className={`h-full bg-gradient-to-r ${getColor(percentage, parsed.type)} transition-all duration-2000 ease-out relative overflow-hidden`}
                         style={{ width: `${Math.min(percentage, 100)}%` }}
+                      >
+                        {/* Shimmer effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" 
+                             style={{ 
+                               animation: 'shimmer 2s infinite',
+                               background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+                               backgroundSize: '200% 100%'
+                             }}
+                        />
+                        
+                        {/* Pulsing glow effect */}
+                        <div className={`absolute inset-0 rounded-full blur-sm opacity-50 animate-pulse`}
+                             style={{
+                               background: `linear-gradient(90deg, ${getColor(percentage, parsed.type).split(' ')[1]}, ${getColor(percentage, parsed.type).split(' ')[2]})`,
+                               animation: 'glow 1.5s ease-in-out infinite alternate'
+                             }}
+                        />
+                        
+                        {/* Moving particles effect */}
+                        <div className="absolute inset-0 overflow-hidden">
+                          {[...Array(3)].map((_, i) => (
+                            <div
+                              key={i}
+                              className="absolute w-1 h-1 bg-white/40 rounded-full animate-bounce"
+                              style={{
+                                left: `${20 + i * 30}%`,
+                                animationDelay: `${i * 0.5}s`,
+                                animationDuration: '2s'
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      
+                      {/* Progress bar border glow */}
+                      <div className="absolute inset-0 rounded-full border-2 border-transparent"
+                           style={{
+                             boxShadow: `0 0 10px ${getColor(percentage, parsed.type).split(' ')[1].replace('from-', '').replace('-500', '-400')}`,
+                             animation: 'borderGlow 2s ease-in-out infinite alternate'
+                           }}
                       />
+                    </div>
+                    
+                    {/* Animated performance indicator */}
+                    <div className="flex justify-center space-x-1">
+                      {[...Array(5)].map((_, i) => (
+                        <div
+                          key={i}
+                          className={`w-3 h-3 rounded-full transition-all duration-500 transform hover:scale-125 ${
+                            i < Math.floor(percentage / 20) 
+                              ? 'bg-gradient-to-r from-primary to-primary/80 shadow-lg animate-pulse' 
+                              : 'bg-gray-300 dark:bg-gray-600'
+                          }`}
+                          style={{
+                            animationDelay: `${i * 0.1}s`,
+                            animationDuration: '1s'
+                          }}
+                        />
+                      ))}
                     </div>
                   </div>
                   
