@@ -49,6 +49,19 @@ const staggerContainer = {
   }
 };
 
+// Helper function to clean markdown while preserving bold formatting
+const cleanMarkdown = (text: string): string => {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Convert **text** to <strong>text</strong>
+    .replace(/\*(.*?)\*/g, '<em>$1</em>'); // Convert *text* to <em>text</em>
+};
+
+// Helper function to render markdown text with HTML
+const renderMarkdown = (text: string) => {
+  const cleanedText = cleanMarkdown(text);
+  return <span dangerouslySetInnerHTML={{ __html: cleanedText }} />;
+};
+
 // Category icons mapping
 const categoryIcons: Record<string, any> = {
   'AI/ML': Brain,
@@ -143,30 +156,23 @@ const HeroSection = ({ project, projectDetails }: { project: GitHubProject; proj
           {projectDetails?.keyFeatures && (
             <motion.div className="mb-8" variants={fadeInUp}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto">
-                {projectDetails.keyFeatures.map((feature, index) => {
-                  // Clean up markdown formatting
-                  const cleanFeature = feature
-                    .replace(/\*\*(.*?)\*\*:/, '$1:') // Remove bold formatting from title
-                    .replace(/\*\*(.*?)\*\*/g, '$1'); // Remove other bold formatting
-                  
-                  return (
-                    <div 
-                      key={index}
-                      className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-lg p-4 text-left"
-                    >
-                      <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
-                        {cleanFeature}
-                      </p>
-                    </div>
-                  );
-                })}
+                {projectDetails.keyFeatures.map((feature, index) => (
+                  <div 
+                    key={index}
+                    className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-lg p-4 text-left"
+                  >
+                    <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+                      {renderMarkdown(feature)}
+                    </p>
+                  </div>
+                ))}
               </div>
             </motion.div>
           )}
 
           {/* Action buttons */}
           <motion.div 
-            className="flex flex-wrap justify-center gap-4 mb-8"
+            className="flex flex-wrap justify-center gap-4"
             variants={fadeInUp}
           >
             {project.github && (
@@ -191,13 +197,6 @@ const HeroSection = ({ project, projectDetails }: { project: GitHubProject; proj
                 Live Demo
               </a>
             )}
-          </motion.div>
-
-          {/* Complexity badge */}
-          <motion.div variants={fadeInUp}>
-            <span className={`px-3 py-1 rounded-full text-sm font-medium ${complexityColors[project.complexity]}`}>
-              {project.complexity} Level
-            </span>
           </motion.div>
         </motion.div>
       </div>
@@ -233,14 +232,11 @@ const TechSummary = ({ projectDetails }: { projectDetails: ProjectDetails | null
                 <h3 className="text-lg font-semibold">Languages</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {projectDetails.techStack?.languages?.map((lang, index) => {
-                  const cleanLang = lang.replace(/\*\*(.*?)\*\*/g, '$1');
-                  return (
-                    <span key={index} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
-                      {cleanLang}
-                    </span>
-                  );
-                })}
+                {projectDetails.techStack?.languages?.map((lang, index) => (
+                  <span key={index} className="px-3 py-1.5 bg-gradient-to-r from-primary/20 to-primary/10 text-primary rounded-full text-sm font-medium border border-primary/20 hover:from-primary/30 hover:to-primary/20 transition-all duration-200 shadow-sm">
+                    {renderMarkdown(lang)}
+                  </span>
+                ))}
               </div>
             </motion.div>
 
@@ -251,14 +247,11 @@ const TechSummary = ({ projectDetails }: { projectDetails: ProjectDetails | null
                 <h3 className="text-lg font-semibold">Frameworks</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {projectDetails.techStack?.frameworks?.map((framework, index) => {
-                  const cleanFramework = framework.replace(/\*\*(.*?)\*\*/g, '$1');
-                  return (
-                    <span key={index} className="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm">
-                      {cleanFramework}
-                    </span>
-                  );
-                })}
+                {projectDetails.techStack?.frameworks?.map((framework, index) => (
+                  <span key={index} className="px-3 py-1.5 bg-gradient-to-r from-secondary/20 to-secondary/10 text-secondary rounded-full text-sm font-medium border border-secondary/20 hover:from-secondary/30 hover:to-secondary/20 transition-all duration-200 shadow-sm">
+                    {renderMarkdown(framework)}
+                  </span>
+                ))}
               </div>
             </motion.div>
 
@@ -269,14 +262,11 @@ const TechSummary = ({ projectDetails }: { projectDetails: ProjectDetails | null
                 <h3 className="text-lg font-semibold">Databases</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {projectDetails.techStack?.databases?.map((db, index) => {
-                  const cleanDb = db.replace(/\*\*(.*?)\*\*/g, '$1');
-                  return (
-                    <span key={index} className="px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-sm">
-                      {cleanDb}
-                    </span>
-                  );
-                })}
+                {projectDetails.techStack?.databases?.map((db, index) => (
+                  <span key={index} className="px-3 py-1.5 bg-gradient-to-r from-green-200 to-green-100 text-green-800 dark:from-green-800 dark:to-green-700 dark:text-green-200 rounded-full text-sm font-medium border border-green-300 dark:border-green-600 hover:from-green-300 hover:to-green-200 dark:hover:from-green-700 dark:hover:to-green-600 transition-all duration-200 shadow-sm">
+                    {renderMarkdown(db)}
+                  </span>
+                ))}
               </div>
             </motion.div>
 
@@ -287,14 +277,11 @@ const TechSummary = ({ projectDetails }: { projectDetails: ProjectDetails | null
                 <h3 className="text-lg font-semibold">Tools</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {projectDetails.techStack?.tools?.map((tool, index) => {
-                  const cleanTool = tool.replace(/\*\*(.*?)\*\*/g, '$1');
-                  return (
-                    <span key={index} className="px-3 py-1 bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 rounded-full text-sm">
-                      {cleanTool}
-                    </span>
-                  );
-                })}
+                {projectDetails.techStack?.tools?.map((tool, index) => (
+                  <span key={index} className="px-3 py-1.5 bg-gradient-to-r from-orange-200 to-orange-100 text-orange-800 dark:from-orange-800 dark:to-orange-700 dark:text-orange-200 rounded-full text-sm font-medium border border-orange-300 dark:border-orange-600 hover:from-orange-300 hover:to-orange-200 dark:hover:from-orange-700 dark:hover:to-orange-600 transition-all duration-200 shadow-sm">
+                    {renderMarkdown(tool)}
+                  </span>
+                ))}
               </div>
             </motion.div>
 
@@ -305,14 +292,11 @@ const TechSummary = ({ projectDetails }: { projectDetails: ProjectDetails | null
                 <h3 className="text-lg font-semibold">Platforms</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {projectDetails.techStack?.platforms?.map((platform, index) => {
-                  const cleanPlatform = platform.replace(/\*\*(.*?)\*\*/g, '$1');
-                  return (
-                    <span key={index} className="px-3 py-1 bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 rounded-full text-sm">
-                      {cleanPlatform}
-                    </span>
-                  );
-                })}
+                {projectDetails.techStack?.platforms?.map((platform, index) => (
+                  <span key={index} className="px-3 py-1.5 bg-gradient-to-r from-purple-200 to-purple-100 text-purple-800 dark:from-purple-800 dark:to-purple-700 dark:text-purple-200 rounded-full text-sm font-medium border border-purple-300 dark:border-purple-600 hover:from-purple-300 hover:to-purple-200 dark:hover:from-purple-700 dark:hover:to-purple-600 transition-all duration-200 shadow-sm">
+                    {renderMarkdown(platform)}
+                  </span>
+                ))}
               </div>
             </motion.div>
           </div>
@@ -360,15 +344,12 @@ const ProblemStatement = ({ projectDetails }: { projectDetails: ProjectDetails |
                   <h3 className="text-lg font-semibold">Challenges</h3>
                 </div>
                 <ul className="space-y-2">
-                  {projectDetails.problem.challenges?.map((challenge, index) => {
-                    const cleanChallenge = challenge.replace(/\*\*(.*?)\*\*:/, '$1:').replace(/\*\*(.*?)\*\*/g, '$1');
-                    return (
-                      <li key={index} className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
-                        <span className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></span>
-                        {cleanChallenge}
-                      </li>
-                    );
-                  })}
+                  {projectDetails.problem.challenges?.map((challenge, index) => (
+                    <li key={index} className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
+                      <span className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></span>
+                      {renderMarkdown(challenge)}
+                    </li>
+                  ))}
                 </ul>
               </motion.div>
 
@@ -379,15 +360,12 @@ const ProblemStatement = ({ projectDetails }: { projectDetails: ProjectDetails |
                   <h3 className="text-lg font-semibold">Goals</h3>
                 </div>
                 <ul className="space-y-2">
-                  {projectDetails.problem.goals?.map((goal, index) => {
-                    const cleanGoal = goal.replace(/\*\*(.*?)\*\*:/, '$1:').replace(/\*\*(.*?)\*\*/g, '$1');
-                    return (
-                      <li key={index} className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
-                        <span className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
-                        {cleanGoal}
-                      </li>
-                    );
-                  })}
+                  {projectDetails.problem.goals?.map((goal, index) => (
+                    <li key={index} className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
+                      <span className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
+                      {renderMarkdown(goal)}
+                    </li>
+                  ))}
                 </ul>
               </motion.div>
             </div>
@@ -434,7 +412,7 @@ const ArchitectureGraph = ({ projectDetails }: { projectDetails: ProjectDetails 
                   {projectDetails.architecture.components?.map((component, index) => (
                     <div key={index} className="flex items-center gap-2 p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
                       <Cpu className="w-4 h-4 text-primary" />
-                      <span className="text-sm text-slate-600 dark:text-slate-400">{component}</span>
+                      <span className="text-sm text-slate-600 dark:text-slate-400">{renderMarkdown(component)}</span>
                     </div>
                   ))}
                 </div>
@@ -446,7 +424,7 @@ const ArchitectureGraph = ({ projectDetails }: { projectDetails: ProjectDetails 
                 <div className="flex flex-wrap gap-2">
                   {projectDetails.architecture.patterns?.map((pattern, index) => (
                     <span key={index} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
-                      {pattern}
+                      {renderMarkdown(pattern)}
                     </span>
                   ))}
                 </div>
@@ -459,8 +437,12 @@ const ArchitectureGraph = ({ projectDetails }: { projectDetails: ProjectDetails 
   );
 };
 
+
+
 // Performance Stats Component
-const PerformanceStats = ({ project, projectDetails }: { project: GitHubProject; projectDetails: ProjectDetails | null }) => {
+const PerformanceStats = ({ projectDetails }: { projectDetails: ProjectDetails | null }) => {
+  if (!projectDetails?.performance) return null;
+
   return (
     <section className="section">
       <div className="container-custom">
@@ -477,51 +459,8 @@ const PerformanceStats = ({ project, projectDetails }: { project: GitHubProject;
             </h2>
           </motion.div>
 
-          {/* Project Highlights */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <motion.div 
-              variants={fadeInUp}
-              className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700 text-center"
-            >
-              <div className="text-2xl font-bold text-primary mb-2">{project.complexity}</div>
-              <div className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1">
-                Complexity Level
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              variants={fadeInUp}
-              className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700 text-center"
-            >
-              <div className="text-2xl font-bold text-primary mb-2">{project.category}</div>
-              <div className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1">
-                Category
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              variants={fadeInUp}
-              className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700 text-center"
-            >
-              <div className="text-2xl font-bold text-primary mb-2">{project.technologies.length}</div>
-              <div className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1">
-                Technologies
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              variants={fadeInUp}
-              className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700 text-center"
-            >
-              <div className="text-2xl font-bold text-primary mb-2">{project.featured ? 'Featured' : 'Standard'}</div>
-              <div className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1">
-                Project Type
-              </div>
-            </motion.div>
-          </div>
-
           {/* Custom Performance Metrics */}
-          {projectDetails?.performance?.metrics && (
+          {projectDetails.performance.metrics && projectDetails.performance.metrics.length > 0 && (
             <motion.div variants={fadeInUp} className="mb-8">
               <h3 className="text-xl font-semibold mb-6 text-center">Performance Metrics</h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -541,7 +480,7 @@ const PerformanceStats = ({ project, projectDetails }: { project: GitHubProject;
           )}
 
           {/* Benchmarks */}
-          {projectDetails?.performance?.benchmarks && (
+          {projectDetails.performance.benchmarks && projectDetails.performance.benchmarks.length > 0 && (
             <motion.div variants={fadeInUp}>
               <h3 className="text-xl font-semibold mb-6 text-center">Benchmarks</h3>
               <div className="bg-white dark:bg-slate-800 rounded-lg p-6 border border-slate-200 dark:border-slate-700">
@@ -671,7 +610,7 @@ const Commentary = ({ projectDetails }: { projectDetails: ProjectDetails | null 
                 {projectDetails.commentary.designDecisions?.map((decision, index) => (
                   <li key={index} className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
                     <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                    {decision}
+                    {renderMarkdown(decision)}
                   </li>
                 ))}
               </ul>
@@ -686,7 +625,7 @@ const Commentary = ({ projectDetails }: { projectDetails: ProjectDetails | null 
                 {projectDetails.commentary.lessonsLearned?.map((lesson, index) => (
                   <li key={index} className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
                     <span className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
-                    {lesson}
+                    {renderMarkdown(lesson)}
                   </li>
                 ))}
               </ul>
@@ -702,7 +641,7 @@ const Commentary = ({ projectDetails }: { projectDetails: ProjectDetails | null 
                   {projectDetails.commentary.futurePlans?.map((plan, index) => (
                     <li key={index} className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
                       <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                      {plan}
+                      {renderMarkdown(plan)}
                   </li>
                   ))}
                 </ul>
@@ -729,7 +668,7 @@ export default function ProjectPageClient({
       <TechSummary projectDetails={projectDetails} />
       <ProblemStatement projectDetails={projectDetails} />
       <ArchitectureGraph projectDetails={projectDetails} />
-      <PerformanceStats project={project} projectDetails={projectDetails} />
+      <PerformanceStats projectDetails={projectDetails} />
       <CodeSnippets projectDetails={projectDetails} />
       <Commentary projectDetails={projectDetails} />
     </main>
