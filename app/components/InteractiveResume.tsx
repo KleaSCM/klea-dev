@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
+import { parseResumeExperience } from '../services/resumeParser';
 import { 
   Calendar, 
   MapPin, 
@@ -30,93 +31,7 @@ interface Experience {
   icon: any;
 }
 
-const experiences: Experience[] = [
-  {
-    id: 'senior-engineer',
-    title: 'Senior Full-Stack Software Engineer',
-    company: 'Freelance & Contract',
-    location: 'Remote',
-    period: '2022 - Present',
-    description: 'Leading development of advanced AI systems, physics engines, and scalable web applications. Specializing in Go, C++, Python, and modern web technologies.',
-    technologies: ['Go', 'C++', 'Python', 'TypeScript', 'React', 'Next.js', 'Docker', 'AWS'],
-    achievements: [
-      'Developed 21+ advanced projects across AI/ML, Physics, Systems, and Web domains',
-      'Built high-performance physics engines with real-time collision detection',
-      'Created sophisticated AI cognitive architectures with neural network integration',
-      'Implemented distributed systems with microservices architecture'
-    ],
-    type: 'work',
-    icon: Code
-  },
-  {
-    id: 'ai-research',
-    title: 'AI Systems Research & Development',
-    company: 'Independent Research',
-    location: 'Remote',
-    period: '2021 - Present',
-    description: 'Conducting cutting-edge research in cognitive architecture, ethical AI systems, and advanced machine learning applications.',
-    technologies: ['Python', 'TensorFlow', 'PyTorch', 'OpenCV', 'NLP', 'Neural Networks'],
-    achievements: [
-      'Developed LenoraAI - Advanced Ethics State Machine with multi-framework analysis',
-      'Created Ilanya - Sophisticated cognitive architecture with desire/trait engines',
-      'Built Shandris - Mathematical framework for cognitive architecture',
-      'Implemented research-grade memory systems and emotional intelligence modeling'
-    ],
-    type: 'project',
-    icon: Brain
-  },
-  {
-    id: 'physics-engines',
-    title: 'Physics Engine Development',
-    company: 'Independent Development',
-    location: 'Remote',
-    period: '2020 - Present',
-    description: 'Designing and implementing high-performance physics engines for real-time simulation and game development.',
-    technologies: ['C++', 'Rust', 'OpenGL', 'Mathematics', 'Collision Detection', 'Rigid Body Dynamics'],
-    achievements: [
-      'Built PhysicsEngineC - High-performance C++ physics engine with modular architecture',
-      'Implemented AAB_OBBBP - Advanced collision detection system with spatial optimization',
-      'Created comprehensive collision detection algorithms (AABB, OBB, Sphere)',
-      'Developed real-time simulation with broad-phase optimization'
-    ],
-    type: 'project',
-    icon: Cpu
-  },
-  {
-    id: 'web-development',
-    title: 'Full-Stack Web Development',
-    company: 'Freelance Projects',
-    location: 'Remote',
-    period: '2021 - Present',
-    description: 'Building modern, scalable web applications with focus on user experience and performance optimization.',
-    technologies: ['TypeScript', 'React', 'Next.js', 'Go', 'PostgreSQL', 'Docker', 'AWS'],
-    achievements: [
-      'Developed GeoGO - Geographic data processing platform with interactive visualizations',
-      'Built Volatria - Distributed systems platform with microservices architecture',
-      'Created ArtScape - Digital art marketplace with secure payment processing',
-      'Implemented responsive designs with modern UI/UX principles'
-    ],
-    type: 'work',
-    icon: Globe
-  },
-  {
-    id: 'systems-programming',
-    title: 'Systems Programming & Infrastructure',
-    company: 'Independent Development',
-    location: 'Remote',
-    period: '2020 - Present',
-    description: 'Developing high-performance system tools, daemons, and infrastructure components with focus on reliability and efficiency.',
-    technologies: ['Rust', 'Go', 'C++', 'System Programming', 'Daemon Development', 'Network Security'],
-    achievements: [
-      'Built Kdemon - Robust system daemon framework for high-performance services',
-      'Developed SmartCurl - Intelligent HTTP client with advanced web scraping',
-      'Created VulnSCAN - Comprehensive security vulnerability scanner',
-      'Implemented ColorCoded - Advanced color analysis tool with Rust'
-    ],
-    type: 'project',
-    icon: Database
-  }
-];
+// Experience data will be loaded dynamically from PDF resume
 
 // Timeline item component
 const TimelineItem = ({ experience, index }: { experience: Experience; index: number }) => {
@@ -215,6 +130,127 @@ const TimelineItem = ({ experience, index }: { experience: Experience; index: nu
 
 // Interactive Resume Component
 const InteractiveResume = () => {
+  const [experiences, setExperiences] = useState<Experience[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadResumeExperience = async () => {
+      try {
+        setLoading(true);
+        // Try to load from PDF resume first, fallback to hardcoded data
+        const resumeData = await parseResumeExperience('/resume/Resume ay.pdf');
+        setExperiences(resumeData);
+      } catch (error) {
+        console.error('Error loading resume experience:', error);
+        // Fallback to hardcoded experiences
+        setExperiences([
+          {
+            id: 'senior-engineer',
+            title: 'Senior Full-Stack Software Engineer',
+            company: 'Freelance & Contract',
+            location: 'Remote',
+            period: '2022 - Present',
+            description: 'Leading development of advanced AI systems, physics engines, and scalable web applications. Specializing in Go, C++, Python, and modern web technologies.',
+            technologies: ['Go', 'C++', 'Python', 'TypeScript', 'React', 'Next.js', 'Docker', 'AWS'],
+            achievements: [
+              'Developed 21+ advanced projects across AI/ML, Physics, Systems, and Web domains',
+              'Built high-performance physics engines with real-time collision detection',
+              'Created sophisticated AI cognitive architectures with neural network integration',
+              'Implemented distributed systems with microservices architecture'
+            ],
+            type: 'work',
+            icon: Code
+          },
+          {
+            id: 'ai-research',
+            title: 'AI Systems Research & Development',
+            company: 'Independent Research',
+            location: 'Remote',
+            period: '2021 - Present',
+            description: 'Conducting cutting-edge research in cognitive architecture, ethical AI systems, and advanced machine learning applications.',
+            technologies: ['Python', 'TensorFlow', 'PyTorch', 'OpenCV', 'NLP', 'Neural Networks'],
+            achievements: [
+              'Developed LenoraAI - Advanced Ethics State Machine with multi-framework analysis',
+              'Created Ilanya - Sophisticated cognitive architecture with desire/trait engines',
+              'Built Shandris - Mathematical framework for cognitive architecture',
+              'Implemented research-grade memory systems and emotional intelligence modeling'
+            ],
+            type: 'project',
+            icon: Brain
+          },
+          {
+            id: 'physics-engines',
+            title: 'Physics Engine Development',
+            company: 'Independent Development',
+            location: 'Remote',
+            period: '2020 - Present',
+            description: 'Designing and implementing high-performance physics engines for real-time simulation and game development.',
+            technologies: ['C++', 'Rust', 'OpenGL', 'Mathematics', 'Collision Detection', 'Rigid Body Dynamics'],
+            achievements: [
+              'Built PhysicsEngineC - High-performance C++ physics engine with modular architecture',
+              'Implemented AAB_OBBBP - Advanced collision detection system with spatial optimization',
+              'Created comprehensive collision detection algorithms (AABB, OBB, Sphere)',
+              'Developed real-time simulation with broad-phase optimization'
+            ],
+            type: 'project',
+            icon: Cpu
+          },
+          {
+            id: 'web-development',
+            title: 'Full-Stack Web Development',
+            company: 'Freelance Projects',
+            location: 'Remote',
+            period: '2021 - Present',
+            description: 'Building modern, scalable web applications with focus on user experience and performance optimization.',
+            technologies: ['TypeScript', 'React', 'Next.js', 'Go', 'PostgreSQL', 'Docker', 'AWS'],
+            achievements: [
+              'Developed GeoGO - Geographic data processing platform with interactive visualizations',
+              'Built Volatria - Distributed systems platform with microservices architecture',
+              'Created ArtScape - Digital art marketplace with secure payment processing',
+              'Implemented responsive designs with modern UI/UX principles'
+            ],
+            type: 'work',
+            icon: Globe
+          },
+          {
+            id: 'systems-programming',
+            title: 'Systems Programming & Infrastructure',
+            company: 'Independent Development',
+            location: 'Remote',
+            period: '2020 - Present',
+            description: 'Developing high-performance system tools, daemons, and infrastructure components with focus on reliability and efficiency.',
+            technologies: ['Rust', 'Go', 'C++', 'System Programming', 'Daemon Development', 'Network Security'],
+            achievements: [
+              'Built Kdemon - Robust system daemon framework for high-performance services',
+              'Developed SmartCurl - Intelligent HTTP client with advanced web scraping',
+              'Created VulnSCAN - Comprehensive security vulnerability scanner',
+              'Implemented ColorCoded - Advanced color analysis tool with Rust'
+            ],
+            type: 'project',
+            icon: Database
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadResumeExperience();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="section bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <div className="container-custom">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500 mx-auto mb-4"></div>
+            <p className="text-slate-600 dark:text-slate-400">Loading your beautiful experience...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="section bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       <div className="container-custom">

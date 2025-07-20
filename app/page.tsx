@@ -14,7 +14,8 @@ import {
   Star,
   Zap,
   Shield,
-  Layers
+  Layers,
+  Download
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -100,13 +101,50 @@ and C++ always focused on architecture, clarity, and evolution.
               View My Work
               <ArrowRight className="w-4 h-4" />
             </button>
-            <button 
-              className="btn-secondary flex items-center justify-center gap-2 mobile-touch"
-              onClick={() => window.open('/resume.txt', '_blank')}
-            >
-              Download Resume
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="relative group">
+              <button 
+                className="btn-secondary flex items-center justify-center gap-2 mobile-touch"
+              >
+                Download Resume
+                <Download className="w-4 h-4" />
+              </button>
+              
+              {/* Dropdown menu */}
+              <div className="absolute top-full left-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="py-2">
+                  <button
+                    onClick={() => {
+                      const link = document.createElement('a');
+                      link.href = '/resume/Resume ay.pdf';
+                      link.download = 'Yuriko_Resume.pdf';
+                      link.target = '_blank';
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    }}
+                    className="w-full px-4 py-2 text-left text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200 flex items-center gap-2"
+                  >
+                    <span className="text-red-500">📄</span>
+                    PDF Version
+                  </button>
+                  <button
+                    onClick={() => {
+                      const link = document.createElement('a');
+                      link.href = '/resume/Resume ay.docx';
+                      link.download = 'Yuriko_Resume.docx';
+                      link.target = '_blank';
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    }}
+                    className="w-full px-4 py-2 text-left text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-200 flex items-center gap-2"
+                  >
+                    <span className="text-blue-500">📝</span>
+                    Word Version
+                  </button>
+                </div>
+              </div>
+            </div>
           </motion.div>
 
           {/* Tech stack badges */}

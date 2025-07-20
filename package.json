@@ -35,12 +35,14 @@
     "framer-motion": "^11.0.0",
     "lucide-react": "^0.400.0",
     "next": "15.3.5",
+    "pdf-parse": "^1.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^15.3.5",
     "@types/node": "^20",
+    "@types/pdf-parse": "^1.1.5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.21",

@@ -1073,7 +1073,7 @@ const renderSectionContent = (content: any, sectionName: string) => {
             key={index}
             className="px-4 py-2 bg-gradient-to-r from-primary/20 to-primary/10 text-primary rounded-full text-sm font-medium border border-primary/20 hover:from-primary/30 hover:to-primary/20 transition-all duration-200 shadow-sm"
           >
-            {renderMarkdown(item)}
+              {renderMarkdown(item)}
           </span>
         ))}
       </div>
@@ -1098,11 +1098,11 @@ const renderSectionContent = (content: any, sectionName: string) => {
   }
 
   // Default: render as text
-  return (
+    return (
     <div className="prose prose-gray dark:prose-invert max-w-none">
-      {renderMarkdown(content)}
-    </div>
-  );
+          {renderMarkdown(content)}
+      </div>
+    );
 };
 
 // Hero Section Component
