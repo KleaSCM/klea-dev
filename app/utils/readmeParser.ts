@@ -67,25 +67,32 @@ export interface ParsedReadme {
  * @returns Extracted text content
  */
 function extractSection(content: string, startHeader: string, endHeader?: string): string {
-  // Create regex pattern for the start header
-  const startPattern = new RegExp(`^##?\\s*${startHeader.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'mi');
+  // Create regex pattern for the start header - escape special regex characters
+  const escapedHeader = startHeader.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const startPattern = new RegExp(`^##\\s*${escapedHeader}\\s*$`, 'mi');
   const startMatch = content.match(startPattern);
   
-  if (!startMatch) return '';
+  if (!startMatch) {
+    console.warn(`Section header not found: ${startHeader}`);
+    return '';
+  }
   
-  const startIndex = startMatch.index! + startMatch[0].length;
+  // Find the start of the content (after the header line)
+  const headerLineEnd = content.indexOf('\n', startMatch.index!);
+  const startIndex = headerLineEnd !== -1 ? headerLineEnd + 1 : startMatch.index! + startMatch[0].length;
   
   // Find the end of the section
   let endIndex = content.length;
   if (endHeader) {
-    const endPattern = new RegExp(`^##?\\s*${endHeader.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'mi');
+    const escapedEndHeader = endHeader.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const endPattern = new RegExp(`^##\\s*${escapedEndHeader}\\s*$`, 'mi');
     const endMatch = content.substring(startIndex).match(endPattern);
     if (endMatch) {
       endIndex = startIndex + endMatch.index!;
     }
   } else {
     // Find next header of same or higher level
-    const nextHeaderPattern = /^##?\s+/gm;
+    const nextHeaderPattern = /^##\s+/gm;
     const nextMatch = content.substring(startIndex).match(nextHeaderPattern);
     if (nextMatch) {
       endIndex = startIndex + nextMatch.index!;
