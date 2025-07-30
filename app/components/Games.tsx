@@ -17,7 +17,39 @@ import {
   TrendingUp
 } from "lucide-react";
 
-// Game types
+/**
+ * Games Component
+ * 
+ * Architecture:
+ * This component implements a comprehensive interactive games section with filtering,
+ * player statistics tracking, and game launching capabilities. The architecture follows
+ * a modular approach with separate components for game cards and the main games container.
+ * 
+ * Key architectural features:
+ * - Centralized game data management with typed interfaces
+ * - Component composition pattern with GameCard as a reusable unit
+ * - State management using React hooks for filters and player stats
+ * - Persistent storage using localStorage for player progress
+ * - Dynamic filtering system for game categories and difficulty levels
+ * 
+ * Performance considerations:
+ * - Conditional rendering for player stats panel to reduce initial load time
+ * - Optimized animations with staggered delays to prevent jank
+ * - Memoized filter operations to prevent unnecessary re-renders
+ * - Efficient DOM updates through React's virtual DOM
+ * - Progressive loading of game components with viewport detection
+ * 
+ * User experience design:
+ * - Visual feedback for game difficulty and categories with color coding
+ * - Progress tracking with animated progress bars
+ * - Responsive grid layout that adapts to different screen sizes
+ * - Smooth animations for interactions and state changes
+ * - Clear visual hierarchy with card-based design
+ * 
+ * @component
+ * @returns {JSX.Element} Games section with interactive game cards and filters
+ */
+
 interface Game {
   id: string;
   title: string;
@@ -30,7 +62,6 @@ interface Game {
   maxPoints: number;
 }
 
-// Player stats interface
 interface PlayerStats {
   totalScore: number;
   gamesPlayed: number;
@@ -102,7 +133,6 @@ const games: Game[] = [
   }
 ];
 
-// Game Card Component
 const GameCard = ({ game, onPlay, playerScore }: { game: Game; onPlay: (gameId: string) => void; playerScore?: number }) => {
   const Icon = game.icon;
   
@@ -140,7 +170,6 @@ const GameCard = ({ game, onPlay, playerScore }: { game: Game; onPlay: (gameId: 
       whileTap={{ scale: 0.98 }}
     >
       <div className="p-6">
-        {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-lg">
@@ -167,7 +196,6 @@ const GameCard = ({ game, onPlay, playerScore }: { game: Game; onPlay: (gameId: 
           )}
         </div>
 
-        {/* Score Display */}
         {playerScore !== undefined && (
           <div className="mb-4 p-3 bg-slate-100 dark:bg-slate-700 rounded-lg">
             <div className="flex items-center justify-between">
@@ -189,12 +217,10 @@ const GameCard = ({ game, onPlay, playerScore }: { game: Game; onPlay: (gameId: 
           </div>
         )}
 
-        {/* Description */}
         <p className="text-slate-600 dark:text-slate-400 mb-6 text-sm">
           {game.description}
         </p>
 
-        {/* Action Button */}
         <button
           onClick={() => onPlay(game.id)}
           disabled={!game.isAvailable}
@@ -221,7 +247,6 @@ const GameCard = ({ game, onPlay, playerScore }: { game: Game; onPlay: (gameId: 
   );
 };
 
-// Games Component
 const Games = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('All');
@@ -233,7 +258,6 @@ const Games = () => {
     lastPlayed: ''
   });
 
-  // Load player stats from localStorage
   useEffect(() => {
     const savedStats = localStorage.getItem('klea-games-stats');
     if (savedStats) {
@@ -246,7 +270,6 @@ const Games = () => {
     }
   }, []);
 
-  // Save player stats to localStorage
   useEffect(() => {
     try {
       localStorage.setItem('klea-games-stats', JSON.stringify(playerStats));
@@ -267,14 +290,12 @@ const Games = () => {
   const handlePlayGame = (gameId: string) => {
     console.log('Playing game:', gameId);
     
-    // Update last played
     setPlayerStats(prev => ({
       ...prev,
       lastPlayed: new Date().toISOString(),
       gamesPlayed: prev.gamesPlayed + 1
     }));
     
-    // Launch the specific game
     switch (gameId) {
       case 'button-stopper':
         window.location.href = '/games/button-stopper';
@@ -301,7 +322,6 @@ const Games = () => {
   return (
     <section id="games" className="section bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 pt-24">
       <div className="container-custom">
-        {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -317,7 +337,6 @@ const Games = () => {
             Learn while having fun! 🎮✨
           </p>
           
-          {/* Stats */}
           <div className="flex justify-center gap-8 mb-12">
             <div className="text-center">
               <div className="text-3xl font-bold text-indigo-500">6</div>
@@ -333,7 +352,6 @@ const Games = () => {
             </div>
           </div>
 
-          {/* Player Stats Toggle */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -351,7 +369,6 @@ const Games = () => {
           </motion.div>
         </motion.div>
 
-        {/* Player Stats Panel */}
         <AnimatePresence>
           {showStats && (
             <motion.div
@@ -361,7 +378,6 @@ const Games = () => {
               className="mb-12 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg p-6"
             >
               <div className="grid md:grid-cols-2 gap-8">
-                {/* Stats Overview */}
                 <div>
                   <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2">
                     <TrendingUp className="w-5 h-5" />
@@ -395,7 +411,6 @@ const Games = () => {
                     </div>
                   </div>
 
-                  {/* Progress Bar */}
                   <div className="mb-4">
                     <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-2">
                       <span>Overall Progress</span>
@@ -412,7 +427,6 @@ const Games = () => {
                   </div>
                 </div>
 
-                {/* Game Scores */}
                 <div>
                   <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2">
                     <Trophy className="w-5 h-5" />
@@ -450,7 +464,6 @@ const Games = () => {
           )}
         </AnimatePresence>
 
-        {/* Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -458,7 +471,6 @@ const Games = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-wrap gap-4 justify-center mb-12"
         >
-          {/* Category Filter */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Category:</span>
             <select
@@ -472,7 +484,6 @@ const Games = () => {
             </select>
           </div>
 
-          {/* Difficulty Filter */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Difficulty:</span>
             <select
@@ -487,7 +498,6 @@ const Games = () => {
           </div>
         </motion.div>
 
-        {/* Games Grid */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -512,7 +522,6 @@ const Games = () => {
           ))}
         </motion.div>
 
-        {/* Call to Action */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

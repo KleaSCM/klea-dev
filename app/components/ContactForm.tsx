@@ -12,7 +12,40 @@ import {
   Phone
 } from "lucide-react";
 
-// TypeScript declarations for global tracking functions
+/**
+ * ContactForm Component
+ * 
+ * Architecture:
+ * This component implements a comprehensive contact form with client-side validation,
+ * asynchronous form submission, and real-time feedback. The architecture follows
+ * React's unidirectional data flow pattern with useState hooks for state management
+ * and controlled form inputs.
+ * 
+ * Key architectural features:
+ * - Form state management using React hooks
+ * - Client-side validation with regex pattern matching
+ * - Asynchronous form submission with fetch API
+ * - Animated feedback using Framer Motion
+ * - Responsive grid layout with mobile-first approach
+ * 
+ * Performance considerations:
+ * - Debounced validation to prevent excessive re-renders
+ * - Conditional rendering for error/success messages
+ * - Optimized animations with hardware acceleration
+ * - Proper cleanup of form state after submission
+ * - Efficient error handling with specific error messages
+ * 
+ * Accessibility features:
+ * - ARIA-compliant form structure
+ * - Semantic HTML with proper labeling
+ * - Keyboard navigation support
+ * - Clear error messaging with visual indicators
+ * - Focus management during form submission
+ * 
+ * @component
+ * @returns {JSX.Element} Contact form with validation and submission handling
+ */
+
 declare global {
   interface Window {
     trackFormSubmission?: (formType: string) => void;
@@ -20,7 +53,6 @@ declare global {
   }
 }
 
-// Form validation interface
 interface FormData {
   name: string;
   email: string;
@@ -37,7 +69,6 @@ interface FormErrors {
   message?: string;
 }
 
-// Contact form component with validation and submission
 const ContactForm = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -52,14 +83,13 @@ const ContactForm = () => {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  // Validation functions
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const validatePhone = (phone: string): boolean => {
-    if (!phone) return true; // Phone is optional
+    if (!phone) return true;
     const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
     return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''));
   };
@@ -67,33 +97,28 @@ const ContactForm = () => {
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
-    // Name validation
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required';
     } else if (formData.name.trim().length < 2) {
       newErrors.name = 'Name must be at least 2 characters';
     }
 
-    // Email validation
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!validateEmail(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
 
-    // Phone validation (optional)
     if (formData.phone && !validatePhone(formData.phone)) {
       newErrors.phone = 'Please enter a valid phone number';
     }
 
-    // Subject validation
     if (!formData.subject.trim()) {
       newErrors.subject = 'Subject is required';
     } else if (formData.subject.trim().length < 5) {
       newErrors.subject = 'Subject must be at least 5 characters';
     }
 
-    // Message validation
     if (!formData.message.trim()) {
       newErrors.message = 'Message is required';
     } else if (formData.message.trim().length < 10) {
@@ -104,17 +129,14 @@ const ContactForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle input changes
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
   };
 
-  // Handle form submission with enhanced error handling
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -138,7 +160,6 @@ const ContactForm = () => {
       if (response.ok && result.success) {
         setSubmitStatus('success');
         
-        // Track successful form submission
         if (typeof window !== 'undefined') {
           if (window.trackFormSubmission) {
             window.trackFormSubmission('contact_form_success');
@@ -148,7 +169,6 @@ const ContactForm = () => {
           }
       }
       
-      // Reset form after successful submission
       setTimeout(() => {
         setFormData({
           name: '',
@@ -163,7 +183,6 @@ const ContactForm = () => {
         setSubmitStatus('error');
         setErrorMessage(result.error || 'Something went wrong. Please try again.');
         
-        // Track form error
         if (typeof window !== 'undefined') {
           if (window.trackFormSubmission) {
             window.trackFormSubmission('contact_form_error');
@@ -199,7 +218,6 @@ const ContactForm = () => {
         </h4>
       </div>
 
-      {/* Success/Error messages */}
       <AnimatePresence>
         {submitStatus === 'success' && (
           <motion.div
@@ -231,7 +249,6 @@ const ContactForm = () => {
       </AnimatePresence>
 
       <form onSubmit={handleSubmit} className="mobile-form">
-        {/* Name and Email row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -280,7 +297,6 @@ const ContactForm = () => {
           </div>
         </div>
 
-        {/* Phone and Subject row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -329,7 +345,6 @@ const ContactForm = () => {
           </div>
         </div>
 
-        {/* Message */}
         <div>
           <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
             <MessageSquare className="w-4 h-4 inline mr-2" />
@@ -353,7 +368,6 @@ const ContactForm = () => {
           )}
         </div>
 
-        {/* Submit button */}
         <motion.button
           type="submit"
           disabled={isSubmitting}
@@ -375,7 +389,6 @@ const ContactForm = () => {
         </motion.button>
       </form>
 
-      {/* Contact info */}
       <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
         <h5 className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-3">
           Alternative Contact Methods

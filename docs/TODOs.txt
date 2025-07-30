@@ -60,6 +60,7 @@
 
 ### 🔗 Social & Professional
 [✅] GitHub API Integration - Real-time repo stats and contributions with universal template system
+[✅] All Public Repositories Display - Added toggle to show all public repositories vs curated list
 [ ] LinkedIn API - Professional network integration
 [ ] Twitter/X Integration - Social media feed
 [ ] YouTube Integration - Video content showcase

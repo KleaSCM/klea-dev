@@ -36,8 +36,6 @@ import {
  * - Practicing secure coding practices
  * - Recognizing common attack patterns
  */
-
-// Fake database for the game
 const fakeDatabase = {
   users: [
     { id: 1, username: "admin", email: "admin@company.com", role: "administrator", password: "hashed_password_123" },
@@ -55,7 +53,6 @@ const fakeDatabase = {
   ]
 };
 
-// Challenge levels
 const challenges = [
   {
     id: 1,

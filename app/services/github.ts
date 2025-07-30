@@ -392,39 +392,44 @@ function determineCategory(topics: string[], language: string): string {
   const topicString = topics.join(' ').toLowerCase();
   const langString = (language || '').toLowerCase();
   
+  // Research projects (check FIRST to override AI/ML for research projects)
+  if (topicString.includes('research') || topicString.includes('research-and-development') || 
+      topicString.includes('mathematical-framework') || topicString.includes('formal-proofs') || 
+      topicString.includes('theoretical-foundations') || topicString.includes('peer-reviewed')) {
+    return 'Research';
+  }
+  
   // AI/ML projects
   if (topicString.includes('ai') || topicString.includes('ml') || topicString.includes('machine-learning') || 
       topicString.includes('neural') || topicString.includes('deep') || topicString.includes('cognitive') ||
-      topicString.includes('ethics') || topicString.includes('llm')) {
+      topicString.includes('ethics') || topicString.includes('llm') || topicString.includes('pytorch') ||
+      topicString.includes('tensorflow') || topicString.includes('ai-agents') || topicString.includes('cognitive-services')) {
     return 'AI/ML';
   }
   
   // Physics/Simulation projects
   if (topicString.includes('physics') || topicString.includes('simulation') || 
-      topicString.includes('game') || topicString.includes('engine') || topicString.includes('collision') ||
-      topicString.includes('3d') || topicString.includes('rendering')) {
+      topicString.includes('game') || topicString.includes('collision') ||
+      topicString.includes('3d') || topicString.includes('rendering') || topicString.includes('3d-graphics') ||
+      (topicString.includes('engine') && (topicString.includes('physics') || topicString.includes('game') || topicString.includes('3d')))) {
     return 'Physics';
   }
   
   // Web/Frontend projects
   if (topicString.includes('web') || topicString.includes('frontend') || topicString.includes('react') ||
-      topicString.includes('next') || topicString.includes('typescript') || topicString.includes('javascript') ||
-      topicString.includes('html') || topicString.includes('css') || langString.includes('typescript') ||
-      langString.includes('javascript')) {
+      topicString.includes('next') || topicString.includes('nextjs') || topicString.includes('typescript') || 
+      topicString.includes('javascript') || topicString.includes('html') || topicString.includes('css') || 
+      langString.includes('typescript') || langString.includes('javascript') || topicString.includes('uiux') ||
+      topicString.includes('api') || topicString.includes('stock')) {
     return 'Web';
   }
   
-  // Systems/Backend projects
-  if (topicString.includes('system') || topicString.includes('distributed') || 
-      topicString.includes('microservice') || topicString.includes('api') || topicString.includes('backend') ||
-      topicString.includes('server') || topicString.includes('database') || topicString.includes('cli') ||
-      langString.includes('go') || langString.includes('rust') || topicString.includes('geospatial') ||
-      topicString.includes('security') || topicString.includes('vulnerability')) {
-    return 'Systems';
-  }
-  
-  // Research projects (fallback)
-  return 'Research';
+  // Systems/Backend projects (default for everything else)
+  // This includes: redis, golang, geospatial, postgresql, geospatial-data, postgis, 
+  // security-tools, systems-engineering, fuzzing-engines, file-sharing, file-upload,
+  // filesystem, golang, localstorage, version-control, encryption-decryption, python,
+  // cpp, cpp17, gui, asset-management, etc.
+  return 'Systems';
 }
 
 /**
@@ -495,12 +500,31 @@ export async function getFeaturedProjects(): Promise<GitHubProject[]> {
  * Get a specific project by ID
  */
 export async function getProjectById(id: string): Promise<GitHubProject | null> {
+  // First try to find in pinned repositories
   const pinnedRepos = await getPinnedRepositories();
-  const project = pinnedRepos.find(repo => 
+  let project = pinnedRepos.find(repo => 
     repo.full_name.toLowerCase().replace(/[^a-z0-9]/g, '-') === id
   );
   
-  return project ? mapGitHubRepoToProject(project) : null;
+  if (project) {
+    return mapGitHubRepoToProject(project);
+  }
+  
+  // If not found in pinned repos, try all public repositories
+  const allRepos = await getAllPublicRepositories();
+  project = allRepos.find(repo => 
+    repo.full_name.toLowerCase().replace(/[^a-z0-9]/g, '-') === id
+  );
+  
+  if (project) {
+    // Find if this repo has a manual category configuration
+    const projectConfig = PROJECTS_CONFIG.find(p => p.name === project.name);
+    const category = projectConfig?.category || determineCategory(project.topics || [], project.language || '');
+    
+    return mapGitHubRepoToProjectWithCategory(project, category);
+  }
+  
+  return null;
 }
 
 /**
@@ -537,6 +561,16 @@ export async function getProjectsPageProjects(): Promise<GitHubProject[]> {
       console.log(`Repository not found: ${repoName}`);
     }
   }
+  
+  // Sort projects by stars (descending), then by last updated (descending)
+  projects.sort((a, b) => {
+    // First sort by stars (descending)
+    if (a.stars !== b.stars) {
+      return b.stars - a.stars;
+    }
+    // Then by last updated (descending)
+    return new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime();
+  });
   
   projectsCache = projects; // Cache the result
   cacheTimestamp = Date.now(); // Update cache timestamp
@@ -615,4 +649,95 @@ export async function getRepositoryReadme(name: string): Promise<string | null> 
     console.error(`Error fetching README for ${name}:`, error);
     return null;
   }
+} 
+
+/**
+ * Fetch all public repositories from GitHub
+ * Gets all repos, not just the manually configured ones
+ */
+export async function getAllPublicRepositories(): Promise<GitHubRepo[]> {
+  try {
+    console.log('Fetching all public repositories from GitHub...');
+    
+    const response = await fetch(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`, {
+      headers: {
+        'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status}`);
+    }
+
+    const repos: GitHubRepo[] = await response.json();
+    
+    // Filter out private repos and transform to our format
+    const publicRepos = repos
+      .filter((repo: any) => !repo.private && !repo.archived && !repo.disabled)
+      .map((repo: any) => ({
+        id: repo.id,
+        name: repo.name,
+        full_name: repo.full_name,
+        description: repo.description || '',
+        html_url: repo.html_url,
+        homepage: repo.homepage || '',
+        language: repo.language || '',
+        topics: repo.topics || [],
+        stargazers_count: repo.stargazers_count,
+        forks_count: repo.forks_count,
+        updated_at: repo.updated_at,
+        created_at: repo.created_at,
+        archived: repo.archived,
+        disabled: repo.disabled,
+        private: repo.private,
+      }));
+    
+    console.log(`Found ${publicRepos.length} public repositories`);
+    return publicRepos;
+  } catch (error) {
+    console.error('Error fetching all public repositories:', error);
+    return [];
+  }
+}
+
+/**
+ * Get all projects from all public repositories
+ * This will show ALL your public repos, not just the manually configured ones
+ */
+export async function getAllProjectsFromPublicRepos(): Promise<GitHubProject[]> {
+  console.log('🔄 Fetching all projects from all public repositories...');
+  
+  const publicRepos = await getAllPublicRepositories();
+  const projects: GitHubProject[] = [];
+  const seenIds = new Set<string>(); // Track seen IDs to prevent duplicates
+  
+  for (const repo of publicRepos) {
+    // Find if this repo has a manual category configuration
+    const projectConfig = PROJECTS_CONFIG.find(p => p.name === repo.name);
+    const category = projectConfig?.category || determineCategory(repo.topics || [], repo.language || '');
+    
+    const project = mapGitHubRepoToProjectWithCategory(repo, category);
+    
+    // Only add if we haven't seen this ID before
+    if (!seenIds.has(project.id)) {
+      projects.push(project);
+      seenIds.add(project.id);
+    } else {
+      console.log(`Skipping duplicate project: ${repo.name} (ID: ${project.id})`);
+    }
+  }
+  
+  // Sort projects by stars (descending), then by last updated (descending)
+  projects.sort((a, b) => {
+    // First sort by stars (descending)
+    if (a.stars !== b.stars) {
+      return b.stars - a.stars;
+    }
+    // Then by last updated (descending)
+    return new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime();
+  });
+  
+  console.log(`✅ Found ${projects.length} unique projects from all public repositories`);
+  return projects;
 } 

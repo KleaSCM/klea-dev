@@ -18,7 +18,6 @@ import { getPlatformMeta, PlatformType } from "../data/platforms";
  * @returns {JSX.Element} Footer component
  */
 const Footer = () => {
-  // Social media and research platform links using centralized configuration
   const socialLinks = [
     { platform: 'GitHub' as PlatformType, href: "https://github.com/KleaSCM", label: "GitHub" },
     { platform: 'LinkedIn' as PlatformType, href: "https://linkedin.com/in/klea-dev", label: "LinkedIn" },
@@ -28,19 +27,17 @@ const Footer = () => {
     { platform: 'ORCID' as PlatformType, href: "https://orcid.org/0009-0009-8748-1946", label: "ORCID" },
   ];
 
-  // Get platform metadata for social links
   const getSocialLinkIcon = (platform: PlatformType) => {
     if (platform === 'LinkedIn') return Linkedin;
     if (platform === 'Email') return Mail;
     if (platform === 'GitHub') return Github;
-    return null; // For platforms without Lucide icons, we'll use the emoji from platform config
+    return null;
   };
 
   return (
     <footer className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border-t border-slate-200/50 dark:border-slate-700/50">
       <div className="container-custom py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
@@ -54,7 +51,6 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Quick Links */}
           <div className="space-y-4">
             <h3 className="font-semibold text-slate-800 dark:text-slate-200">Quick Links</h3>
             <ul className="space-y-2">
@@ -82,7 +78,6 @@ const Footer = () => {
             </ul>
           </div>
               
-          {/* Social Links */}
           <div className="space-y-4">
             <h3 className="font-semibold text-slate-800 dark:text-slate-200">Connect & Research</h3>
             <div className="flex flex-wrap gap-3">
@@ -108,7 +103,6 @@ const Footer = () => {
                     ) : (
                       <span className="text-lg">{platformMeta.icon}</span>
                     )}
-                    {/* Custom tooltip */}
                     <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-slate-900 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
                       {social.label}
                       <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-900"></div>
@@ -120,7 +114,6 @@ const Footer = () => {
           </div>
           </div>
 
-        {/* Bottom Section */}
         <div className="border-t border-slate-200/50 dark:border-slate-700/50 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-slate-600 dark:text-slate-400 text-sm">
             © 2024 Klea Dev. All rights reserved.

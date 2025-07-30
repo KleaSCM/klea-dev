@@ -190,7 +190,15 @@ const InteractiveProjectCard = ({ project }: { project: ProjectCardProps }) => {
   const projectImage = getDefaultImage(project);
 
   const handleClick = () => {
-    window.location.href = `/projects/${project.id}`;
+    // Try to go to the project page first
+    try {
+      window.location.href = `/projects/${project.id}`;
+    } catch (error) {
+      // Fallback to GitHub if project page fails
+      if ('github' in project && project.github) {
+        window.open(project.github, '_blank');
+      }
+    }
   };
 
   return (

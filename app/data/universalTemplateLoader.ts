@@ -27,8 +27,8 @@ export async function loadUniversalTemplate(projectId: string): Promise<Universa
     const response = await fetch(`https://raw.githubusercontent.com/KleaSCM/${repoName}/main/TEMPLATE.md`);
     
     if (!response.ok) {
-      console.warn(`TEMPLATE.md not found for project: ${projectId}`);
-      return null;
+      console.warn(`TEMPLATE.md not found for project: ${projectId} - throwing 418 teapot error`);
+      throw new Error('418 - I\'m a teapot - TEMPLATE.md not found');
     }
     
     const content = await response.text();
@@ -39,7 +39,7 @@ export async function loadUniversalTemplate(projectId: string): Promise<Universa
     return template;
   } catch (error) {
     console.error(`Error loading template for ${projectId}:`, error);
-    return null;
+    throw error; // Re-throw the error instead of returning null
   }
 }
 
@@ -50,13 +50,22 @@ export async function loadUniversalTemplate(projectId: string): Promise<Universa
  * @returns Project details or null if not found
  */
 export async function loadProjectDetails(projectId: string): Promise<any | null> {
-  const template = await loadUniversalTemplate(projectId);
-  
-  if (!template) {
+  try {
+    const template = await loadUniversalTemplate(projectId);
+    
+    if (!template) {
+      return null;
+    }
+    
+    return convertUniversalToProjectDetails(template);
+  } catch (error) {
+    // Re-throw 418 errors so they can be handled properly
+    if (error instanceof Error && error.message.includes('418')) {
+      throw error;
+    }
+    console.error(`Error loading project details for ${projectId}:`, error);
     return null;
   }
-  
-  return convertUniversalToProjectDetails(template);
 }
 
 /**

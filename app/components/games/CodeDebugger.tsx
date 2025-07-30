@@ -35,8 +35,6 @@ import {
  * - Code quality and best practices
  * - Problem-solving skills
  */
-
-// Debugging Challenges
 const challenges = [
   {
     id: 1,
@@ -156,19 +154,16 @@ const CodeDebugger = () => {
 
   const challenge = challenges[currentChallenge];
 
-  // Initialize player code with buggy code
   useEffect(() => {
     if (isPlaying) {
       setPlayerCode(challenge.buggyCode);
     }
   }, [currentChallenge, isPlaying]);
 
-  // Execute code and check for bugs
   const executeCode = () => {
     setAttempts(prev => prev + 1);
     
     try {
-      // Create a sandboxed environment
       const sandbox = {
         console: {
           log: (...args: any[]) => {
@@ -182,23 +177,19 @@ const CodeDebugger = () => {
         clearInterval: clearInterval
       };
 
-      // Execute the code
       const codeFunction = new Function('console', 'fetch', 'setTimeout', 'setInterval', 'clearTimeout', 'clearInterval', playerCode);
       codeFunction(sandbox.console, sandbox.fetch, sandbox.setTimeout, sandbox.setInterval, sandbox.clearTimeout, sandbox.clearInterval);
 
-      // Check for common bugs
       checkForBugs();
     } catch (error) {
       setExecutionResult(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
-  // Check for common bugs in the code
   const checkForBugs = () => {
     const bugs: string[] = [];
     const codeLower = playerCode.toLowerCase();
 
-    // Check for common bug patterns
     if (codeLower.includes('console.log("result: " + result)') && !codeLower.includes('var result') && !codeLower.includes('let result') && !codeLower.includes('const result')) {
       bugs.push("Variable scope error - 'result' not accessible outside function");
     }
@@ -213,7 +204,6 @@ const CodeDebugger = () => {
 
     setFoundBugs(bugs);
     
-    // Check if all bugs are fixed
     if (bugs.length === 0) {
       setIsSuccess(true);
       setScore(prev => prev + challenge.points);
@@ -223,7 +213,6 @@ const CodeDebugger = () => {
     }
   };
 
-  // Start the game
   const startGame = () => {
     setIsPlaying(true);
     setCurrentChallenge(0);
@@ -236,7 +225,6 @@ const CodeDebugger = () => {
     setFoundBugs([]);
   };
 
-  // Next challenge
   const nextChallenge = () => {
     if (currentChallenge < challenges.length - 1) {
       setCurrentChallenge(prev => prev + 1);
@@ -246,12 +234,10 @@ const CodeDebugger = () => {
       setExecutionResult("");
       setFoundBugs([]);
     } else {
-      // Game completed
       setIsPlaying(false);
     }
   };
 
-  // Reset current challenge
   const resetChallenge = () => {
     setIsSuccess(false);
     setShowHint(false);
@@ -264,7 +250,6 @@ const CodeDebugger = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-4 pt-24">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -280,7 +265,6 @@ const CodeDebugger = () => {
         </div>
 
         {!isPlaying ? (
-          // Start Screen
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -320,9 +304,7 @@ const CodeDebugger = () => {
             </div>
           </motion.div>
         ) : (
-          // Game Interface
           <div className="grid lg:grid-cols-2 gap-8">
-            {/* Challenge Area */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -346,7 +328,6 @@ const CodeDebugger = () => {
                 </div>
               </div>
 
-              {/* Challenge Info */}
               <div className="mb-6">
                 <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-2">
                   {challenge.title}
@@ -368,7 +349,6 @@ const CodeDebugger = () => {
                 </div>
               </div>
 
-              {/* Code Editor */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Fix the Bugs:
@@ -381,7 +361,6 @@ const CodeDebugger = () => {
                 />
               </div>
 
-              {/* Action Buttons */}
               <div className="flex gap-3">
                 <button
                   onClick={executeCode}
@@ -399,7 +378,6 @@ const CodeDebugger = () => {
                 </button>
               </div>
 
-              {/* Hint */}
               <div className="mt-4">
                 <button
                   onClick={() => setShowHint(!showHint)}
@@ -424,7 +402,6 @@ const CodeDebugger = () => {
               </div>
             </motion.div>
 
-            {/* Results Area */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -437,7 +414,6 @@ const CodeDebugger = () => {
                 </div>
               </div>
 
-              {/* Execution Result */}
               {executionResult && (
                 <div className="mb-6 p-4 bg-slate-100 dark:bg-slate-700 rounded-lg">
                   <h4 className="font-medium text-slate-800 dark:text-slate-200 mb-2">Console Output:</h4>
@@ -445,7 +421,6 @@ const CodeDebugger = () => {
                 </div>
               )}
 
-              {/* Found Bugs */}
               {foundBugs.length > 0 && (
                 <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-700">
                   <div className="flex items-center gap-2 mb-2">
@@ -460,7 +435,6 @@ const CodeDebugger = () => {
                 </div>
               )}
 
-              {/* Solution */}
               <AnimatePresence>
                 {showSolution && (
                   <motion.div
@@ -475,7 +449,6 @@ const CodeDebugger = () => {
                 )}
               </AnimatePresence>
 
-              {/* Success Message */}
               <AnimatePresence>
                 {isSuccess && (
                   <motion.div
@@ -503,7 +476,6 @@ const CodeDebugger = () => {
                 )}
               </AnimatePresence>
 
-              {/* Debugging Tips */}
               <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-700">
                 <div className="flex items-center gap-2 mb-2">
                   <Wrench className="w-4 h-4 text-yellow-500" />
@@ -517,7 +489,6 @@ const CodeDebugger = () => {
           </div>
         )}
 
-        {/* Game Instructions */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

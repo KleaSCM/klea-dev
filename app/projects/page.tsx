@@ -63,15 +63,18 @@ export default function ProjectsPage() {
   const [projects, setProjects] = useState<GitHubProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showAllRepos, setShowAllRepos] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         setLoading(true);
+        setError(null); // Clear any previous errors
         console.log('Fetching projects from GitHub...');
         
-        // Fetch all projects from GitHub
-        const response = await fetch('/api/projects');
+        // Fetch projects based on the toggle state
+        const url = showAllRepos ? '/api/projects?all=true' : '/api/projects';
+        const response = await fetch(url);
         if (!response.ok) {
           throw new Error(`Failed to fetch projects: ${response.status}`);
         }
@@ -88,14 +91,28 @@ export default function ProjectsPage() {
     };
 
     fetchProjects();
-  }, []);
+  }, [showAllRepos]);
+
+  // Sort projects by featured status, then by stars, then by last updated
+  const sortedProjects = [...projects].sort((a, b) => {
+    // Featured projects first
+    if (a.featured !== b.featured) {
+      return b.featured ? 1 : -1;
+    }
+    // Then by stars (descending)
+    if (a.stars !== b.stars) {
+      return b.stars - a.stars;
+    }
+    // Then by last updated (descending)
+    return new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime();
+  });
 
   // Group projects by category
-  const aiProjects = projects.filter(p => p.category === 'AI/ML');
-  const physicsProjects = projects.filter(p => p.category === 'Physics');
-  const systemsProjects = projects.filter(p => p.category === 'Systems');
-  const researchProjects = projects.filter(p => p.category === 'Research');
-  const webProjects = projects.filter(p => p.category === 'Web');
+  const aiProjects = sortedProjects.filter(p => p.category === 'AI/ML');
+  const physicsProjects = sortedProjects.filter(p => p.category === 'Physics');
+  const systemsProjects = sortedProjects.filter(p => p.category === 'Systems');
+  const researchProjects = sortedProjects.filter(p => p.category === 'Research');
+  const webProjects = sortedProjects.filter(p => p.category === 'Web');
 
   // Group projects by category for display
 
@@ -158,6 +175,11 @@ export default function ProjectsPage() {
             >
               A collection of advanced AI systems, physics engines, and research projects 
               showcasing expertise in cutting-edge technologies and complex problem-solving.
+              {projects.length > 0 && (
+                <span className="block mt-2 text-sm text-slate-500 dark:text-slate-500">
+                  Currently showing {projects.length} {showAllRepos ? 'public repositories' : 'curated projects'} from GitHub
+                </span>
+              )}
             </motion.p>
             
             <motion.div 
@@ -194,6 +216,31 @@ export default function ProjectsPage() {
                   <span className="text-sm font-medium">{webProjects.length} Web Projects</span>
                 </div>
               )}
+            </motion.div>
+            
+            <motion.div 
+              className="flex justify-center mb-8"
+              variants={fadeInUp}
+            >
+              <button
+                onClick={() => setShowAllRepos(!showAllRepos)}
+                disabled={loading}
+                className="flex items-center gap-2 px-6 py-3 bg-indigo-500 hover:bg-indigo-600 disabled:bg-indigo-400 text-white rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                ) : (
+                  <Github className="w-4 h-4" />
+                )}
+                <span className="font-medium">
+                  {loading 
+                    ? 'Loading...' 
+                    : showAllRepos 
+                      ? 'Show Curated Projects' 
+                      : 'Show All Repositories'
+                  }
+                </span>
+              </button>
             </motion.div>
           </motion.div>
         </div>

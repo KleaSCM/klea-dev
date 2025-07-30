@@ -1212,17 +1212,91 @@ export default function UniversalProjectPageClient({
   project: GitHubProject; 
   projectDetails: any;
 }) {
+  // If no project details, show a basic project page
   if (!projectDetails?.sections) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-slate-800 dark:text-slate-200 mb-4">
-            Project Not Found
-          </h1>
-          <p className="text-slate-600 dark:text-slate-400 mb-8">
-            The project template could not be loaded.
-          </p>
-        </div>
+      <div className="min-h-screen">
+        {/* Hero Section */}
+        <HeroSection project={project} projectDetails={projectDetails} />
+        
+        {/* Basic project info when no template exists */}
+        <section className="section bg-slate-50/50 dark:bg-slate-900/50">
+          <div className="container-custom">
+            <motion.div
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+            >
+              <motion.div className="flex items-center gap-3 mb-12" variants={fadeInUp}>
+                <Code className="w-8 h-8 text-indigo-500" />
+                <h2 className="heading-responsive font-bold gradient-text">
+                  Project Information
+                </h2>
+              </motion.div>
+
+              <motion.div className="grid md:grid-cols-2 gap-8" variants={fadeInUp}>
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                      Description
+                    </h3>
+                    <p className="text-slate-600 dark:text-slate-400">
+                      {project.description}
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                      Technologies
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.map((tech) => (
+                        <span 
+                          key={tech} 
+                          className="px-3 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full text-sm"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                      GitHub Stats
+                    </h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                          {project.stars}
+                        </div>
+                        <div className="text-sm text-slate-600 dark:text-slate-400">Stars</div>
+                      </div>
+                      <div className="text-center p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                          {project.forks}
+                        </div>
+                        <div className="text-sm text-slate-600 dark:text-slate-400">Forks</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                      Last Updated
+                    </h3>
+                    <p className="text-slate-600 dark:text-slate-400">
+                      {new Date(project.lastUpdated).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
       </div>
     );
   }

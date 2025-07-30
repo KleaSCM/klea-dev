@@ -40,12 +40,10 @@ const ButtonStopper = () => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Game area dimensions
   const gameAreaWidth = 600;
   const gameAreaHeight = 400;
   const buttonSize = 60;
 
-  // Start the game
   const startGame = () => {
     setIsPlaying(true);
     setGameStarted(true);
@@ -57,10 +55,6 @@ const ButtonStopper = () => {
     setButtonPosition({ x: 50, y: 50 });
     setButtonSpeed({ x: 4, y: 3 });
     
-    // Start button movement
-    // moveButton(); // This is now handled by useEffect
-    
-    // Start timer
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
@@ -74,7 +68,6 @@ const ButtonStopper = () => {
     intervalRef.current = timer;
   };
 
-  // Move the button around the screen with smooth physics
   const moveButtonPhysics = (prevPos: { x: number; y: number }, prevSpeed: { x: number; y: number }) => {
     let newX = prevPos.x + prevSpeed.x;
     let newY = prevPos.y + prevSpeed.y;
@@ -151,7 +144,6 @@ const ButtonStopper = () => {
     };
   };
 
-  // Movement loop using requestAnimationFrame
   useEffect(() => {
     if (!isPlaying) return;
     let frame: number;
@@ -159,12 +151,9 @@ const ButtonStopper = () => {
       setButtonPosition(prevPos => {
         setButtonSpeed(prevSpeed => {
           const { pos, speed } = moveButtonPhysics(prevPos, prevSpeed);
-          // Update position and speed
-          // We need to return the new speed for setButtonSpeed
           setButtonPosition(pos);
           return speed;
         });
-        // Return prevPos because setButtonPosition is updated inside setButtonSpeed
         return prevPos;
       });
       frame = requestAnimationFrame(animate);
@@ -173,12 +162,10 @@ const ButtonStopper = () => {
     return () => cancelAnimationFrame(frame);
   }, [isPlaying, mousePosition]);
 
-  // Execute player code
   const executeCode = () => {
     if (!isPlaying) return;
 
     try {
-      // Create a sandboxed environment
       const sandbox = {
         document: document,
         console: console,
@@ -205,7 +192,6 @@ const ButtonStopper = () => {
         decodeURIComponent: decodeURIComponent
       };
 
-      // Execute the code
       const codeFunction = new Function('document', 'console', 'setTimeout', 'setInterval', 'clearTimeout', 'clearInterval', 'Math', 'Date', 'Array', 'Object', 'String', 'Number', 'Boolean', 'parseInt', 'parseFloat', 'isNaN', 'isFinite', 'escape', 'unescape', 'encodeURI', 'encodeURIComponent', 'decodeURI', 'decodeURIComponent', playerCode);
       
       codeFunction(
@@ -217,7 +203,6 @@ const ButtonStopper = () => {
         sandbox.decodeURI, sandbox.decodeURIComponent
       );
 
-      // Check if button was stopped
       const button = document.querySelector('.moving-button') as HTMLElement;
       if (button) {
         const computedStyle = window.getComputedStyle(button);
@@ -242,15 +227,13 @@ const ButtonStopper = () => {
     }
   };
 
-  // Handle successful button stop
   const handleSuccess = () => {
     setIsSuccess(true);
-    setScore(timeLeft * 10); // More points for faster completion
+    setScore(timeLeft * 10);
     setCodeResult("🎉 Success! You stopped the button! Great job!");
     endGame();
   };
 
-  // End the game
   const endGame = () => {
     setIsPlaying(false);
     if (intervalRef.current) {
@@ -259,7 +242,6 @@ const ButtonStopper = () => {
     }
   };
 
-  // Reset the game
   const resetGame = () => {
     endGame();
     setGameStarted(false);
@@ -275,7 +257,6 @@ const ButtonStopper = () => {
 `);
   };
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
@@ -287,7 +268,6 @@ const ButtonStopper = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 p-4 pt-24">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -303,7 +283,6 @@ const ButtonStopper = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Game Area */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -337,7 +316,6 @@ const ButtonStopper = () => {
               </div>
             </div>
 
-            {/* Game Stats */}
             {gameStarted && (
               <div className="flex items-center gap-6 mb-4 p-3 bg-slate-100 dark:bg-slate-700 rounded-lg">
                 <div className="text-center">
@@ -357,7 +335,6 @@ const ButtonStopper = () => {
               </div>
             )}
 
-            {/* Game Canvas */}
             <div
               ref={gameAreaRef}
               className="relative bg-slate-100 dark:bg-slate-700 rounded-lg border-2 border-slate-200 dark:border-slate-600 overflow-hidden cursor-crosshair"
@@ -370,7 +347,6 @@ const ButtonStopper = () => {
                 });
               }}
             >
-              {/* Moving Button */}
               <motion.button
                 ref={buttonRef}
                 className="moving-button absolute bg-gradient-to-r from-red-500 to-orange-500 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 cursor-pointer"
@@ -379,7 +355,7 @@ const ButtonStopper = () => {
                   height: buttonSize,
                   left: buttonPosition.x,
                   top: buttonPosition.y,
-                  transform: `translate3d(0, 0, 0)`, // Force hardware acceleration
+                  transform: `translate3d(0, 0, 0)`,
                 }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -389,7 +365,6 @@ const ButtonStopper = () => {
                 </div>
                 <span className="text-xs block mt-1 font-bold">Catch Me!</span>
                 
-                {/* Motion trail effect */}
                 {isPlaying && (
                   <div 
                     className="absolute inset-0 bg-gradient-to-r from-red-400 to-orange-400 rounded-lg opacity-20 blur-sm"
@@ -401,7 +376,6 @@ const ButtonStopper = () => {
                 )}
               </motion.button>
 
-              {/* Game Instructions */}
               {!gameStarted && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-lg">
                   <div className="text-center text-white p-6">
@@ -414,7 +388,6 @@ const ButtonStopper = () => {
                 </div>
               )}
 
-              {/* Success Overlay */}
               <AnimatePresence>
                 {isSuccess && (
                   <motion.div
@@ -441,7 +414,6 @@ const ButtonStopper = () => {
             </div>
           </motion.div>
 
-          {/* Code Editor */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -457,7 +429,6 @@ const ButtonStopper = () => {
               </button>
             </div>
 
-            {/* Hint */}
             <AnimatePresence>
               {showHint && (
                 <motion.div
@@ -475,7 +446,6 @@ const ButtonStopper = () => {
               )}
             </AnimatePresence>
 
-            {/* Code Input */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Your JavaScript Code:
@@ -489,7 +459,6 @@ const ButtonStopper = () => {
               />
             </div>
 
-            {/* Execute Button */}
             <button
               onClick={executeCode}
               disabled={!isPlaying}
@@ -503,7 +472,6 @@ const ButtonStopper = () => {
               Execute Code
             </button>
 
-            {/* Code Result */}
             {codeResult && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -528,7 +496,6 @@ const ButtonStopper = () => {
           </motion.div>
         </div>
 
-        {/* Game Instructions */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

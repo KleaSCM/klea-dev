@@ -19,15 +19,12 @@ export default function Analytics() {
   const pathname = usePathname()
 
   useEffect(() => {
-    // Initialize Google Analytics if GA_MEASUREMENT_ID is available
     if (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
-      // Load Google Analytics script
       const script = document.createElement('script')
       script.src = `https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`
       script.async = true
       document.head.appendChild(script)
 
-      // Initialize gtag
       window.dataLayer = window.dataLayer || []
       function gtag(...args: any[]) {
         window.dataLayer.push(args)
@@ -38,20 +35,17 @@ export default function Analytics() {
         page_location: window.location.href,
       })
 
-      // Track page views
       gtag('config', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID, {
         page_path: pathname,
       })
     }
 
-    // Custom event tracking for portfolio interactions
     const trackEvent = (eventName: string, parameters?: Record<string, any>) => {
       if (typeof window !== 'undefined' && window.gtag) {
         window.gtag('event', eventName, parameters)
       }
     }
 
-    // Track project interactions
     const trackProjectView = (projectName: string) => {
       trackEvent('project_view', {
         project_name: projectName,
@@ -59,7 +53,6 @@ export default function Analytics() {
       })
     }
 
-    // Track contact form interactions
     const trackContactForm = (action: 'submit' | 'error') => {
       trackEvent('contact_form', {
         action: action,
@@ -67,7 +60,6 @@ export default function Analytics() {
       })
     }
 
-    // Track skill section interactions
     const trackSkillInteraction = (skillName: string, interactionType: string) => {
       trackEvent('skill_interaction', {
         skill_name: skillName,
@@ -76,13 +68,11 @@ export default function Analytics() {
       })
     }
 
-    // Expose tracking functions globally for use in other components
     window.trackEvent = trackEvent
     window.trackProjectView = trackProjectView
     window.trackContactForm = trackContactForm
     window.trackSkillInteraction = trackSkillInteraction
 
-    // Performance monitoring
     if ('performance' in window) {
       window.addEventListener('load', () => {
         const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming
@@ -97,7 +87,6 @@ export default function Analytics() {
       })
     }
 
-    // User engagement tracking
     let scrollDepth = 0
     const trackScrollDepth = () => {
       const scrollTop = window.pageYOffset
@@ -115,16 +104,14 @@ export default function Analytics() {
 
     window.addEventListener('scroll', trackScrollDepth)
 
-    // Cleanup
     return () => {
       window.removeEventListener('scroll', trackScrollDepth)
     }
   }, [pathname])
 
-  return null // This component doesn't render anything
+  return null
 }
 
-// TypeScript declarations for global tracking functions
 declare global {
   interface Window {
     gtag: (...args: any[]) => void
@@ -134,4 +121,4 @@ declare global {
     trackContactForm: (action: 'submit' | 'error') => void
     trackSkillInteraction: (skillName: string, interactionType: string) => void
   }
-} 
+}
