@@ -1,6 +1,6 @@
 # Klea-Dev Portfolio Website
 
-> **A stunning, modern portfolio showcasing AI systems engineering, cognitive architectures, and cutting-edge full-stack development** 
+
 
 [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
@@ -17,12 +17,6 @@
 [![GitHub issues](https://img.shields.io/github/issues/KleaSCM/klea-dev)](https://github.com/KleaSCM/klea-dev/issues)
 
 ---
-
-## 🌟 Overview
-
-Welcome to the most fabulous AI systems engineering portfolio ever created! 💖 This stunning showcase represents the pinnacle of modern web development, featuring cutting-edge AI technologies, beautiful animations, interactive games, and a user experience that will leave visitors absolutely mesmerized.
-
-### ✨ What Makes This Special
 
 - **🧠 AI Systems Focus**: Showcases cognitive architectures, trait-desire models, and recursive agents
 - **🎮 Interactive Games**: Built-in coding challenges and educational games
