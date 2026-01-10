@@ -34,19 +34,31 @@ The core of the portfolio is a suite of interactive "games" that serve as techni
 | **CSS Artist** | **Frontend Design** | A "reverse engineering" challenge requiring pixel-perfect replication of designs using raw CSS properties. |
 | **Code Debugger** | **Software Quality** | Real-world bug hunting scenarios analyzing scope, async/await race conditions, and logical refactoring. |
 
-### Live GitHub Integration
+### Interactive UI Experience
 
-Instead of manual updates, the portfolio acts as a live dashboard:
+Beyond standard web components, the application implements custom user interface engines:
 
-- **Real-time Data**: Fetches repository stats (stars, forks, languages) directly from the GitHub API.
-- **Smart Caching**: Implements an LRU-style local storage caching layer to optimize API usage and respect rate limits.
-- **Meta-Templating**: Projects can include a `TEMPLATE.md` in *their* repo, which this portfolio automatically parses and renders as a rich project detail page.
+* **WoW-Style Global Tooltips**: A custom, event-delegated tooltip engine inspired by MMORPG interfaces. It dynamically positions floating elements relative to the viewport, handling boundary collisions and z-index layering to provide rich, item-level context on hover without obstructing the user flow.
+* **Virtual Assistant (Sylvanas VI)**: A reactive companion component that observes user interactions and provides contextual commentary. It demonstrates state management and dynamic asset loading, creating a "living" application feel.
+* **Interactive Resume**: Rather than a simple PDF download, the resume is a reactive data-driven timeline. It fetches experience data dynamically and renders it with responsive layout logic, ensuring the career history is navigable and indexed.
+
+### Advanced GitHub Integration
+
+The portfolio acts as a live dashboard, synchronizing directly with the GitHub ecosystem:
+
+* **Smart Caching Strategy**: To mitigate GitHub's 60 requests/hour unauthenticated rate limit, a custom **LRU (Least Recently Used)** caching layer intercepts API calls. Responses are stored in LocalStorage with configurable expiration (TTL), ensuring fast loads and API compliance.
+* **Template Parsing System**: Projects can include a special `TEMPLATE.md` in their repository. The portfolio automatically fetches this raw Markdown, parses it client-side using custom Regular Expressions, and renders it into a structured Project Detail page.
+  
+    **How it works**:
+    1. The app checks `https://raw.githubusercontent.com/[user]/[repo]/main/docs/TEMPLATE.md`.
+    2. If found, it parses sections like `## Installation`, `## Usage`, and `## Benchmarks`.
+    3. It dynamically injects this content into the `ProjectDetail.svelte` view, allowing for unique, repository-driven documentation without code changes.
 
 ### Performance & Accessibility
 
-- **99+ Lighthouse Score**: Optimized asset loading, code splitting, and tree-shaking via Vite.
-- **A11y First**: Built-in High Contrast Mode and generic `prefers-reduced-motion` support.
-- **Keyboard Navigation**: Full tab index management and semantic HTML structure.
+* **99+ Lighthouse Score**: Optimized asset loading, code splitting, and tree-shaking via Vite.
+* **A11y First**: Built-in High Contrast Mode and generic `prefers-reduced-motion` support.
+* **Keyboard Navigation**: Full tab index management and semantic HTML structure.
 
 ## System Architecture
 
@@ -131,9 +143,9 @@ Follow these instructions to set up the environment locally.
 
 ### Prerequisites
 
-- **Node.js** v18.0.0 or higher
-- **npm** v9.0.0 or higher
-- A **GitHub Personal Access Token** (optional, for higher API limits)
+* **Node.js** v18.0.0 or higher
+* **npm** v9.0.0 or higher
+* A **GitHub Personal Access Token** (optional, for higher API limits)
 
 ### Installation
 
@@ -189,4 +201,12 @@ npm run check
 npm run preview
 ```
 
----
+## Contribution
+
+While this is a personal portfolio, I welcome code reviews and suggestions!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
