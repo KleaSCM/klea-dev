@@ -1,66 +1,29 @@
 {
-  "name": "yuriko-portfolio",
-  "version": "1.0.0",
-  "description": "Yuriko's stunning software engineering portfolio showcasing expertise in Go, C++, Python, TypeScript, and full-stack development",
+  "name": "klea-dev",
   "private": true,
-  "author": {
-    "name": "Yuriko",
-    "email": "yuriko@example.com",
-    "url": "https://yuriko.dev"
-  },
-  "keywords": [
-    "portfolio",
-    "software-engineer",
-    "full-stack",
-    "go",
-    "c++",
-    "python",
-    "typescript",
-    "react",
-    "nextjs",
-    "ai-systems"
-  ],
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "type-check": "tsc --noEmit",
-    "analyze": "ANALYZE=true npm run build",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
-  },
-  "dependencies": {
-    "axios": "^1.10.0",
-    "framer-motion": "^11.0.0",
-    "lucide-react": "^0.400.0",
-    "next": "15.3.5",
-    "pdf2pic": "^3.2.0",
-    "pdfjs-dist": "^5.3.93",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^15.3.5",
-    "@types/node": "^20",
-    "@types/pdf-parse": "^1.1.5",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.4.21",
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@tsconfig/svelte": "^5.0.6",
+    "@types/node": "^24.10.1",
+    "autoprefixer": "^10.4.23",
     "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5"
+    "svelte": "^5.43.8",
+    "svelte-check": "^4.3.4",
+    "svelte-motion": "^0.12.2",
+    "tailwindcss": "^3.4.19",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.4"
   },
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yuriko/portfolio.git"
-  },
-  "bugs": {
-    "url": "https://github.com/yuriko/portfolio/issues"
-  },
-  "homepage": "https://yuriko.dev"
+  "dependencies": {
+    "lucide-svelte": "^0.562.0",
+    "svelte-spa-router": "^4.0.1"
+  }
 }
